@@ -1,0 +1,22 @@
+
+
+
+
+
+
+body {
+  background-color: usetheme(body-bg); //$color-gray;
+  color: usetheme(copy);
+  font-family: usetheme(font-sans);
+  font-size: $size;
+  line-height: $sizeline;
+}
+
+
+
+
+button {
+	&.__short {
+		line-height: 0;
+	}
+}

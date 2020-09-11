@@ -1,0 +1,141 @@
+
+
+.Home, .ContentFrame-body {
+	background-color: usetheme(background-white);
+}
+
+.Home-content {
+	// padding-bottom: 90px;
+	position: relative;
+	z-index: 30;
+}
+
+
+
+.Form-body {
+	// awful override :)
+	padding: 0;
+}
+
+
+
+
+
+.Header {
+	background-color: white; // usetheme(white);
+}
+
+
+body {
+	background-color: usetheme(body-bg);
+	color: usetheme(brand-copy);
+}
+
+// footer feature 
+.__content-frame {
+	min-height: 80vh;
+	// background-color: blue;
+	position: relative;
+	z-index: 10; // main content z
+	background-color: usetheme(background-white);
+}
+
+.__content-footer {
+	min-height: 20vh;
+	// background-color: red;
+	z-index: 20; // footer z
+	// position: sticky;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+
+  display: grid;
+  place-items: center; // whoa
+}
+
+
+.__content-body {
+	position: relative;
+	z-index: 30;
+}
+
+
+.Formlet-input-cta {
+	._form-input {
+		width: 100%;
+	}
+}
+
+
+// homepage
+
+.Home {
+	width: 100%;
+	overflow: hidden;
+  background-color: usetheme(background-white);
+}
+
+
+
+.Footer {
+  .Footer-content {
+    // padding-top: $size-9;
+    position: relative;
+    z-index: 10;
+  }
+
+  text-align: center;
+  // color: white;
+  background-color: usetheme(brand-footer);
+
+  // a, a:visited {
+  // 	color: white !important;
+  // }
+  // a:focus {
+  // 	color: usetheme(brand-hover) !important;
+  // }
+  // a:hover {
+  // 	color: white !important;
+  // 	text-decoration: underline;
+  // }
+}
+
+
+
+
+.ScheduleItem {
+
+	.date {
+		font-weight: bold;
+		font-size: $size;
+		padding-bottom: $size;
+	}
+
+	._tag.open {
+		background-color: usetheme(brand-active);
+		color: white;
+	}
+}
+
+
+
+input.__action, button.__action {
+	border: 2px solid usetheme(brand-active);
+	background-color: usetheme(brand-active);
+
+	&:hover {
+		background-color: usetheme(brand-light);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
