@@ -15,8 +15,9 @@
 	import { head, site_url } from '../_utils/_head.js';
 	// This trick passes down preloaded data to all modules
 	// https://stackoverflow.com/questions/60911171/how-to-pass-data-from-a-layout-to-a-page-in-sapper
-	// export const segment
+	export let segment
 	export let Content
+	
   import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
   const Content$ = writable(Content)
@@ -54,10 +55,8 @@
 </svelte:head>
 
 
-<!-- <Nav {segment}/> -->
-
 <div id="top" class="ContentFrame Layout">
-	<!-- <Nav {Content}/> -->
+	<Nav {segment}/>
 
 	<main class="ContentFrame-body __content-frame">
 		<slot ></slot>

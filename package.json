@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "sapper dev --port 2024",
     "zeit-notes": "zeit has problems building on their end, but 'zeit prod' does it locally. Requires build to use export, but old sapper build is: sapper build --legacy",
-    "build": "ls && sapper build --legacy",
+    "build": "npm run loader; ls && sapper build --legacy",
     "export": "sapper export --legacy",
     "start": "node __sapper__/build",
     "cy:run": "cypress run",

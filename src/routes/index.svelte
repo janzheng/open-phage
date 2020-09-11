@@ -13,75 +13,49 @@
 
 
   <div class="Home-content _section-page _padding-top-2 _margin-center ">
+
+    <div class="Home-hero _grid-2">
+      <div class="Home-logo _center">
+        <div class="_margin-bottom-2"><img alt="Open Phage Flowers Logo" src="/Flowers.png"></div>
+      </div>
+      <div class="Home-text">
+        <div>{@html marked(intro || ' [no content]')}</div>
+
+        <div class="_divider-top">First course intro block</div>
+
+        <div class="_divider-top">
+          <button>Start here!</button>
+        </div>
+      </div>
+    </div>
+
+
+
     <div class="_center _section-article _margin-center _divider-top _divider-bottom">
 
-      <div class="_margin-bottom-2"><img alt="Open Phage Flowers Logo" src="/Flowers.png"></div>
-      <div>{@html marked(intro || ' [no content]')}</div>
-
-      <!-- <div class="_card _padding">
-        <div>{@html marked(subscribe)}</div>
-        <Subscribe />
-      </div> -->
-    </div>
-<!-- 
-    <div class="_section-article _margin-center _margin-bottom-2">
-      <div>{@html marked(scheduled)}</div>
-      <div class="_margin-center _margin-bottom-2">
-        {#if upcomingItems && upcomingItems.length > 0}
-          {#each upcomingItems as item}
-            <UpcomingItem {item}></UpcomingItem>
-          {/each}
-        {:else}
-          <div>{@html marked(noScheduled)}</div>
-        {/if}
+      <div class="_divider-top">
+        Capsid & Tail block
       </div>
-    </div>
 
-    <div class="_section-article _margin-center _divider-top _margin-bottom-2">
-      <div>{@html marked(previous)}</div>
-      <div class="_margin-center _margin-bottom-2">
-        {#if pastItems && pastItems.length > 0}
-          {#each pastItems as item}
-            <PastItem {item}></PastItem>
-          {/each}
-        {/if}
+      <div class="_divider-top">
+        Joint Project Description block
       </div>
-    </div>
 
+      <div class="_divider-top">
+        PGH Live training block
+      </div>
 
-    <div class="_section-article _margin-center _margin-bottom-2">
-      <div>{@html marked(middle)}</div>
-    </div>
+      <div class="_divider-top">
+        Phage Directory Block
+      </div>
 
+      <div class="_divider-top">
+        Contact us Block
+      </div>
 
-    <div class="_section-article _margin-center _margin-bottom-2">
-      <div>{@html marked(signup)}</div>
     </div>
-    <div class="Home-items">
-      {#each Schedule as schedule (schedule.id)}
-        <SchedItem {schedule} />
-      {/each}
-    </div>
-
-    <div class="_section-article _margin-center _margin-bottom-2">
-      <div>{@html marked(end)}</div>
-    </div>
-
-    <div class="_section-article _margin-center _margin-bottom-2">
-      <div>{@html marked(organizers)}</div>
-    </div>
-
-    <div class="_margin-center _margin-bottom-2">
-      {#if organizerProfiles && organizerProfiles.length > 0}
-        <div class="_grid-3">
-          {#each organizerProfiles as profile}
-            <ProfileItem {profile}></ProfileItem>
-          {/each}
-        </div>
-      {/if}
-    </div>
- -->
   </div>
+
 </div>
 
 
@@ -110,5 +84,6 @@
   
 </script>
 
-<!-- <style type="text/scss">
-</style> -->
+<style type="text/scss">
+
+</style>

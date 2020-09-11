@@ -1,14 +1,16 @@
 <script>
+  import { onMount, getContext, setContext } from 'svelte';
+
   import Cytosis from 'cytosis'
   import marked from 'marked'
 
-  export let Content;
-  // export let segment, Content;
-  let content
+  const Content$ = getContext('Content')
+  $: Content = $Content$
 
   // $: if(Content) {
   // console.log('Content:', Content)
-  content = Cytosis.findOne('header', Content ).fields['Markdown']
+  let content
+  $: content = Cytosis.findOne('header', Content ).fields['Markdown']
   // }
 
 </script>
@@ -36,11 +38,21 @@
 <nav class="Header __antialiased __content-header">
   <div class="Nav Home-content _section-page _padding-top-2 _padding-bottom-2 _margin-center">
     <!-- {@html marked(content)} -->
-    <div class="_section-article _margin-center ">
-    	<div class="_grid-1-7-xs _align-vertically">
-	    	<div><img class="_padding-top" alt="Open Phage Logo" src="logo.png" width="120"></div>
-	    	<div class="_padding-left-2 _md-pfix">{@html marked(content || '')}</div>
-	    </div>
+  	<div class="_grid-1-5-sm _align-vertically">
+    	<div>
+    		<a href="/">Logo Here</a>
+    	</div>
+    	<div class="_padding-top-2-xs _padding-left-2-sm _md-pfix">
+    		<div class="_flex _flex-right-sm">
+    			<a href="/lectures">Lectures</a>
+    			<a href="/library">Library</a>
+    			<!-- <a href="/about">About</a> -->
+    			<div>
+  					<a href="/login">Login</a>
+  					<a class="" href="/login#signup">Signup</a>
+  				</div>
+    		</div>
+    	</div>
     </div>
   </div>
 </nav>
@@ -58,13 +70,17 @@
 		padding: 0;
 	}
 
-
-
 	.Nav {
 		/*background-color: #E7FBFF;*/
 		padding-top: 1rem * 1.3;
 		padding-bottom: 1rem * 1.3;
 	}
+
+	a { 
+		padding-right: 1rem;
+
+	}
+
 </style>
 
 
