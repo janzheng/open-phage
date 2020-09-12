@@ -11,9 +11,14 @@
 
 const fetch = require("node-fetch")
 const fs = require('fs')
-const notionPath = process.argv[3] || './src/_content/notion.json'
+const notionPath = process.argv[3] || './static/notion.json'
+const cytosisPath = process.argv[3] || './static/cytosis.json'
 const notionId = process.argv[2] || process.env.NOTION
 const getContentFromId = require("../_utils/yotion/notion/getContentFromId")
+
+const Cytosis = require("cytosis").default
+
+
 
 
 // save from fetch stream to file
@@ -26,30 +31,66 @@ const saveJson = (async (data, path) => {
 	}
 });
 
-
-
 const loadContent = async () => {
 
 	console.log('::: Loader ::: notionId:', notionId)
 
 	try {
+		// handle Notion
     let content = await getContentFromId({id: notionId})
 		let base = await buildBase(content)
-
-		// console.log('json:', base)
 		await saveJson(base, notionPath)
+
+
+		// handle Airtable
+		let cytosis = await getCytosis()
+		console.log('cytosis:', cytosis)
+		await saveJson(cytosis, cytosisPath)
 
 	} catch(err) {
 		throw new Error('[yotion/loader] Error', err)
 	}
 }
 
-// load all the categories
-loadContent()
 
 
 
 
+
+
+const getCytosis = async () => {
+	try {
+		let json;
+
+		const view = process.env.STATUS=='Preview' ? "Preview" : "Published"
+		const apiEditorKey = process.env.OPENPHAGE_AIRTABLE_PUBLIC_API
+		const baseId = process.env.OPENPHAGE_AIRTABLE_PUBLIC_BASE
+
+
+	  let bases = [{
+		  tables: ["Content"],
+		  options: {
+		    "view": view,
+		  }
+	  }
+	  ]
+
+	  let _cytosis = await new Cytosis({
+	    apiKey: apiEditorKey,
+	    baseId: baseId,
+	    bases: 	bases,
+	    routeDetails: '[content/get]',
+	  })
+
+	  delete _cytosis.apiKey
+	  delete _cytosis.baseId
+
+	  return _cytosis
+
+	} catch(e) {
+		console.error('[getCytosis] error:', e)
+	}
+}
 
 
 
@@ -86,6 +127,27 @@ const buildBase = async (json) => {
 		console.error('[buildBase] error:', e)
 	}
 }
+
+
+
+
+
+
+
+
+
+
+// load notion and airtable
+loadContent()
+
+
+
+
+
+
+
+
+
 
 
 

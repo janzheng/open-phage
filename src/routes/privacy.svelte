@@ -2,7 +2,7 @@
   export async function preload(page, session) {
     // const data = await this.fetch(`/api/notion?collections=Protocols,Videos,Library`).then(r => r.json())
 
-    const data = await this.fetch(`/api/notion?getField=Name|Terms Conditions`).then(r => r.json())
+    const data = await this.fetch(`/api/notion?getField=Name|Privacy Policy`).then(r => r.json())
 
     return { data };
   }
@@ -43,7 +43,7 @@
 
   let content 
   $: if(data) {
-    content = data['Name|Terms Conditions'][0].content.markdown.join('')
+    content = data['Name|Privacy Policy'][0].content.markdown.join('')
     console.log('content:', content)
   }
   

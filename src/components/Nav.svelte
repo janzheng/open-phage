@@ -36,20 +36,21 @@
  -->
 
 <nav class="Header __antialiased __content-header">
+	<div class="skip"><a href="#main">Skip to main content</a></div>
   <div class="Nav Home-content _section-page _padding-top-2 _padding-bottom-2 _margin-center">
     <!-- {@html marked(content)} -->
   	<div class="_grid-1-5-sm _align-vertically">
     	<div>
-    		<a href="/">Logo Here</a>
+    		<a rel=prefetch href="/">Logo Here</a>
     	</div>
     	<div class="_padding-top-2-xs _padding-left-2-sm _md-pfix">
-    		<div class="_flex _flex-right-sm">
-    			<a href="/lectures">Lectures</a>
-    			<a href="/library">Library</a>
+    		<div class="_flex _flex-right">
+    			<a rel=prefetch href="/lectures">Lectures</a>
+    			<a rel=prefetch href="/library">Library</a>
     			<!-- <a href="/about">About</a> -->
     			<div>
-  					<a href="/login">Login</a>
-  					<a class="" href="/login#signup">Signup</a>
+  					<a rel=prefetch href="/login">Login</a>
+  					<a rel=prefetch class="" href="/login#signup">Signup</a>
   				</div>
     		</div>
     	</div>
@@ -81,6 +82,17 @@
 
 	}
 
+	@media (max-width: 640px) {
+		._flex-right {
+	  	justify-content: normal !important;
+		}
+	}
+
+	.skip {
+		position: relative;
+		opacity: 0;
+		height: 0;
+	}
 </style>
 
 

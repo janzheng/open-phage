@@ -24,16 +24,19 @@
 import send from '@polka/send';
 import Cytosis from 'cytosis';
 import * as sapper from '@sapper/server';
-import NodeCache from 'node-cache'
+import { cacheGet, cacheSet, cacheClear } from "../../_utils/cache"
 
 import { config } from "dotenv";
 
 import { notifyAdmins, notifySubscribe, notifyEventSignup } from '../../_utils/_mailer.js'
 
+import cytosis from "../../../static/cytosis.json"
+
+
+
 config(); // https://github.com/sveltejs/sapper/issues/122
 
 
-const nodecache = new NodeCache();
 let json;
 
 const view = process.env.STATUS=='Preview' ? "Preview" : "Published"
@@ -48,10 +51,9 @@ const baseId = process.env.OPENPHAGE_AIRTABLE_PUBLIC_BASE
 
 
 
-
-
 export async function get(req, res) {
 
+	console.log('get request')
 	try {
 
 		// const cacheStr = `${view}-seminars`
@@ -65,39 +67,57 @@ export async function get(req, res) {
 		// 	return
 	 //  }
 
-	  let bases = [{
-		  tables: ["Content"],
-		  options: {
-		    "view": view,
-		  }
-	  }
-	  ]
 
-		const { slug } = req.params;
-
-		// console.log('loading cytosis...', bases)
-	  let _cytosis = new Cytosis({
-	    apiKey: apiEditorKey,
-	    baseId: baseId,
-	    bases: 	bases,
-	    routeDetails: '[content/get]',
-	  })
-
-
-	  _cytosis.then((_result) => {
-
-	  	delete _result['apiKey']
-	  	delete _result['baseId']
-
-
-      // nodecache.set( cacheStr, _result, 60*60 );
-
-      // console.log('results:::', _result.results.Schedule[0])
-			json = JSON.stringify(_result)
-			send(res, 200, json, {
+		const _cacheStr = `cytosis`
+		let _cache = cacheGet(_cacheStr)
+		if(_cache) {
+			send(res, 200, _cache, {
 				'Content-Type': 'application/json'
-			});
-	  })
+			})
+			return
+		}
+
+		if(cytosis) {
+			let _cytosis = JSON.stringify(cytosis)
+			cacheSet(_cacheStr, _cytosis)
+			send(res, 200, _cytosis, {
+				'Content-Type': 'application/json'
+			})
+			return
+		}
+
+
+	 //  let bases = [{
+		//   tables: ["Content"],
+		//   options: {
+		//     "view": view,
+		//   }
+	 //  }
+	 //  ]
+
+		// // console.log('loading cytosis...', bases)
+	 //  let _cytosis = new Cytosis({
+	 //    apiKey: apiEditorKey,
+	 //    baseId: baseId,
+	 //    bases: 	bases,
+	 //    routeDetails: '[content/get]',
+	 //  })
+
+
+	 //  _cytosis.then((_result) => {
+
+	 //  	delete _result['apiKey']
+	 //  	delete _result['baseId']
+
+
+  //     // nodecache.set( cacheStr, _result, 60*60 );
+
+  //     // console.log('results:::', _result.results.Schedule[0])
+		// 	json = JSON.stringify(_result)
+		// 	send(res, 200, json, {
+		// 		'Content-Type': 'application/json'
+		// 	});
+	 //  })
 	} catch(err) {
 		throw new Error('[content/get] Error', err)
 	}

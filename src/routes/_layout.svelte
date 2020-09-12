@@ -17,7 +17,7 @@
 	// https://stackoverflow.com/questions/60911171/how-to-pass-data-from-a-layout-to-a-page-in-sapper
 	export let segment
 	export let Content
-	
+
   import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
   const Content$ = writable(Content)
@@ -58,7 +58,7 @@
 <div id="top" class="ContentFrame Layout">
 	<Nav {segment}/>
 
-	<main class="ContentFrame-body __content-frame">
+	<main id="main" class="ContentFrame-body __content-frame">
 		<slot ></slot>
 	</main>
 

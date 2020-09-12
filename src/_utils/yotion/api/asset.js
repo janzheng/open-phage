@@ -7,15 +7,21 @@ module.exports = async (req, res) => {
   const { url, blockId } = req.query
 
   if(!url) {
-    return res.json({
+
+    return send(res, 200, JSON.stringify({
       error: "No asset URL provided."
-    })
+    }), {
+      'Content-Type': 'application/json'
+    });
   }
 
   if(!blockId) {
-    return res.json({
+
+    send(res, 200, JSON.stringify({
       error: "No block ID provided."
-    })
+    }), {
+      'Content-Type': 'application/json'
+    });
   }
 
   const assetRes = await call("getSignedFileUrls", {

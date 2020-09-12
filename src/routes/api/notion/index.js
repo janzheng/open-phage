@@ -24,7 +24,7 @@
 import send from '@polka/send';
 import Cytosis from 'cytosis';
 import * as sapper from '@sapper/server';
-import base from "../../../_content/notion"
+import base from "../../../../static/notion.json"
 import { cacheGet, cacheSet, cacheClear } from "../../../_utils/cache"
 
 import { config } from "dotenv";
@@ -61,16 +61,45 @@ export const getId = async (id) => {
 
 // gets a yotion 'id' objectexport const getBase = async (id) => {
 
-export const getBase = async (collection, content) => {
+export const getBase = ({collection, content, getField}) => {
 	try {
 
+		let _base // load base into cache
+		const _cacheStr = `base`
+		const _cache = cacheGet(_cacheStr)
+		if(_cache)
+			 _base = _cache
+		else {
+			_base = base
+			cacheSet(_cacheStr, _base)
+		}
+
+
 		if(collection)
-			return base[collection]
+			return _base[collection]
 
 		if(content)
-			return base.content[content]
+			return _base.content[content]
 
-	  return base
+		if(getField) {
+			let dataArr = []
+			// data[getField[0]] = []
+
+			console.log('getField:', getField)
+			let content = _base.content
+			Object.keys(_base.content).map(contentItem => {
+				// console.log("!!!!!", _base.content[contentItem])
+				_base.content[contentItem].map(item => {
+					if(item.fields[getField[0]] == getField[1]) {
+						// data[getField[0]].push(item)
+						dataArr.push(item)
+					}
+				})
+			})
+			return dataArr
+		}
+
+	  return _base
 	} catch(e) {
 		console.error('[getBase] error:', e)
 	}
@@ -82,13 +111,50 @@ export const getBase = async (collection, content) => {
 
 export async function get(req, res) {
 
-	const {collection, content} = req.query
-  let json, base
+	const {collection, collections, content, contents, getField, fields} = req.query
+  let json, base = {}
 
 	try {
-		// json = await getBase(process.env.NOTION_BASE)
-		base = await getBase(collection, content)
-		// base = await buildBase(json)
+		if(collection) {
+			// json = await getBase(process.env.NOTION_BASE)
+			base = getBase({collection})
+			// base = await buildBase(json)
+		}
+
+		if(content)
+			base = {...base, ...getBase({content}) }
+
+		if(collections) { 
+			let arr = collections.split(', ')
+			arr.map((c) => {
+				let data =  getBase({collection: c})
+				base[c] = data
+			})
+		}
+
+		if(contents) { 
+			let arr = contents.split(', ')
+			arr.map((c) => {
+				let data =  getBase({content: c})
+				base[c] = data
+			})
+		}
+
+		if(getField) { 
+			let arr = getField.split(', ')
+			arr.map((c) => {
+				// each getField is: fieldName|value, e.g. Lecture Series|Welcome
+				let carr = c.split('|')
+				let data =  getBase({getField: carr})
+				base[c] = data
+			})
+		}
+
+
+		// if we don't specify anything, return everything
+		if(Object.keys(base).length == 0) {
+			base = getBase({})
+		}
 
 		json = JSON.stringify(base)
 		send(res, 200, json, {

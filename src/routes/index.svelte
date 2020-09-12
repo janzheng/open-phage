@@ -1,7 +1,6 @@
 <script context="module">
   export async function preload(page, session) {
     const yotion = await this.fetch(`/api/notion`).then(r => r.json())
-
     return { yotion };
   }
 </script>
@@ -79,7 +78,7 @@
 
   export let yotion
 
-  $: console.log('yotion:', yotion)
+  // $: console.log('yotion:', yotion)
 
   
 </script>

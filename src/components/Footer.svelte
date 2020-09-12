@@ -10,7 +10,7 @@
         <div>
           <a href="https://foundation.mozilla.org/" target="_blank"><img class="_margin-bottom" id="logo-moz" src="/mozilla.svg" alt="Mozilla Foundation Logo" /></a>
 
-          <div class="_margin-top _margin-bottom-2">
+          <div class=" _margin-bottom-2">
             <a href="https://www.phagesforglobalhealth.org/" target="_blank"><img class="_padding-right _margin-bottom" id="logo-p4gh" src="/p4gh.jpg" alt="Phages for Global Health Logo" /></a>
             <a href="https://phage.directory" target="_blank"><img id="logo-pd" src="/phagedirectory_lrg.png" alt="Phage Directory Logo" /></a>
           </div>
@@ -72,20 +72,9 @@
 
 
 <style type="text/scss">
-  :global(.terms) {
-    text-align: left;
-  }
 
-  :global(.terms *) {
-    font-size: 15px;
-  }
-
-  :global(.terms p) {
-    line-height: 18px;
-  }
-
-  :global(.terms li) {
-    margin-bottom: 0px;
+  a {
+    display: inline-block;
   }
 
   img {
