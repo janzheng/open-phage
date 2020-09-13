@@ -6,7 +6,7 @@
 </script>
 
 <style>
-	h1, p {
+	h1, p {/*
 		margin: 0 auto;
 	}
 
@@ -23,7 +23,7 @@
 	@media (min-width: 480px) {
 		h1 {
 			font-size: 4em;
-		}
+		}*/
 	}
 </style>
 
@@ -31,10 +31,19 @@
 	<title>{status}</title>
 </svelte:head>
 
-<h1>{status}</h1>
+<div class="Error">
 
-<p>{error.message}</p>
+  <div class="_section-page _padding-top-2 _margin-center ">
+    <div class="_section-article _margin-center _divider-top _divider-bottom">
 
-{#if dev && error.stack}
-	<pre>{error.stack}</pre>
-{/if}
+			<h1>{status}</h1>
+
+			<p>{error.message}</p>
+
+			{#if dev && error.stack}
+				<pre>{error.stack}</pre>
+			{/if}
+
+    </div>
+  </div>
+</div>

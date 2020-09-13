@@ -24,6 +24,7 @@ const Cytosis = require("cytosis").default
 // save from fetch stream to file
 const saveJson = (async (data, path) => {
 	try {
+		data['_date'] = new Date()
 	  const fileStream = await fs.writeFileSync(path, JSON.stringify(data))
 	  console.log('filestream:', path, fileStream)
 	} catch(e) {
@@ -109,10 +110,21 @@ const buildBase = async (json) => {
 			base[c.value] = c.table
 
 			c.table.map(d => {
-				if(!content[d.fields['Content Type']])
-					content[d.fields['Content Type']] = []
 
-				content[d.fields['Content Type']].push(d)
+				// create a new content type category
+				if(!content[d.fields['Content Types']]) {
+					content[d.fields['Content Types']] = []
+				} 
+
+				if(!Array.isArray(d.fields['Content Types'])) {
+					content[d.fields['Content Types']].push(d)
+				} else if(d.fields['Content Types'].length>0) {
+					d.fields['Content Types'].map(type => {
+						content[type].push(d)
+					})
+				}
+			
+
 			})
 		})
 

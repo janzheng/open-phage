@@ -28,9 +28,15 @@ async function getMarkdownFromContents({contents, recurse=true, depth=0, recordM
         text: ""
       }[type]
 
+
       if(!block.properties) {
         // This is an empty text block. 
         markdown.push(`\n\n`)
+        return
+      }
+
+      if(block.properties.title && block.properties.title[0] && block.properties.title[0][0] === '‣') {
+        // this is a page reference, skip
         return
       }
 

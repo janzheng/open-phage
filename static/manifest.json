@@ -5,7 +5,7 @@
 	"description": "Phage research teaching tool",
 	"short_name": "Open Phage",
 	"display": "minimal-ui",
-	"start_url": "/lectures",
+	"start_url": "/",
 	"icons": [
 		{
 			"src": "flowers-192.png",

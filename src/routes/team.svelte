@@ -25,7 +25,7 @@
             </div>
             <div>
               <h3>{profile.fields['Name']}</h3>
-              <p><em>{profile.fields['Content Type']}</em></p>
+              <p><em>{profile.fields['Content Types'].join(',')}</em></p>
               <p>{profile.fields['Short']}</p>
               <p>{profile.fields['Long']}</p>
             </div>

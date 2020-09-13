@@ -39,14 +39,14 @@ let json;
 // gets a yotion 'id' object
 // large objects will time out
 export const getId = async (id) => {
-	const _cacheStr = `yotion-${id}`
-	if(cacheGet(_cacheStr))
-		return cacheGet(_cacheStr)
+	// const _cacheStr = `yotion-${id}`
+	// if(cacheGet(_cacheStr))
+	// 	return cacheGet(_cacheStr)
 
 	try {
 	  const data = await fetch(`https://potion-fomo.vercel.app/id/${id}`)
 	  const json = await data.json()
-		cacheSet(_cacheStr, json)
+		// cacheSet(_cacheStr, json)
 	  return json
 	} catch(e) {
 		console.error('[getBase] error:', e)
@@ -75,20 +75,21 @@ export const getBase = ({collection, content, getField}) => {
 		}
 
 
+
+
 		if(collection)
 			return _base[collection]
 
-		if(content)
+		if(content) {
 			return _base.content[content]
+		}
 
 		if(getField) {
 			let dataArr = []
 			// data[getField[0]] = []
 
 			console.log('getField:', getField)
-			let content = _base.content
 			Object.keys(_base.content).map(contentItem => {
-				// console.log("!!!!!", _base.content[contentItem])
 				_base.content[contentItem].map(item => {
 					if(item.fields[getField[0]] == getField[1]) {
 						// data[getField[0]].push(item)
@@ -111,10 +112,16 @@ export const getBase = ({collection, content, getField}) => {
 
 export async function get(req, res) {
 
-	const {collection, collections, content, contents, getField, fields} = req.query
+	const {id, collection, collections, content, contents, getField, fields} = req.query
   let json, base = {}
 
 	try {
+		if(id) {
+			// json = await getBase(process.env.NOTION_BASE)
+			base = await getId(id)
+			// base = await buildBase(json)
+		}
+
 		if(collection) {
 			// json = await getBase(process.env.NOTION_BASE)
 			base = getBase({collection})

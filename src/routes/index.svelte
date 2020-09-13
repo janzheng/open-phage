@@ -1,12 +1,11 @@
 <script context="module">
   export async function preload(page, session) {
-    const yotion = await this.fetch(`/api/notion`).then(r => r.json())
+    const yotion = await this.fetch(`/api/notion?getField=Slug|hero-intro, Slug|contact-home, Slug|pd-desc, Slug|pgh-live, Slug|joint-project, Slug|test-block`).then(r => r.json())
+    // const yotion = await this.fetch(`/api/notion?content=Block`).then(r => r.json())
+
     return { yotion };
   }
 </script>
-
-
-
 
 <div class="Home">
 
@@ -18,41 +17,54 @@
         <div class="_margin-bottom-2"><img alt="Open Phage Flowers Logo" src="/Flowers.png"></div>
       </div>
       <div class="Home-text">
-        <div>{@html marked(intro || ' [no content]')}</div>
+        {#if yotion}
+          <div>{@html marked(yotion['Slug|hero-intro'][0].content.markdown.join('') || '')}</div>
+        {/if}
 
-        <div class="_divider-top">First course intro block</div>
-
-        <div class="_divider-top">
-          <button>Start here!</button>
-        </div>
       </div>
     </div>
 
 
 
-    <div class="_center _section-article _margin-center _divider-top _divider-bottom">
+    <div class="_section-article _margin-center _divider-top _divider-bottom">
 
       <div class="_divider-top">
-        Capsid & Tail block
+        [Capsid & Tail sign up here]
       </div>
 
       <div class="_divider-top">
-        Joint Project Description block
+        {#if yotion}
+          <div>{@html marked(yotion['Slug|test-block'][0].content.markdown.join('') || '')}</div>
+        {/if}
       </div>
 
       <div class="_divider-top">
-        PGH Live training block
+        {#if yotion}
+          <div>{@html marked(yotion['Slug|joint-project'][0].content.markdown.join('') || '')}</div>
+        {/if}
       </div>
 
       <div class="_divider-top">
-        Phage Directory Block
+        {#if yotion}
+          <div>{@html marked(yotion['Slug|pgh-live'][0].content.markdown.join('') || '')}</div>
+        {/if}
       </div>
 
       <div class="_divider-top">
-        Contact us Block
+        {#if yotion}
+          <div>{@html marked(yotion['Slug|pd-desc'][0].content.markdown.join('') || '')}</div>
+        {/if}
+      </div>
+
+      <div class="_divider-top">
+        {#if yotion}
+          <div>{@html marked(yotion['Slug|contact-home'][0].content.markdown.join('') || '')}</div>
+        {/if}
       </div>
 
     </div>
+
+    
   </div>
 
 </div>
@@ -73,12 +85,8 @@
   let intro
 	$: intro = Cytosis.findField('intro', Content, 'Content')
 
-
-
-
   export let yotion
-
-  // $: console.log('yotion:', yotion)
+  $: console.log('Home data::', yotion)
 
   
 </script>

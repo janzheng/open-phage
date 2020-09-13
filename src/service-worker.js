@@ -10,6 +10,7 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.0.0/workbox
 //   console.log(`Workbox failed to load`);
 // }
 
+const offlineFallbackPage = "/routes/offline";
 
 
 const ASSETS = `cache${timestamp}`;
@@ -125,17 +126,26 @@ self.addEventListener('fetch', event => {
 			.open(`offline${timestamp}`)
 			.then(async cache => {
 				try {
-					const response = await cache.match(event.request);
+					// if cache exists
+					let response = await cache.match(event.request);
 					// console.log('[SW] fetch:: cache found:', response)
 					if (response) return response;
-					throw new Error('no cache')
+					// throw new Error('no cache')
 
-				} catch(err) {
-					const response = await fetch(event.request);
+
+					// if cache doesn't exist, grab from network
+					response = await fetch(event.request);
 					cache.put(event.request, response.clone());
 					// console.log('[SW] fetch:: no cache found; adding:', response)
-					return response;
+					if (response) return response;
 
+
+					// if nothing exists, show offline mode
+					console.log('[SW] Offline mode')
+					response = await cache.match(offlineFallbackPage)
+					return response
+
+				} catch(err) {
 					throw err;
 				}
 			})

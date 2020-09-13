@@ -18,7 +18,7 @@
           {@html marked(content)}
         </div>
         <div class="">
-          <div class="_grid-2-xs">
+          <div class=" _grid-2-xs">
             <div>
               <p><a href="#top">Scroll back to top</a></p>
             </div>
@@ -28,12 +28,12 @@
           </div>
           <div class="_grid-2-xs">
             <div>
-              <p><a href="/">Home</a></p>
-              <p><a href="/lectures">Lectures</a></p>
-              <p><a href="/library">Library</a></p>
-              <p><a href="/team">Team Members</a></p>
-              <p><a href="/terms">Terms & Conditions</a></p>
-              <p><a href="/privacy">Privacy Policy</a></p>
+              <p><a href="/#top">Home</a></p>
+              <p><a href="/lectures#top">Lectures</a></p>
+              <p><a href="/library#top">Library</a></p>
+              <p><a href="/team#top">Team Members</a></p>
+              <p><a href="/terms#top">Terms & Conditions</a></p>
+              <p><a href="/privacy#top">Privacy Policy</a></p>
               <p><a href="/githublink">Github</a></p>
             </div>
             <div>
