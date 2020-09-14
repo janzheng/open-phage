@@ -150,7 +150,7 @@ export async function get(req, res) {
 		if(getField) { 
 			let arr = getField.split(', ')
 			arr.map((c) => {
-				// each getField is: fieldName|value, e.g. Lecture Series|Welcome
+				// each getField is: fieldName|value, e.g. Content Names|Welcome
 				let carr = c.split('|')
 				let data =  getBase({getField: carr})
 				base[c] = data

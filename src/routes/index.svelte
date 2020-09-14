@@ -1,6 +1,6 @@
 <script context="module">
   export async function preload(page, session) {
-    const yotion = await this.fetch(`/api/notion?getField=Slug|hero-intro, Slug|contact-home, Slug|pd-desc, Slug|pgh-live, Slug|joint-project, Slug|test-block`).then(r => r.json())
+    const yotion = await this.fetch(`/api/notion?getField=Slug|hero-intro, Slug|contact-home, Slug|org-desc, Slug|pgh-live, Slug|joint-project, Slug|test-block`).then(r => r.json())
     // const yotion = await this.fetch(`/api/notion?content=Block`).then(r => r.json())
 
     return { yotion };
@@ -21,15 +21,19 @@
           <div>{@html marked(yotion['Slug|hero-intro'][0].content.markdown.join('') || '')}</div>
         {/if}
 
+        <div class="">
+          <!-- <button class="__action __short">Browse lectures</button> -->
+          <button class="__cta">Browse lectures</button>
+        </div>
       </div>
     </div>
 
 
 
-    <div class="_section-article _margin-center _divider-top _divider-bottom">
+    <div class="home-body _section-article _margin-center _divider-top _divider-bottom">
 
       <div class="_divider-top">
-        [Capsid & Tail sign up here]
+        <CapsidSignup />
       </div>
 
       <div class="_divider-top">
@@ -52,7 +56,7 @@
 
       <div class="_divider-top">
         {#if yotion}
-          <div>{@html marked(yotion['Slug|pd-desc'][0].content.markdown.join('') || '')}</div>
+          <div>{@html marked(yotion['Slug|org-desc'][0].content.markdown.join('') || '')}</div>
         {/if}
       </div>
 
@@ -75,8 +79,9 @@
 
 	import Cytosis from 'cytosis';
   import marked from 'marked';
-
   import { onMount, getContext, setContext } from 'svelte';
+
+  import CapsidSignup from '../components/CapsidSignup.svelte'
 
   // Content passed down from layout
   const Content$ = getContext('Content')
@@ -92,5 +97,53 @@
 </script>
 
 <style type="text/scss">
+
+:global(.logo) {
+  max-height: 48px;
+  margin-bottom: 0.5rem;
+}
+
+:global(.org-desc-pd) {
+  margin-top: 2rem;
+}
+
+// .logo {
+//   max-height: 48px;
+// }
+
+
+:global(.list-block-item-container) {
+  overflow: auto;
+}
+
+:global(.list-block-cover) {
+  max-width: 100%;
+  float: left;
+  width: 150px;
+  margin-right: 1rem;
+}
+
+:global(.list-block-link) {
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    color: #0163e4;
+  };
+}
+
+:global([data-field="Name"]) {
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+:global([data-field="Author"]) {
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+}
+
+
+
 
 </style>

@@ -1,0 +1,52 @@
+<div class="FooterSignups-capsid _radius" data-v-113714b3="" data-v-ab6b032c=""><div class="_padding _flex-col" data-v-113714b3=""><div class="_grid-auto-1-sm _flex-1" data-v-113714b3=""><img alt="Capsid &amp; Tail" src="https://dl.airtable.com/.attachmentThumbnails/b739c7b74b17c1c96a1d8b0d327aee47/2a5a0691" height="48" width="auto" data-v-113714b3=""> <div data-v-113714b3=""><p>Follow <a href="/capsid">Capsid &amp; Tail</a>, the periodical that reports the latest news from the phage therapy and research community.</p>
+</div></div> <div id="mc_embed_signup_footer" data-v-113714b3=""><form id="mc-embedded-subscribe-form-footer" action="https://directory.us19.list-manage.com/subscribe/post?u=a95319e0a6f57b754b11012a8&amp;id=98ef5d6bca" method="post" name="mc-embedded-subscribe-form-footer" target="_blank" class="validate" data-v-113714b3=""><div id="mc_embed_signup_footer-scroll" data-v-113714b3=""><div id="mce-responses" class="clear hhoney" data-v-113714b3=""><div id="mce-error-response" class="response" style="display:none" data-v-113714b3=""></div> <div id="mce-success-response" class="response" style="display:none" data-v-113714b3=""></div></div> <div aria-hidden="true" style="position: absolute; left: -5000px;" data-v-113714b3=""><input type="text" name="b_a95319e0a6f57b754b11012a8_98ef5d6bca" tabindex="-1" value="" data-v-113714b3=""></div> <div class="mc-field-group _flex-row-sm" data-v-113714b3=""><input id="footer-mce-EMAIL" placeholder="Your email" type="email" name="EMAIL" required="required" class="required email _form-input _width-100 _radius _margin-bottom-half-xs" data-v-113714b3=""> <input id="mc-embedded-footer-subscribe" type="submit" value="Subscribe" name="subscribe" class="_button _flex-1 --webkit-reset" data-v-113714b3=""></div></div></form></div></div></div>
+
+
+<style type="text/scss">
+
+	.FooterSignups-capsid {
+	  background: #f1fbff;
+	  border-top: 1px solid;
+	  border-bottom: 1px solid;
+	  border-right: 1px solid;
+	  border-left: solid 6px;
+	  border-color: #50cde0;
+	  // @extend ._shadow-1;
+
+	  input._form-input {
+	    background-color: #fbfdff;
+
+	    border-style: solid;
+	    border-width: 2px;
+	    border-color: #0084FF;
+	    border-top-color: transparent;
+	    border-left-color: transparent;
+	    border-right-color: transparent;
+
+	    &:hover, &:active, &:focus {
+	      border-style: solid;
+	      border-width: 2px;
+	      border-color: #0084FF;
+	      background-color: #fbfdff
+	    };
+	  }
+	  ._button {
+	    // font-weight: 700;
+	    margin: 0;
+	    background: transparent; //usetheme(capsid-cta-bg-color, $footer);
+	    border-color: #0084FF;
+	    color: #0084FF;
+	    &:hover {
+	      background: #0084FF;
+	      border-color: #0084FF;
+	      color: #fbfdff;
+	    };
+
+	    @media (max-width: 640px) {
+	      margin-top: 0.5rem;
+	      width: 100%;
+	    }
+	  }
+	}
+
+</style>

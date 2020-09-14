@@ -142,9 +142,12 @@ $colors-brand: (
   brand: #71EFF5, // dark blue
   brand-copy: rgba(0,0,0,.87),
   brand-active: #0163e4,
-  brand-alt: #FE5C48,
+  brand-light: lighten(#0163e4, 12%),
+  brand-dark: darken(#0163e4, 12%),
+  brand-alt: #f5250c,
   brand-focus: #00D7D9,
   background-light: #E7FBFF,
+  brand-white: #FAFAFA,
   background-white: #FAFAFA,
   brand-background: #374f6a,
   brand-footer: #f3f3f3,

@@ -32,8 +32,9 @@ const saveJson = (async (data, path) => {
 	}
 });
 
-const loadContent = async () => {
 
+
+const loadContent = async () => {
 	console.log('::: Loader ::: notionId:', notionId)
 
 	try {
@@ -124,14 +125,13 @@ const buildBase = async (json) => {
 					})
 				}
 			
-
 			})
 		})
 
 		return {
 			id: json.id,
 			collections,
-			json,
+			// json,
 			content,
 			... base
 		}

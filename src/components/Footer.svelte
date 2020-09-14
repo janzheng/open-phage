@@ -11,8 +11,8 @@
           <a href="https://foundation.mozilla.org/" target="_blank"><img class="_margin-bottom" id="logo-moz" src="/mozilla.svg" alt="Mozilla Foundation Logo" /></a>
 
           <div class=" _margin-bottom-2">
-            <a href="https://www.phagesforglobalhealth.org/" target="_blank"><img class="_padding-right _margin-bottom" id="logo-p4gh" src="/p4gh.jpg" alt="Phages for Global Health Logo" /></a>
-            <a href="https://phage.directory" target="_blank"><img id="logo-pd" src="/phagedirectory_lrg.png" alt="Phage Directory Logo" /></a>
+            <p><a href="https://www.phagesforglobalhealth.org/" target="_blank"><img class="_padding-right" id="logo-p4gh" src="/p4gh.jpg" alt="Phages for Global Health Logo" /></a></p>
+            <p><a href="https://phage.directory" target="_blank"><img id="logo-pd" src="/phagedirectory_lrg.png" alt="Phage Directory Logo" /></a></p>
           </div>
 
           {@html marked(content)}
@@ -23,7 +23,8 @@
               <p><a href="#top">Scroll back to top</a></p>
             </div>
             <div>
-              <p><a href="/githublink">Login</a> | <a href="/githublink">Sign Up </a></p>
+              <p><a href="https://github.com/janzheng/open-phage">Login</a></p>
+              <p><a href="https://github.com/janzheng/open-phage">Sign Up </a></p>
             </div>
           </div>
           <div class="_grid-2-xs">
@@ -34,7 +35,7 @@
               <p><a href="/team#top">Team Members</a></p>
               <p><a href="/terms#top">Terms & Conditions</a></p>
               <p><a href="/privacy#top">Privacy Policy</a></p>
-              <p><a href="/githublink">Github</a></p>
+              <p><a href="https://github.com/janzheng/open-phage">Github</a></p>
             </div>
             <div>
             </div>
@@ -79,6 +80,7 @@
 
   img {
     max-height: 48px;
+    // display: block;
   }
 
   #logo-moz {

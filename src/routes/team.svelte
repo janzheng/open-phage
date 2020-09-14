@@ -32,10 +32,7 @@
 
           </div>
     			{#if profile.fields['Video'] && profile.fields['Video'][0]}
-	    			<video width="640" controls>
-						  <source src={profile.fields['Video'][0]} controls="true" type="video/mp4">
-						  Your browser does not support the video tag.
-						</video>
+            <Video video={profile.fields['Video'][0]} />
 					{/if}
     		</div>
     	{/each}
@@ -52,6 +49,7 @@
   import marked from 'marked';
 
   import { onMount, getContext, setContext } from 'svelte';
+  import Video from '../components/Video.svelte'
 
   // Content passed down from layout
   const Content$ = getContext('Content')
@@ -71,10 +69,6 @@
 </script>
 
 <style type="text/scss">
-
-  video {
-    max-width: 100%
-  }
 
   .profile-img {
     width: 100%;

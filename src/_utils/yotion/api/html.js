@@ -104,6 +104,7 @@ module.exports = async (req, res) => {
 
       // Inject unescaped HTML if code block's language is set to LiveScript
       const showLive = language === "livescript"
+      console.log('[code] > show code language::::', language)
       if(showLive) {
         html.push(text.map(clip => clip[0]).join("")) // Ignore styling, just take the text
       } else {

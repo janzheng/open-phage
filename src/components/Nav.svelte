@@ -82,7 +82,7 @@
 
 	}
 
-	@media (max-width: 640px) {
+	@media (max-width: 768px) {
 		._flex-right {
 	  	justify-content: normal !important;
 		}

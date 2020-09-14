@@ -39,8 +39,8 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   padding-top: $size-4;
   padding-bottom: $size-2x;
-  font-size: $size-4;
-  line-height: $size-5;
+  font-size: $size-5;
+  line-height: $size-6;
 }
 
 h2 {
@@ -191,7 +191,7 @@ p, ul, li, {
 }
 
 .ContentFrame-body a {
-  font-weight: bold;
+  // font-weight: bold;
 }
 
 // body links

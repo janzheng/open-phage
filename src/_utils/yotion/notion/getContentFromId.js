@@ -76,7 +76,9 @@ async function getContentFromId({id, depth=0, accumulate=true, collectionMap={},
     type,
     value: record.value.properties && record.value.properties.title ? record.value.properties.title[0][0] : undefined,
     properties: record.value.properties,
-    markdown: await getMarkdownFromContents({contents: [record.value], recurse:true, depth, recordMap, collectionMap, addIndentation})
+    parent_id: record.value.parent_id,
+    parent_table: record.value.parent_table,
+    markdown: await getMarkdownFromContents({contents: [record.value], record, recurse:true, depth, recordMap, collectionMap, addIndentation})
   }
 
   // console.log('BLOCK???', record.value, record.value.properties ? record.value.properties.title[0][0] : '')
@@ -96,6 +98,14 @@ async function getContentFromId({id, depth=0, accumulate=true, collectionMap={},
     content['linkToPageId'] = record.value.properties.title[0][1][0][1] // get the if od the linked page
     contentIds = [record.value.properties.title[0][1][0][1]]
   }
+
+
+  // to get the page's collection metadata, check out getMarkdownFromContents
+  // this is a massive API hit, so it's not included yet
+  // let pageData = await call("getPublicPageData", {
+  //   blockId: contentId,
+  // })
+  // 
 
   // this is a helper for front-end
   if(type === 'collection_view')

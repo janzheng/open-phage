@@ -122,13 +122,35 @@ body {
 input.__action, button.__action {
 	border: 2px solid usetheme(brand-active);
 	background-color: usetheme(brand-active);
+	color: usetheme(brand-white);
 
-	&:hover {
+	&:hover, &:active {
 		background-color: usetheme(brand-light);
+		border-color: usetheme(brand-light);
+	}
+	&:focus {
+		background-color: usetheme(brand-dark);
+		border-color: usetheme(brand-dark);
 	}
 }
 
 
+input.__cta, button.__cta {
+	border: 2px solid usetheme(brand-active);
+	background-color: usetheme(brand-white);
+	color: usetheme(brand-active);
+
+	&:hover, &:active {
+		background-color: usetheme(brand-active);
+		border-color: usetheme(brand-active);
+		color: usetheme(brand-white);
+	}
+	&:focus {
+		background-color: usetheme(brand-dark);
+		border-color: usetheme(brand-dark);
+		color: usetheme(brand-white);
+	}
+}
 
 
 

@@ -19,7 +19,7 @@
 
     <div class=" _margin-center _divider-top _divider-bottom">
 
-      <div class="_section _grid-1-3 _divider-top">
+      <!-- <div class="_section _grid-1-3 _divider-top">
         <div>
         	<h2 class="_padding-top-none">Videos</h2>
         </div>
@@ -32,11 +32,26 @@
 	        	{/each}
 	        {/if}
         </div>
+      </div> -->
+
+      <div class="_section _grid-1-3 _divider-top">
+        <div>
+          <h2 class="_padding-top-none">Readings & Articles</h2>
+        </div>
+        <div>
+          {#if library}
+            {#each library as item}
+              <div class="_card _padding">
+                { item.title[0][0] }
+              </div>
+            {/each}
+          {/if}
+        </div>
       </div>
 
       <div class="_section _grid-1-3 _divider-top">
         <div>
-        	<h2 class="_padding-top-none">Readings & References</h2>
+        	<h2 class="_padding-top-none">Useful References</h2>
         </div>
         <div>
         	{#if library}
@@ -93,7 +108,8 @@
   $: if(data) videos = [...data['Lab Video'], ...data['Lecture Video']]
 
   let library
-  $: if(data) library = [...data['Reference'], ...data['Reading']]
+  // $: if(data) library = [...data['Reference'], ...data['Reading']]
+  $: if(data) library = [...data['Reading']]
 
   let protocols
   $: if(data) protocols = [...data['Protocol']]

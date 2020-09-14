@@ -10,7 +10,7 @@ const getTableFromId = require("./getTableFromId")
 
 const call = require("./call")
 
-async function getMarkdownFromContents({contents, recurse=true, depth=0, recordMap=undefined, addIndentation=true, collectionMap={}}) {
+async function getMarkdownFromContents({contents, recurse=true, depth=0, recordMap=undefined, addIndentation=true, collectionMap={}, record}) {
   const markdown = []
   // forEach isn't async // https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
   await asyncForEach(contents, async block => {
@@ -65,34 +65,113 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
 ~~~\n\n`)
 
     } else if(["toggle"].includes(type)) {
-      let tag
+      let tag, toggleRecurse = true
 
       // old way of defining a block; realized it's easier to just add the entire tag instead
       // $blockdef .class-1 .class-2 .class_3--1 #identifier attr=something attr2="one two three four five"
-      if(block.properties.title[0] && block.properties.title[0] && block.properties.title[0][0].includes('$blockdef')) {
-        const blockStr = block.properties.title[0][0].split(' ') // {.class #identifier attr=value attr2="spaced value"}
-        let clss = blockStr.filter(str => str.substring(0,1) === '.')
-        const ids = blockStr.filter(str => str.substring(0,1) === '#')
-        const attrRegex = /\b\w*[=](\w|"(.*?)")*/g
-        const attrs = []
+      // if (block.properties.title[0] && block.properties.title[0] && block.properties.title[0][0].includes('$blockdef')) {
+      //   const blockStr = block.properties.title[0][0].split(' ') // {.class #identifier attr=value attr2="spaced value"}
+      //   let clss = blockStr.filter(str => str.substring(0,1) === '.')
+      //   const ids = blockStr.filter(str => str.substring(0,1) === '#')
+      //   const attrRegex = /\b\w*[=](\w|"(.*?)")*/g
+      //   const attrs = []
 
-        do {
-          var match = attrRegex.exec(blockStr); // note, this adds annoying commas to the attr string
-          if (match != null)
-            attrs.push(match[0]);
-        } while (match != null);
+      //   do {
+      //     var match = attrRegex.exec(blockStr); // note, this adds annoying commas to the attr string
+      //     if (match != null)
+      //       attrs.push(match[0]);
+      //   } while (match != null);
 
-        clss = clss.reduce((acc,val) => acc + val.substring(1) + ' ','')
-        let attrstr = attrs.reduce((acc,val) => acc + val.replace(/,/g,' ') + ' ','')
+      //   clss = clss.reduce((acc,val) => acc + val.substring(1) + ' ','')
+      //   let attrstr = attrs.reduce((acc,val) => acc + val.replace(/,/g,' ') + ' ','')
 
-        markdown.push(`<div ${ids&&ids.length>0?`id="${ids[0].substring(1)}"`:""} clss="${clss}" ${attrstr}>\n`)
+      //   markdown.push(`<div ${ids&&ids.length>0?`id="${ids[0].substring(1)}"`:""} clss="${clss}" ${attrstr}>\n`)
+      //   addIndentation = false
+      // } 
+      if (block.properties.title[0] && block.properties.title[0] && block.properties.title[0][0].includes('$code')) {
+        console.log('Code block')
+        markdown.push(`<div class="code-block">\n`)
         addIndentation = false
+        // execution code still remains as a code block... this could open up more vulns
+      } if (block.properties.title[0] && block.properties.title[0] && block.properties.title[0][0].includes('$list')) {
+        // list block — creates html wrappers around the objects contained within this toggle
+        let optionStr = block.properties.title[0][0].substring(5).trim()
+        let options
+        if(optionStr) {
+          options = JSON.parse(optionStr)
+        }
+
+        markdown.push(`<div class="${options.class ? options.class : ''} list-block-container">\n`)
+        addIndentation = false
+        toggleRecurse = false // don't recurse standard markdown
+
+        console.log('[$list block] >>>> options:', options)
+
+
+        try {
+          await asyncForEach(block.content, async contentId => {
+            const _content = await getContentFromId({id: contentId, depth, recordMap, collectionMap, addIndentation: false})
+            // console.log('[$list block] >>>> properties: ', _content.properties)
+
+            let pageData = await call("getPublicPageData", {
+              blockId: contentId,
+            })
+
+            let collectionSchema, schema = {}
+
+            if(pageData.collectionSchema) {
+              collectionSchema = pageData.collectionSchema
+
+              Object.keys(_content.properties).map(key => {
+                if(collectionSchema[key]) {
+                  schema[collectionSchema[key]['name']] = _content.properties[key][0][0]
+                }
+              })
+
+              // console.log('[$list block] >>>> schema:', schema)
+
+              let linkAttr = ''
+              if(options['linkField'] && schema[options['linkField']]) {
+                linkAttr = `data-link="${schema[options['linkField']]}"`
+                markdown.push(`<a class="list-block-link href="${schema[options['linkField']]}">`)
+              }
+
+              markdown.push(`<div class="list-block-item-container ${options['itemContainerClass'] ? options['itemContainerClass'] : ''}" ${linkAttr}>`)
+
+              if(options['coverField'] && schema[options['coverField']]) {
+                // console.log('cover:', options.coverField, schema[options.coverField])
+                markdown.push(`<img class="list-block-cover alt="Cover image" src="${schema[options['coverField']]}">`)
+              }
+
+              markdown.push(`<div class="list-block-item ${options['itemClass'] ? options['itemClass'] : ''}" ${linkAttr}>`)
+
+              options['showFields'].split(',').map(fieldKey => {
+                fieldKey = fieldKey.trim()
+                // console.log('[$list block] >>>> fieldKey:', fieldKey, schema[fieldKey])
+                if(schema[fieldKey]) {
+                  markdown.push(`<div data-field="${fieldKey}">${schema[fieldKey]}</div>`)
+                }
+              })
+            }
+
+            markdown.push(`</div>`) // end list-block-item
+            markdown.push(`</div>`) // end list-block-item-container
+            if(options['linkField'] && schema[options['linkField']]) {
+              markdown.push(`</a>`)
+            }
+          })
+        } catch(e) {
+          console.errror([''])
+        }
+
+        // execution code still remains as a code block... this could open up more vulns
       } else if (block.properties.title[0] && block.properties.title[0] && block.properties.title[0][0][0] === '<') {
-        // treats any toggle that starts with "<" and a tag block toggle
+        // treats any toggle that starts with "<" as a tag block toggle
+        // this leaves the server open to script injection, so don't leave it open...
         const summary = block.properties.title[0][0]
         tag = summary.split(' ')[0].substring(1)
         addIndentation = false
-        console.log('tag type!!!:', tag, summary, summary.split(' ')[0])
+        console.log('Script tag!', tag, summary, summary.split(' ')[0])
         markdown.push(summary)
       } else {
         markdown.push(`<details>\n`)
@@ -102,7 +181,7 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
       }
 
       // recursively build the toggle
-      if (block.content) {
+      if (block.content && toggleRecurse) {
         await asyncForEach(block.content, async contentId => {
           const _content = await getContentFromId({id: contentId, depth, recordMap, collectionMap, addIndentation: false})
           _content.markdown.forEach(md => {
@@ -112,7 +191,8 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
         })
       }
 
-      if(block.properties.title[0] && block.properties.title[0] && block.properties.title[0][0].includes('$blockdef')) {
+      if(block.properties.title[0] && block.properties.title[0] && 
+        (block.properties.title[0][0].includes('$code') || block.properties.title[0][0].includes('$code'))) {
         markdown.push(`</div>\n\n`)
       } else if (block.properties.title[0] && block.properties.title[0] && block.properties.title[0][0][0] === '<') {
         markdown.push(`</${tag}>\n\n`)
@@ -186,6 +266,7 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
   }
 
   // console.log('returning markdown:::::', markdown)
+
   return markdown
 
 }
