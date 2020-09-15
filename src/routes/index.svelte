@@ -23,14 +23,14 @@
 
         <div class="">
           <!-- <button class="__action __short">Browse lectures</button> -->
-          <button class="__cta">Browse lectures</button>
+          <a href="/lectures" class="_button __cta">Browse lectures</a>
         </div>
       </div>
     </div>
 
 
 
-    <div class="home-body _section-article _margin-center _divider-top _divider-bottom">
+    <div class="Home-body _section-article _margin-center _divider-top _divider-bottom">
 
       <div class="_divider-top">
         <CapsidSignup />
@@ -110,38 +110,6 @@
 // .logo {
 //   max-height: 48px;
 // }
-
-
-:global(.list-block-item-container) {
-  overflow: auto;
-}
-
-:global(.list-block-cover) {
-  max-width: 100%;
-  float: left;
-  width: 150px;
-  margin-right: 1rem;
-}
-
-:global(.list-block-link) {
-  color: black;
-  text-decoration: none;
-
-  &:hover {
-    color: #0163e4;
-  };
-}
-
-:global([data-field="Name"]) {
-  font-size: 1.2rem;
-  line-height: 1.6rem;
-  margin-bottom: 0.5rem;
-}
-
-:global([data-field="Author"]) {
-  margin-top: 0.35rem;
-  margin-bottom: 0.35rem;
-}
 
 
 

@@ -119,7 +119,7 @@ body {
 
 
 
-input.__action, button.__action {
+input.__action, button.__action, a.__action {
 	border: 2px solid usetheme(brand-active);
 	background-color: usetheme(brand-active);
 	color: usetheme(brand-white);
@@ -135,15 +135,15 @@ input.__action, button.__action {
 }
 
 
-input.__cta, button.__cta {
+input.__cta, button.__cta, a.__cta {
 	border: 2px solid usetheme(brand-active);
 	background-color: usetheme(brand-white);
 	color: usetheme(brand-active);
 
 	&:hover, &:active {
-		background-color: usetheme(brand-active);
-		border-color: usetheme(brand-active);
-		color: usetheme(brand-white);
+		background-color: usetheme(brand-active) !important;
+		border-color: usetheme(brand-active) !important;
+		color: usetheme(brand-white) !important;
 	}
 	&:focus {
 		background-color: usetheme(brand-dark);
@@ -154,6 +154,54 @@ input.__cta, button.__cta {
 
 
 
+
+
+
+
+
+.list-block-item-container {
+  overflow: auto;
+
+  p:last-child {
+  	margin-bottom: 0 !important;
+  }
+}
+
+.list-block-cover {
+  max-width: 100%;
+  float: left;
+  width: 150px;
+  margin-right: 1rem;
+}
+	.list-block-cover--page {
+		max-width: 100%;
+		max-height: 400px;
+		object-fit: cover;
+		margin-bottom: 2rem;
+	}
+
+.list-block-link {
+
+	&, &:visited {
+	  color: black;
+	  text-decoration: none;
+	}
+
+  &:hover {
+    color: #0163e4;
+  };
+}
+
+[data-field="Name"] {
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+[data-field="Author"] {
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+}
 
 
 

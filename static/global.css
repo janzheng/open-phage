@@ -2332,32 +2332,32 @@ button {
 }
 
 ._color-brand-alt {
-  color: #f5250c;
+  color: #ab0a0a;
 }
 ._color-brand-alt-i {
-  color: #f5250c !important;
+  color: #ab0a0a !important;
 }
 
 ._color-bg-brand-alt {
-  background-color: #f5250c;
+  background-color: #ab0a0a;
 }
 ._color-bg-brand-alt-i {
-  background-color: #f5250c !important;
+  background-color: #ab0a0a !important;
 }
 
 ._color-border-brand-alt {
-  border-color: #f5250c;
+  border-color: #ab0a0a;
 }
 ._color-border-brand-alt-i {
-  border-color: #f5250c !important;
+  border-color: #ab0a0a !important;
 }
 
 ._color-hover-brand-alt:hover {
-  color: #f5250c;
+  color: #ab0a0a;
 }
 
 ._color-hoverborder-brand-alt:hover:after {
-  background-color: #f5250c;
+  background-color: #ab0a0a;
 }
 
 ._color-brand-focus {
@@ -15488,8 +15488,8 @@ a:visited, ._link:visited {
   color: #0163e4;
 }
 a:hover, a:active, ._link:hover, ._link:active {
-  color: #f5250c !important;
-  text-decoration-color: #f5250c !important;
+  color: #ab0a0a !important;
+  text-decoration-color: #ab0a0a !important;
 }
 a._button, ._link._button {
   text-decoration: none;
@@ -15580,34 +15580,74 @@ body {
   color: white;
 }
 
-input.__action, button.__action {
+input.__action, button.__action, a.__action {
   border: 2px solid #0163e4;
   background-color: #0163e4;
   color: #FAFAFA;
 }
-input.__action:hover, input.__action:active, button.__action:hover, button.__action:active {
+input.__action:hover, input.__action:active, button.__action:hover, button.__action:active, a.__action:hover, a.__action:active {
   background-color: #2482fe;
   border-color: #2482fe;
 }
-input.__action:focus, button.__action:focus {
+input.__action:focus, button.__action:focus, a.__action:focus {
   background-color: #0149a7;
   border-color: #0149a7;
 }
 
-input.__cta, button.__cta {
+input.__cta, button.__cta, a.__cta {
   border: 2px solid #0163e4;
   background-color: #FAFAFA;
   color: #0163e4;
 }
-input.__cta:hover, input.__cta:active, button.__cta:hover, button.__cta:active {
-  background-color: #0163e4;
-  border-color: #0163e4;
-  color: #FAFAFA;
+input.__cta:hover, input.__cta:active, button.__cta:hover, button.__cta:active, a.__cta:hover, a.__cta:active {
+  background-color: #0163e4 !important;
+  border-color: #0163e4 !important;
+  color: #FAFAFA !important;
 }
-input.__cta:focus, button.__cta:focus {
+input.__cta:focus, button.__cta:focus, a.__cta:focus {
   background-color: #0149a7;
   border-color: #0149a7;
   color: #FAFAFA;
+}
+
+.list-block-item-container {
+  overflow: auto;
+}
+.list-block-item-container p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.list-block-cover {
+  max-width: 100%;
+  float: left;
+  width: 150px;
+  margin-right: 1rem;
+}
+
+.list-block-cover--page {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  margin-bottom: 2rem;
+}
+
+.list-block-link, .list-block-link:visited {
+  color: black;
+  text-decoration: none;
+}
+.list-block-link:hover {
+  color: #0163e4;
+}
+
+[data-field=Name] {
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+[data-field=Author] {
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
 }
 
 .ContentFrame-body {

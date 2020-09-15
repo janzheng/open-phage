@@ -95,6 +95,10 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
         // execution code still remains as a code block... this could open up more vulns
       } if (block.properties.title[0] && block.properties.title[0] && block.properties.title[0][0].includes('$list')) {
         // list block — creates html wrappers around the objects contained within this toggle
+        /*
+          > $list {"class": "test-list", "itemContainerClass": "_card _padding", "coverField":"Cover Image", "showFields": "Name, Author, Description, DOI", "linkField":"URL"}
+            @link to pages
+        */
         let optionStr = block.properties.title[0][0].substring(5).trim()
         let options
         if(optionStr) {
@@ -133,14 +137,14 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
               let linkAttr = ''
               if(options['linkField'] && schema[options['linkField']]) {
                 linkAttr = `data-link="${schema[options['linkField']]}"`
-                markdown.push(`<a class="list-block-link href="${schema[options['linkField']]}">`)
+                markdown.push(`<a class="list-block-link" href="${schema[options['linkField']]}">`)
               }
 
               markdown.push(`<div class="list-block-item-container ${options['itemContainerClass'] ? options['itemContainerClass'] : ''}" ${linkAttr}>`)
 
               if(options['coverField'] && schema[options['coverField']]) {
                 // console.log('cover:', options.coverField, schema[options.coverField])
-                markdown.push(`<img class="list-block-cover alt="Cover image" src="${schema[options['coverField']]}">`)
+                markdown.push(`<img class="list-block-cover" alt="Cover image" src="${schema[options['coverField']]}">`)
               }
 
               markdown.push(`<div class="list-block-item ${options['itemClass'] ? options['itemClass'] : ''}" ${linkAttr}>`)

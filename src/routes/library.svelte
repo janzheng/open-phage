@@ -39,11 +39,9 @@
           <h2 class="_padding-top-none">Readings & Articles</h2>
         </div>
         <div>
-          {#if library}
-            {#each library as item}
-              <div class="_card _padding">
-                { item.title[0][0] }
-              </div>
+          {#if readings}
+            {#each readings as item}
+              <LinkCard {item} />
             {/each}
           {/if}
         </div>
@@ -54,11 +52,9 @@
         	<h2 class="_padding-top-none">Useful References</h2>
         </div>
         <div>
-        	{#if library}
-	        	{#each library as item}
-	        		<div class="_card _padding">
-	        			{ item.title[0][0] }
-	        		</div>
+        	{#if references}
+	        	{#each references as item}
+              <LinkCard {item} />
 	        	{/each}
 	        {/if}
         </div>
@@ -71,9 +67,7 @@
         <div>
         	{#if protocols}
 	        	{#each protocols as item}
-	        		<div class="_card _padding">
-	        			{ item.title[0][0] }
-	        		</div>
+              <ProtocolCard protocol={item} />
 	        	{/each}
 	        {/if}
         </div>
@@ -90,8 +84,12 @@
 
 	import Cytosis from 'cytosis';
   import marked from 'marked';
-
   import { onMount, getContext, setContext } from 'svelte';
+
+  import ProtocolCard from '../components/ProtocolCard.svelte'
+  import LinkCard from '../components/LinkCard.svelte'
+
+
 
   // Content passed down from layout
   const Content$ = getContext('Content')
@@ -104,12 +102,12 @@
   export let data
   // $: console.log('yotion!!!!!:', data)
 
-  let videos
-  $: if(data) videos = [...data['Lab Video'], ...data['Lecture Video']]
+  let readings
+  $: if(data) readings = [...data['Reading']]
 
-  let library
+  let references
   // $: if(data) library = [...data['Reference'], ...data['Reading']]
-  $: if(data) library = [...data['Reading']]
+  $: if(data) references = [...data['Reference']]
 
   let protocols
   $: if(data) protocols = [...data['Protocol']]
