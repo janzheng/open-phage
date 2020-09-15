@@ -6,7 +6,7 @@
 
     const data = await this.fetch(`/api/notion?getClass=${params.class}`).then(r => r.json())
 
-		return { lecture: data.lecture, classObj: data.class, classes: data.classes, slug: params.lecture};
+		return { data: data, lecture: data.lecture, classObj: data.class, classes: data.classes, slug: params.lecture};
 	}
 </script>
 
@@ -40,6 +40,21 @@
 						{/if}
 
 					</div>
+
+					<!-- next class -->
+					{#if nextClass}
+						<a rel=prefetch class="Lecture-link" href={`/class/${nextClass.fields['Slug']}`}>
+							<div class="_divider-top _divider-bottom _padding _card">
+								Next class: 
+								<p data-field="Name">{ nextClass.title[0][0] }</p>
+
+								{#if nextClass.fields['Description']}
+									<p class="_margin-top-2 _margin-bottom-2" data-field="Description">
+									{@html marked(nextClass.fields['Description'] || '') }</p>
+								{/if}
+							</div>
+						</a>
+					{/if}
 				</div>
 
 			{/if}
@@ -49,7 +64,7 @@
 
 
 
-
+		<!-- sidebar -->
 		{#if classes.length > 1}
 			<div class="Class-sidebar">
 				<div class="_margin-bottom-2">
@@ -67,9 +82,11 @@
 							<p data-field="Author">{ item.fields['Author'] }</p>
 						{/if}
 
-						<!-- {#if item.fields['Description']}
+						<!-- 
+						{#if item.fields['Description']}
 							<p data-field="Description">{ item.fields['Description'] }</p>
-						{/if} -->
+						{/if}
+						-->
 					</div>
 				{/each}
 			</div>
@@ -84,9 +101,27 @@
 
   import marked from 'marked';
   import Video from '../../components/Video.svelte'
-	export let lecture, classes, classObj
+	export let lecture, classes, classObj, data
 
-	$: console.log(lecture, classObj, classes)
+	$: console.log(data)
+
+	function getNextClass() {
+		const classId = classObj.id
+		let nextClass
+		classes.map((c, i) => {
+			if(classId == c.id) {
+				if(classes[i+1])
+					nextClass=classes[i+1]
+			}
+			console.log('?!', c.id)
+		})
+		console.log('?!!!', nextClass)
+		return nextClass
+	}
+
+	let nextClass
+	$: if(data)
+		nextClass = getNextClass()
 
 
 </script>
