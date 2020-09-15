@@ -1,7 +1,7 @@
 
 {#if item}
 	<div class="list-block-container"> 
-		<a class="list-block-link" href={item.fields['URL']}>
+		<a rel=prefetch class="list-block-link" href={item.fields['URL']}>
 			<div class="list-block-item-container _card _padding">
 				{#if item.fields['Cover Image']}
 					<img alt="item cover img" class="list-block-cover" src={ item.fields['Cover Image'][0] }>

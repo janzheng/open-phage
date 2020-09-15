@@ -36,13 +36,21 @@
   <div class="_section-page _padding-top-2 _margin-center ">
     <div class="_section-article _margin-center _divider-top _divider-bottom">
 
-			<h1>{status}</h1>
+    	<!-- {#if status !== 500} -->
+				<h1>{status}</h1>
 
-			<p>{error.message}</p>
+				{#if error.message}
+					<p>{error.message}</p>
+				{/if}
 
-			{#if dev && error.stack}
-				<pre>{error.stack}</pre>
-			{/if}
+				{#if dev && error.stack}
+					<pre>{error.stack}</pre>
+				{/if}
+			<!-- {:else}
+				<h1>Browser Offline</h1>
+
+				<p>Please re-connect to the internet to view this page</p>
+			{/if} -->
 
     </div>
   </div>

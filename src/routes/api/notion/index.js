@@ -61,7 +61,7 @@ export const getId = async (id) => {
 
 // gets a yotion 'id' objectexport const getBase = async (id) => {
 
-export const getBase = ({collection, content, getField}) => {
+export const getBase = ({collection, content, getField, getLecture, getClass}) => {
 	try {
 
 		let _base // load base into cache
@@ -88,7 +88,7 @@ export const getBase = ({collection, content, getField}) => {
 			let dataArr = []
 			// data[getField[0]] = []
 
-			console.log('getField:', getField)
+			// console.log('getField:', getField)
 			Object.keys(_base.content).map(contentItem => {
 				_base.content[contentItem].map(item => {
 					if(item.fields[getField[0]] == getField[1]) {
@@ -98,6 +98,97 @@ export const getBase = ({collection, content, getField}) => {
 				})
 			})
 			return dataArr
+		}
+
+
+		if(getLecture) {
+			let lectureObj
+
+			// get lecture item
+			Object.keys(_base.content).map(baseKey => {
+				_base.content[baseKey].map(item => {
+					if(item.fields['Slug'] == getLecture) {
+						lectureObj = item
+					}
+				})
+			})
+
+			let contentName = lectureObj.fields['Content ID']
+			let items = []
+
+
+			// then get the lecture contents "Content ID" from 
+			// Lecture Content and Lab Content tables
+			let collection = getBase({collection: 'Lecture Content'})
+			collection.map(item => {
+				if(item.fields['Content ID'] == contentName) {
+					items.push(item)
+				}
+			})
+
+			collection = getBase({collection: 'Lab Content'})
+			collection.map(item => {
+				if(item.fields['Content ID'] == contentName) {
+					items.push(item)
+				}
+			})
+
+			return {
+				lecture: lectureObj,
+				classes: items,
+			}
+		}
+
+
+
+
+
+		if(getClass) {
+			let classObj
+
+			// get class item
+			Object.keys(_base.content).map(baseKey => {
+				_base.content[baseKey].map(item => {
+					if(item.fields['Slug'] == getClass) {
+						classObj = item
+					}
+				})
+			})
+
+			let contentName = classObj.fields['Content ID']
+			let items = []
+			let lecture
+
+
+			// get the Lecture Series
+			let collection = getBase({collection: 'Lecture Series'})
+			collection.map(item => {
+				if(item.fields['Content ID'] == contentName) {
+					lecture = item
+				}
+			})
+
+			// then get the lecture contents "Content ID" from 
+			// Lecture Content and Lab Content tables
+			collection = getBase({collection: 'Lecture Content'})
+			collection.map(item => {
+				if(item.fields['Content ID'] == contentName) {
+					items.push(item)
+				}
+			})
+
+			collection = getBase({collection: 'Lab Content'})
+			collection.map(item => {
+				if(item.fields['Content ID'] == contentName) {
+					items.push(item)
+				}
+			})
+
+			return {
+				lecture,
+				class: classObj,
+				classes: items,
+			}
 		}
 
 	  return _base
@@ -112,10 +203,10 @@ export const getBase = ({collection, content, getField}) => {
 
 export async function get(req, res) {
 
-	const {id, collection, collections, content, contents, getField, fields} = req.query
+	const {id, collection, collections, content, contents, getField, fields, getLecture, getClass} = req.query
   let json, base = {}
 
-	try {
+  try {
 		if(id) {
 			// json = await getBase(process.env.NOTION_BASE)
 			base = await getId(id)
@@ -131,6 +222,7 @@ export async function get(req, res) {
 		if(content)
 			base = {...base, ...getBase({content}) }
 
+		// grab by collection (e.g. database or table)
 		if(collections) { 
 			let arr = collections.split(', ')
 			arr.map((c) => {
@@ -139,6 +231,7 @@ export async function get(req, res) {
 			})
 		}
 
+		// grab by content type
 		if(contents) { 
 			let arr = contents.split(', ')
 			arr.map((c) => {
@@ -147,14 +240,26 @@ export async function get(req, res) {
 			})
 		}
 
+		// get from a field like Slug
 		if(getField) { 
 			let arr = getField.split(', ')
 			arr.map((c) => {
-				// each getField is: fieldName|value, e.g. Content Names|Welcome
+				// each getField is: fieldName|value, e.g. Content IDs|Welcome
 				let carr = c.split('|')
 				let data =  getBase({getField: carr})
 				base[c] = data
 			})
+		}
+
+		// build a lecture by getting a slug and getting its associated classes
+		// through "Content ID"
+		if(getLecture) { 
+			base = {...base, ...getBase({getLecture}) }
+		}
+
+		// get a class through slug, but also return the lecture series and adjoining classes
+		if(getClass) { 
+			base = {...base, ...getBase({getClass}) }
 		}
 
 

@@ -2,7 +2,7 @@
   export async function preload(page, session) {
     // const data = await this.fetch(`/api/notion?collections=Protocols,Videos,Library`).then(r => r.json())
 
-    const data = await this.fetch(`/api/notion?collections=Lecture Series, Lecture&contents=Welcome, Protocol, Reference, Reading, Lecture&getField=Content Names|Welcome`).then(r => r.json())
+    const data = await this.fetch(`/api/notion?collections=Lecture Series, Lecture&contents=Welcome, Protocol, Reference, Reading, Lecture&getField=Content IDs|Welcome`).then(r => r.json())
 
     return { data };
   }
@@ -91,9 +91,9 @@
 
     lectures.map(lec => {
       lec['series'] = []
-      const contentName = lec.fields['Content Name']
+      const contentName = lec.fields['Content ID']
       data['Lecture'].map(lecItem => {
-        if(lecItem.fields['Content Name'] == contentName)
+        if(lecItem.fields['Content ID'] == contentName)
           lec['series'].push(lecItem)
       })
     })

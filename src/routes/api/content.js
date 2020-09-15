@@ -53,7 +53,7 @@ const baseId = process.env.OPENPHAGE_AIRTABLE_PUBLIC_BASE
 
 export async function get(req, res) {
 
-	console.log('get request')
+	// console.log('get request')
 	try {
 
 		// const cacheStr = `${view}-seminars`

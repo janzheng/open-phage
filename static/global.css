@@ -15622,6 +15622,7 @@ input.__cta:focus, button.__cta:focus, a.__cta:focus {
   float: left;
   width: 150px;
   margin-right: 1rem;
+  border-radius: 4px;
 }
 
 .list-block-cover--page {
@@ -15641,7 +15642,7 @@ input.__cta:focus, button.__cta:focus, a.__cta:focus {
 
 [data-field=Name] {
   font-size: 1.2rem;
-  line-height: 1.6rem;
+  line-height: 2.3rem;
   margin-bottom: 0.5rem;
 }
 
