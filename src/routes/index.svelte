@@ -37,8 +37,8 @@
       </div>
 
       <div class="_divider-top">
-        {#if yotion}
-          <div>{@html marked(yotion['Slug|test-block'][0].content.markdown.join('') || '')}</div>
+        {#if yotion && yotion['Slug|test-block']}
+          <!-- <div>{@html marked(yotion['Slug|test-block'][0].content.markdown.join('') || '')}</div> -->
         {/if}
       </div>
 

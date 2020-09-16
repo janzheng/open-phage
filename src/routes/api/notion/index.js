@@ -118,7 +118,7 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 
 
 			// then get the lecture contents "Content ID" from 
-			// Lecture Content and Lab Content tables
+			// Lecture Content and Lab Experiments tables
 			let collection = getBase({collection: 'Lecture Content'})
 			collection.map(item => {
 				if(item.fields['Content ID'] == contentName) {
@@ -126,7 +126,14 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 				}
 			})
 
-			collection = getBase({collection: 'Lab Content'})
+			collection = getBase({collection: 'Lab Experiments'})
+			collection.map(item => {
+				if(item.fields['Content ID'] == contentName) {
+					items.push(item)
+				}
+			})
+
+			collection = getBase({collection: 'Lab Videos'})
 			collection.map(item => {
 				if(item.fields['Content ID'] == contentName) {
 					items.push(item)
@@ -169,7 +176,7 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 			})
 
 			// then get the lecture contents "Content ID" from 
-			// Lecture Content and Lab Content tables
+			// Lecture Content and Lab Experiments tables
 			collection = getBase({collection: 'Lecture Content'})
 			collection.map(item => {
 				if(item.fields['Content ID'] == contentName) {
@@ -177,7 +184,7 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 				}
 			})
 
-			collection = getBase({collection: 'Lab Content'})
+			collection = getBase({collection: 'Lab Experiments'})
 			collection.map(item => {
 				if(item.fields['Content ID'] == contentName) {
 					items.push(item)

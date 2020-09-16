@@ -77,6 +77,44 @@ export async function get(req, res) {
 			return
 		}
 
+
+
+
+
+
+
+
+
+
+	  let bases = [{
+		  tables: ["Content", "SyncView"],
+		  options: {
+		    "view": view,
+		  }
+	  }
+	  ]
+
+		// console.log('loading cytosis...', bases)
+	  let _cytosis = await new Cytosis({
+	    apiKey: apiEditorKey,
+	    baseId: baseId,
+	    bases: 	bases,
+	    routeDetails: '[content/get]',
+	  })
+
+	  console.log('_cytosis:::', _cytosis)
+
+
+
+
+
+
+
+
+
+
+
+		// cached cytosis
 		if(cytosis) {
 			let _cytosis = JSON.stringify(cytosis)
 			cacheSet(_cacheStr, _cytosis)
@@ -85,23 +123,6 @@ export async function get(req, res) {
 			})
 			return
 		}
-
-
-	 //  let bases = [{
-		//   tables: ["Content"],
-		//   options: {
-		//     "view": view,
-		//   }
-	 //  }
-	 //  ]
-
-		// // console.log('loading cytosis...', bases)
-	 //  let _cytosis = new Cytosis({
-	 //    apiKey: apiEditorKey,
-	 //    baseId: baseId,
-	 //    bases: 	bases,
-	 //    routeDetails: '[content/get]',
-	 //  })
 
 
 	 //  _cytosis.then((_result) => {

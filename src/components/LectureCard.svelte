@@ -15,7 +15,7 @@
 			</a>
 
 			{#if lecture.fields['Description']}
-				<p data-field="Description">{ lecture.fields['Description'] }</p>
+				<div data-field="Description">{@html marked(lecture.fields['Description'] || '') }</div>
 			{/if}
 
 			{#if showSeries && lecture['series'] && lecture['series'].length > 1}
@@ -38,6 +38,7 @@
 
 <script>
 
+  import marked from 'marked';
 	export let lecture, showSeries
 
 // $list {"class": "test-list", "itemContainerClass": "_card _padding", "coverField":"Cover Image", "showFields": "Name, Author, Description, DOI", "linkField":"URL"}

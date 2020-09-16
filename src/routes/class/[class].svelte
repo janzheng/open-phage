@@ -113,9 +113,9 @@
 				if(classes[i+1])
 					nextClass=classes[i+1]
 			}
-			console.log('?!', c.id)
+			// console.log('?!', c.id)
 		})
-		console.log('?!!!', nextClass)
+		// console.log('?!!!', nextClass)
 		return nextClass
 	}
 
