@@ -26,7 +26,7 @@
             <div>
               <h3>{profile.fields['Name']}</h3>
               <p><em>{profile.fields['Content Types'].join(',')}</em></p>
-              <p>{profile.fields['Short']}</p>
+              <div>{@html marked(profile.fields['Short'] || '')}</div>
               {#if !profile.fields['Video'] }
                 <div class="_margin-top-2">{@html marked(profile.fields['Long'] || '') }</div>
               {/if}
