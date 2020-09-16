@@ -86,23 +86,23 @@ export async function get(req, res) {
 
 
 
-	  let bases = [{
-		  tables: ["Content", "SyncView"],
-		  options: {
-		    "view": view,
-		  }
-	  }
-	  ]
+	 //  let bases = [{
+		//   tables: ["Content", "SyncView"],
+		//   options: {
+		//     "view": view,
+		//   }
+	 //  }
+	 //  ]
 
-		// console.log('loading cytosis...', bases)
-	  let _cytosis = await new Cytosis({
-	    apiKey: apiEditorKey,
-	    baseId: baseId,
-	    bases: 	bases,
-	    routeDetails: '[content/get]',
-	  })
+		// // console.log('loading cytosis...', bases)
+	 //  let _cytosis = await new Cytosis({
+	 //    apiKey: apiEditorKey,
+	 //    baseId: baseId,
+	 //    bases: 	bases,
+	 //    routeDetails: '[content/get]',
+	 //  })
 
-	  console.log('_cytosis:::', _cytosis)
+	 //  console.log('_cytosis:::', _cytosis)
 
 
 

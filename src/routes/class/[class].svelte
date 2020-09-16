@@ -1,12 +1,18 @@
 
 <script context="module">
-	export async function preload({ params, query }) {
-		const slug = params.lecture, ref = `Slug|${params.lecture}`
+	export async function preload({ path, params, query }) {
+		const slug = params.lecture
     // const lecture = await this.fetch(`/api/notion?getField=${ref}, ${query.getField}`).then(r => r.json())
 
     const data = await this.fetch(`/api/notion?getClass=${params.class}`).then(r => r.json())
 
-		return { data: data, lecture: data.lecture, classObj: data.class, classes: data.classes, slug: params.lecture};
+		return { 
+			data: data, 
+			lecture: data.lecture, 
+			classObj: data.class, 
+			classes: data.classes, 
+			author: data.author, 
+			slug: params.lecture, path};
 	}
 </script>
 
@@ -24,8 +30,9 @@
 						{/if}
 						<p data-field="Name">{ classObj.title[0][0] }</p>
 
-						{#if classObj.fields['Author']}
-							<p data-field="Author">{ classObj.fields['Author'] }</p>
+						{#if author}
+							<!-- <p data-field="Author">{ classObj.fields['Author'] }</p> -->
+							<TeamCard profile={author} />
 						{/if}
 
 						{#if classObj.fields['Description']}
@@ -72,7 +79,7 @@
 				</div>
 				{#each classes as item}
 					<div class=" ">
-						<a rel=prefetch class="Class-toc--link" href={`/class/${item.fields['Slug']}`}>
+						<a rel=prefetch class={`Class-toc--link ${ path==='/class/'+item.fields['Slug']? '_active':''}`} href={`/class/${item.fields['Slug']}`}>
 							{#if item.fields['Cover Image']}
 								<img alt="lecture cover img" class="Lecture-cover" src={ item.fields['Cover Image'][0] }>
 							{/if}
@@ -101,8 +108,11 @@
 
   import marked from 'marked';
   import Video from '../../components/Video.svelte'
-	export let lecture, classes, classObj, data
+  import TeamCard from '../../components/TeamCard.svelte'
 
+	export let lecture, classes, classObj, data, path, author
+
+	$: console.log(path)
 	$: console.log(data)
 
 	function getNextClass() {
@@ -130,6 +140,10 @@
 
 	.Class-toc--link {
 		color: rgba(0, 0, 0, 0.87) !important;
+	}
+
+	._active {
+		font-weight: bold;
 	}
 
 </style>

@@ -38,6 +38,7 @@ let json;
 
 // gets a yotion 'id' object
 // large objects will time out
+// mainly used for testing + verification
 export const getId = async (id) => {
 	// const _cacheStr = `yotion-${id}`
 	// if(cacheGet(_cacheStr))
@@ -151,7 +152,7 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 
 
 		if(getClass) {
-			let classObj
+			let classObj, author
 
 			// get class item
 			Object.keys(_base.content).map(baseKey => {
@@ -191,10 +192,24 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 				}
 			})
 
+			// return the first author result
+			// each class only has one author (for now)
+			if(classObj.fields['Author']) {
+
+				Object.keys(_base.content).map(baseKey => {
+					_base.content[baseKey].map(item => {
+						if(item.fields['Slug'] == classObj.fields['Author']) {
+							author = item
+						}
+					})
+				})
+			}
+
 			return {
 				lecture,
 				class: classObj,
 				classes: items,
+				author
 			}
 		}
 

@@ -4,6 +4,8 @@
   import Cytosis from 'cytosis'
   import marked from 'marked'
 
+  export let segment
+
   const Content$ = getContext('Content')
   $: Content = $Content$
 
@@ -38,6 +40,8 @@
 <nav class="Header __antialiased __content-header">
 	<div class="skip"><a href="#main">Skip to main content</a></div>
   <div class="Nav Home-content _section-page _padding-top-2 _padding-bottom-2 _margin-center">
+
+  	<!-- segment: { segment } -->
     <!-- {@html marked(content)} -->
   	<div class="_grid-1-5-sm _align-vertically">
     	<div>
@@ -45,12 +49,12 @@
     	</div>
     	<div class="_padding-top-2-xs _padding-left-2-sm _md-pfix">
     		<div class="_flex _flex-right">
-    			<a rel=prefetch href="/lectures">Lectures</a>
-    			<a rel=prefetch href="/library">Library</a>
+    			<a rel=prefetch href="/lectures" class={segment==='lectures'?'_active':''}>Lectures</a>
+    			<a rel=prefetch href="/library" class={segment==='library'?'_active':''}>Library</a>
     			<!-- <a href="/about">About</a> -->
     			<div>
-  					<a rel=prefetch href="/login">Login</a>
-  					<a rel=prefetch class="" href="/login#signup">Signup</a>
+  					<a rel=prefetch href="/login" class={segment==='login'?'_active':''}>Login</a>
+  					<!-- <a rel=prefetch class="" href="/login#signup" class={segment==='login#signup'?'_active':''}>Signup</a> -->
   				</div>
     		</div>
     	</div>
@@ -60,7 +64,7 @@
 
 
 
-<style>
+<style type="text/scss">
 	:global(.Header) {
 		background-color: white;
 		position: relative;
@@ -80,6 +84,9 @@
 	a { 
 		padding-right: 1rem;
 
+		&._active {
+			font-weight: bold;
+		}
 	}
 
 	@media (max-width: 768px) {
@@ -98,57 +105,3 @@
 
 
 
-
-
-
-
-
-
-<!-- 
-
-<style>
-	nav {
-		border-bottom: 1px solid rgba(255,62,0,0.1);
-		font-weight: 300;
-		padding: 0 1em;
-	}
-
-	ul {
-		margin: 0;
-		padding: 0;
-	}
-
-	 clearfix 
-	ul::after {
-		content: '';
-		display: block;
-		clear: both;
-	}
-
-	li {
-		display: block;
-		float: left;
-	}
-
-	[aria-current] {
-		position: relative;
-		display: inline-block;
-	}
-
-	[aria-current]::after {
-		position: absolute;
-		content: '';
-		width: calc(100% - 1em);
-		height: 2px;
-		background-color: rgb(255,62,0);
-		display: block;
-		bottom: -1px;
-	}
-
-	a {
-		text-decoration: none;
-		padding: 1em 0.5em;
-		display: block;
-	}
-</style>
- -->

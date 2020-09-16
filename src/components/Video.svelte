@@ -1,6 +1,6 @@
 
 {#if video}
-	<video class="Video" width="640" controls preload="none" bind:this={videoElem}>
+	<video class="Video" width="640" controls preload="metadata" bind:this={videoElem}>
 	  <source src={video} controls="true" type="video/mp4">
 	  Your browser does not support the video tag.
 	</video>
