@@ -12,6 +12,8 @@ import globals from 'rollup-plugin-node-globals';
 // import autoExternal from 'rollup-plugin-auto-external'; // airtable??
 // import path from 'path';
 
+import alias from "@rollup/plugin-alias";
+import path from "path";
 
 
 // import autoPreprocess from 'svelte-preprocess';
@@ -107,6 +109,14 @@ export default {
 				dedupe: ['svelte']
 			}),
 
+			alias({
+			  entries: [
+			    {
+			      find: "@",
+			      replacement: path.resolve(__dirname, "src/")
+			    }
+			  ]
+			}),
 
 			// babel({
 			legacy && babel(useBabel),
@@ -155,7 +165,15 @@ export default {
 			resolve({
 				dedupe: ['svelte']
 			}),
-
+			
+			alias({
+			  entries: [
+			    {
+			      find: "@",
+			      replacement: path.resolve(__dirname, "src/")
+			    }
+			  ]
+			}),
 
 		],
 		external: Object.keys(pkg.dependencies).concat(

@@ -35,38 +35,15 @@ import cytosis from "../../../static/cytosis.json"
 
 
 config(); // https://github.com/sveltejs/sapper/issues/122
-
-
 let json;
 
-const view = process.env.STATUS=='Preview' ? "Preview" : "Published"
-const apiEditorKey = process.env.OPENPHAGE_AIRTABLE_PUBLIC_API
-const baseId = process.env.OPENPHAGE_AIRTABLE_PUBLIC_BASE
-
-
-
-
-
-
-
-
+// const view = process.env.STATUS=='Preview' ? "Preview" : "Published"
+// const apiEditorKey = process.env.OPENPHAGE_AIRTABLE_PUBLIC_API
+// const baseId = process.env.OPENPHAGE_AIRTABLE_PUBLIC_BASE
 
 export async function get(req, res) {
 
-	// console.log('get request')
 	try {
-
-		// const cacheStr = `${view}-seminars`
-	 //  const cache = nodecache.get( cacheStr )
-	 //  if(cache) {
-	 //  	// console.log('[cytosis] seminar cache')
-		// 	json = JSON.stringify(cache)
-		// 	send(res, 200, json, {
-		// 		'Content-Type': 'application/json'
-		// 	})
-		// 	return
-	 //  }
-
 
 		const _cacheStr = `cytosis`
 		let _cache = cacheGet(_cacheStr)
@@ -77,68 +54,16 @@ export async function get(req, res) {
 			return
 		}
 
-
-
-
-
-
-
-
-
-
-	 //  let bases = [{
-		//   tables: ["Content", "SyncView"],
-		//   options: {
-		//     "view": view,
-		//   }
-	 //  }
-	 //  ]
-
-		// // console.log('loading cytosis...', bases)
-	 //  let _cytosis = await new Cytosis({
-	 //    apiKey: apiEditorKey,
-	 //    baseId: baseId,
-	 //    bases: 	bases,
-	 //    routeDetails: '[content/get]',
-	 //  })
-
-	 //  console.log('_cytosis:::', _cytosis)
-
-
-
-
-
-
-
-
-
-
-
-		// cached cytosis
-		if(cytosis) {
-			let _cytosis = JSON.stringify(cytosis)
-			cacheSet(_cacheStr, _cytosis)
-			send(res, 200, _cytosis, {
+		// cytosis content grabbed at compile time from loader
+		if(cytosis && cytosis.results['Content']) {
+			let content = JSON.stringify(cytosis.results['Content'])
+			cacheSet(_cacheStr, content)
+			send(res, 200, content, {
 				'Content-Type': 'application/json'
 			})
 			return
 		}
 
-
-	 //  _cytosis.then((_result) => {
-
-	 //  	delete _result['apiKey']
-	 //  	delete _result['baseId']
-
-
-  //     // nodecache.set( cacheStr, _result, 60*60 );
-
-  //     // console.log('results:::', _result.results.Schedule[0])
-		// 	json = JSON.stringify(_result)
-		// 	send(res, 200, json, {
-		// 		'Content-Type': 'application/json'
-		// 	});
-	 //  })
 	} catch(err) {
 		throw new Error('[content/get] Error', err)
 	}

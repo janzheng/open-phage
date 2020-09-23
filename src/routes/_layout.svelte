@@ -1,9 +1,9 @@
 
 <script context="module">
   export async function preload(page, session) {
-    const cytosis = await this.fetch(`/api/content`).then(r => r.json())
-    const Content = cytosis.results['Content']
-    // console.log('_layout cytosis:', cytosis.results)
+    const Content = await this.fetch(`/api/content`).then(r => r.json())
+    // const Content = cytosis.results['Content']
+    // console.log('_layout Content:', Content)
     return { Content };
   }
 </script>

@@ -38,7 +38,7 @@
 
       <div class="_divider-top">
         {#if yotion && yotion['Slug|test-block']}
-          <!-- <div>{@html marked(yotion['Slug|test-block'][0].content.markdown.join('') || '')}</div> -->
+          <div>{@html marked(yotion['Slug|test-block'][0].content.markdown.join('') || '')}</div>
         {/if}
       </div>
 
@@ -79,6 +79,7 @@
 
 	import Cytosis from 'cytosis';
   import marked from 'marked';
+  import { swr } from '@/swr.js';
   import { onMount, getContext, setContext } from 'svelte';
 
   import CapsidSignup from '../components/CapsidSignup.svelte'
@@ -91,8 +92,9 @@
 	$: intro = Cytosis.findField('intro', Content, 'Content')
 
   export let yotion
-  $: console.log('Home data::', yotion)
+  // $: console.log('Home data::', yotion)
 
+  $: swr(yotion)
   
 </script>
 

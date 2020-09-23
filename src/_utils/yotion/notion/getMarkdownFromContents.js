@@ -6,6 +6,7 @@ const asyncForEach = require("../helpers/asyncForEach.js")
 const textArrayToHtml = require("./textArrayToHtml.js")
 const collectionToMarkdown = require("./collectionToMarkdown.js")
 const getTableFromId = require("./getTableFromId")
+const getAssetUrl = require("./getAssetUrl")
 // const getPageChunkFromId = require("./getPageChunkFromId")
 
 const call = require("./call")
@@ -99,20 +100,24 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
           > $list {"class": "test-list", "itemContainerClass": "_card _padding", "coverField":"Cover Image", "showFields": "Name, Author, Description, DOI", "linkField":"URL"}
             @link to pages
         */
-        let optionStr = block.properties.title[0][0].substring(5).trim()
-        let options
-        if(optionStr) {
-          options = JSON.parse(optionStr)
-        }
-
-        markdown.push(`<div class="${options.class ? options.class : ''} list-block-container">\n`)
-        addIndentation = false
-        toggleRecurse = false // don't recurse standard markdown
-
-        console.log('[$list block] >>>> options:', options)
-
 
         try {
+
+          let optionStr = block.properties.title[0][0].substring(5).trim()
+
+          console.log('OPTIONSTR:::: ', optionStr)
+          let options
+          if(optionStr) {
+            options = JSON.parse(optionStr)
+          }
+
+          markdown.push(`<div class="${options.class ? options.class : ''} list-block-container">\n`)
+          addIndentation = false
+          toggleRecurse = false // don't recurse standard markdown
+
+          console.log('[$list block] >>>> options:', options)
+
+
           await asyncForEach(block.content, async contentId => {
             const _content = await getContentFromId({id: contentId, depth, recordMap, collectionMap, addIndentation: false})
             // console.log('[$list block] >>>> properties: ', _content.properties)
@@ -128,22 +133,30 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
 
               Object.keys(_content.properties).map(key => {
                 if(collectionSchema[key]) {
-                  schema[collectionSchema[key]['name']] = _content.properties[key][0][0]
+                  // console.log('?!?!?!?!?! ', _content.properties[key][0])
+                  // sometimes links or images will contain the actual link in the second object in the array in a weird nested object
+                  if(_content.properties[key][0][1]) {
+                    let url = getAssetUrl(_content.properties[key][0][1][0][1], contentId)
+                    schema[collectionSchema[key]['name']] = url
+                  } else {
+                    schema[collectionSchema[key]['name']] = _content.properties[key][0][0]
+                  }
                 }
               })
 
               // console.log('[$list block] >>>> schema:', schema)
 
+              // automatically use a Slug field if it exists
               let linkAttr = ''
-              if(options['linkField'] && schema[options['linkField']]) {
-                linkAttr = `data-link="${schema[options['linkField']]}"`
-                markdown.push(`<a class="list-block-link" href="${schema[options['linkField']]}">`)
+              if(options['linkField'] && (schema[options['linkField']] || schema['Slug'])) {
+                linkAttr = `data-link="${schema[options['linkField']] || schema['Slug']}"`
+                markdown.push(`<a class="list-block-link" href="${schema[options['linkField']] || schema['Slug']}">`)
               }
 
               markdown.push(`<div class="list-block-item-container ${options['itemContainerClass'] ? options['itemContainerClass'] : ''}" ${linkAttr}>`)
 
               if(options['coverField'] && schema[options['coverField']]) {
-                // console.log('cover:', options.coverField, schema[options.coverField])
+                // console.log('Coverfield:?::', options.coverField, schema[options.coverField])
                 markdown.push(`<img class="list-block-cover" alt="Cover image" src="${schema[options['coverField']]}">`)
               }
 
@@ -158,14 +171,16 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
               })
             }
 
+            // there's a weird bug if a $list ends with empty rows, it'll add more </div>s
+            
             markdown.push(`</div>`) // end list-block-item
             markdown.push(`</div>`) // end list-block-item-container
-            if(options['linkField'] && schema[options['linkField']]) {
+            if(options['linkField'] && (schema[options['linkField']] || schema['Slug'])) {
               markdown.push(`</a>`)
             }
           })
         } catch(e) {
-          console.errror([''])
+          console.error(['Toggle $List block error'], e)
         }
 
         // execution code still remains as a code block... this could open up more vulns
@@ -196,7 +211,7 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
       }
 
       if(block.properties.title[0] && block.properties.title[0] && 
-        (block.properties.title[0][0].includes('$code') || block.properties.title[0][0].includes('$code'))) {
+        (block.properties.title[0][0].includes('$code') || block.properties.title[0][0].includes('$list'))) {
         markdown.push(`</div>\n\n`)
       } else if (block.properties.title[0] && block.properties.title[0] && block.properties.title[0][0][0] === '<') {
         markdown.push(`</${tag}>\n\n`)
