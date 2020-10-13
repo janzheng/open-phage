@@ -13,7 +13,7 @@
 import { logger, logerror } from '../logger';
 import { cachet } from '../sapper-helpers';
 
-export const getProfile = (_phid, fetch, swr=true) => {
+export const getProfile = (_phid, fetch, swr=true, refresh=false) => {
   try {
     // fetch is passed from the browser
     if(fetch) {

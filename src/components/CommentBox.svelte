@@ -16,18 +16,16 @@
 				<div class="_card _padding">
 					<div class="_grid-2 _align-vertically">
 						<div class="">
-							{#await getProfileByPhid(item._phid) then profile}
-								{#if profile && profile.data}
-									<div class={`FaveThumb-profile`}>
-										<a href={`/user/${profile.data.fields['userName']}`}>
-											{#if profile.data.fields['ProfileImage'] && profile.data.fields['ProfileImage'].length > 0 }
-												<img class="FaveThumb-profile-img" alt={`profile for ${profile.data.fields['userName']}`} src={ profile.data.fields['ProfileImage'][0]['thumbnails']['small']['url'] }>
-											{/if}
-											<span class="FaveThumb-profile-username">{ profile.data.fields['userName'] }</span>
-										</a>
-									</div>
-								{/if}
-							{/await}
+							{#if $profiles[item._phid] && $profiles[item._phid].data}
+								<div class={`FaveThumb-profile`}>
+									<a href={`/user/${$profiles[item._phid].data.fields['userName']}`}>
+										{#if $profiles[item._phid].data.fields['ProfileImage'] && $profiles[item._phid].data.fields['ProfileImage'].length > 0 }
+											<img class="FaveThumb-profile-img" alt={`profile for ${$profiles[item._phid].data.fields['userName']}`} src={ $profiles[item._phid].data.fields['ProfileImage'][0]['thumbnails']['small']['url'] }>
+										{/if}
+										<span class="FaveThumb-profile-username">{$profiles[item._phid].data.fields['userName'] }</span>
+									</a>
+								</div>
+							{/if}
 						</div>
 						<div class="_font-small _right">{ getPrettyDate(item.ts) }</div>
 					</div>
@@ -105,8 +103,9 @@
 <script>
 
   import { goto, stores } from '@sapper/app';
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
 	import { User } from '../stores/stores.js';
+	import { get, writable } from 'svelte/store';
 
   import { getProfile } from '../_utils/auth/get-profile';
   import { fetchPost } from '../_utils/fetch-helpers';
@@ -118,11 +117,23 @@
   export let locationId
 	let comments, comment, message, isPosting=false
 	let user, userData // userData used to id user on Fauna using _phid
-	let profile
+	let profile 
+	let profileStores=[] // stores a bunch of profile swr subscriptions, will need to be unsubbed
+	let profiles = writable({})
 
   onMount(async () => {
   	await loadComments()
   })
+
+  onDestroy(() => {
+  	profileStores.map(unsub=>{
+  		unsub() // unsubscribe all the profiles
+  	})
+  })
+
+
+
+
 
 	$: if(User && !$User['__isLoading']) {
   	userData = {
@@ -142,10 +153,25 @@
     comments = await fetch(`api/comments?locId=${locationId}`).then(r => r.json())
 	} 
 
-	const getProfileByPhid = async (_phid) => {
-		profile = await getProfile(_phid, fetch)
-		return $profile
-	} 
+ 	$: if (comments && comments.data.length > 0) {
+		let _profiles = comments.data.map((item) => {
+
+			// habe to subscribe to each profile object and assign it to a reactive store
+			let profile = getProfile(item._phid, fetch, false, true)
+			
+			let unsub = profile.subscribe(v=>{
+				profiles.update(state=>{
+					state[item._phid] = v
+					return state
+				})
+			})
+			profileStores.push(unsub)
+
+
+		})
+	}
+
+
 
 	const postComment = async () => {
 		const data = {
