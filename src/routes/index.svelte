@@ -47,13 +47,13 @@
       <div class="_divider-top">
         <CapsidSignup />
       </div>
-
+<!-- 
       <div class="_divider-top">
         {#if yotion && yotion['Slug|test-block']}
           <div>{@html marked(yotion['Slug|test-block'][0].content.markdown.join('') || '')}</div>
         {/if}
       </div>
-
+ -->
       <div class="_divider-top">
         {#if yotion}
           <div>{@html marked(yotion['Slug|joint-project'][0].content.markdown.join('') || '')}</div>
@@ -100,7 +100,7 @@
   import { onMount, getContext, setContext } from 'svelte';
 
   import CapsidSignup from '../components/CapsidSignup.svelte'
-  import { getUser } from '../_utils/auth/get-user';
+  // import { getUser } from '../_utils/auth/get-user';
 
   // Content passed down from layout
   const Content$ = getContext('Content')

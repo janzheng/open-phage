@@ -21,7 +21,20 @@
 
       <LectureCard lecture={heroLecture} />
 
+      <div class="Lectures-body _section _divider-top _divider-bottom">
+        <div class="Lectures-main">
+          {#if lectures}
+            {#each lectures as item}
+              <LectureCard class="_margin-bottom-2" lecture={item} showSeries={true} showMaterial={true} />
+            {/each}
+          {/if}
+        </div>
+      </div>
 
+
+
+<!-- This shows a sidebar of library and protocol items -->
+<!-- 
       <div class="Lectures-body _section _grid-2-1 _grid-gap-large _divider-top _divider-bottom">
         <div class="Lectures-main">
           {#if lectures}
@@ -50,7 +63,7 @@
           </div>
         </div>
       </div>
-
+ -->
 
 
     </div>

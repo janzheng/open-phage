@@ -58,7 +58,8 @@ const useBabel = {
 		'@babel/plugin-transform-classes',
   	'@babel/plugin-transform-arrow-functions', 
   	'@babel/plugin-transform-typeof-symbol', 
-		'@babel/plugin-syntax-dynamic-import'
+		'@babel/plugin-syntax-dynamic-import',
+		'@babel/plugin-syntax-import-meta',
 	]
 }
 

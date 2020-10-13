@@ -44,7 +44,7 @@
 
 // $list {"class": "test-list", "itemContainerClass": "_card _padding", "coverField":"Cover Image", "showFields": "Name, Author, Description, DOI", "linkField":"URL"}
 
-	// $: console.log(lecture)
+	$: console.log('Lecture Card:', lecture)
 
 
 </script>
