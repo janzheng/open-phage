@@ -19,6 +19,7 @@
 
     <div class=" _margin-center _divider-top _divider-bottom">
 
+      <h1>Reference Library</h1>
       <!-- <div class="_section _grid-1-3 _divider-top">
         <div>
         	<h2 class="_padding-top-none">Videos</h2>

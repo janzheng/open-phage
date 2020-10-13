@@ -1,18 +1,17 @@
 
 {#if lecture}
 	<div class="Lecture list-block-container"> 
-		<div class="list-block-item-container _card _padding">
+		<a rel=prefetch class="list-block-link" href={lecture.fields['URL']}>
+			<div class="list-block-item-container list-card _card _padding">
 
-			<a rel=prefetch class="list-block-link" href={lecture.fields['URL']}>
-				{#if lecture.fields['Cover Image']}
-					<img alt="lecture cover img" class="Lecture-cover" src={ lecture.fields['Cover Image'][0] }>
-				{/if}
-				<p data-field="Name">{ lecture.title[0][0] }</p>
+			{#if lecture.fields['Cover Image']}
+				<img alt="lecture cover img" class="Lecture-cover" src={ lecture.fields['Cover Image'][0] }>
+			{/if}
+			<p data-field="Name">{ lecture.title[0][0] }</p>
 
-				{#if lecture.fields['Author']}
-					<p data-field="Author">{ lecture.fields['Author'] }</p>
-				{/if}
-			</a>
+			{#if lecture.fields['Author']}
+				<p data-field="Author">{ lecture.fields['Author'] }</p>
+			{/if}
 
 			{#if lecture.fields['Description']}
 				<div data-field="Description">{@html marked(lecture.fields['Description'] || '') }</div>
@@ -29,7 +28,9 @@
 				</div>
 			{/if}
 
-		</div>
+			</div>
+
+		</a>
 	</div>
 
 {/if}
@@ -47,22 +48,3 @@
 
 
 </script>
-
-<style type="text/scss">
-
-	.Lecture-series-container {
-		&, * {
-			font-size: 0.9rem;
-			line-height: 1.3rem;
-		}
-	}
-
-	.Lecture-cover {
-		width: 100%;
-		max-height: 320px;
-		object-fit: cover;
-		border-radius: 4px;
-	}
-</style>
-
-

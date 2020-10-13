@@ -205,11 +205,27 @@ workbox.routing.registerRoute(
       }),
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 50,
-        maxAgeSeconds: 7 * 24 * 60 * 60,  // 7 days
+        maxAgeSeconds: 7 * 24 * 60 * 60 * 4,  // 4 * 7 days
       }),
     ]
   })
 );
 
 
+workbox.routing.registerRoute(
+  // new RegExp('^https://dl.airtable.com'),
+  /\.(?:css)$/,
+  new workbox.strategies.CacheFirst({
+    cacheName: 'css-cache',
+    plugins: [
+      new workbox.cacheableResponse.CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new workbox.expiration.ExpirationPlugin({
+        maxEntries: 50,
+        maxAgeSeconds: 7 * 24 * 60 * 60 * 4,  // 4 * 7 days
+      }),
+    ]
+  })
+);
 

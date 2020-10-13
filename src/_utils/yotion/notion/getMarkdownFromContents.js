@@ -133,7 +133,7 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
 
               Object.keys(_content.properties).map(key => {
                 if(collectionSchema[key]) {
-                  // console.log('?!?!?!?!?! ', _content.properties[key][0])
+                  
                   // sometimes links or images will contain the actual link in the second object in the array in a weird nested object
                   if(_content.properties[key][0][1]) {
                     let url = getAssetUrl(_content.properties[key][0][1][0][1], contentId)
@@ -153,7 +153,7 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
                 markdown.push(`<a class="list-block-link" href="${schema[options['linkField']] || schema['Slug']}">`)
               }
 
-              markdown.push(`<div class="list-block-item-container ${options['itemContainerClass'] ? options['itemContainerClass'] : ''}" ${linkAttr}>`)
+              markdown.push(`<div class="list-block-item-container list-card ${options['itemContainerClass'] ? options['itemContainerClass'] : ''}" ${linkAttr}>`)
 
               if(options['coverField'] && schema[options['coverField']]) {
                 // console.log('Coverfield:?::', options.coverField, schema[options.coverField])
@@ -174,7 +174,7 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
             // there's a weird bug if a $list ends with empty rows, it'll add more </div>s
             
             markdown.push(`</div>`) // end list-block-item
-            markdown.push(`</div>`) // end list-block-item-container
+            markdown.push(`</div>`) // end list-block-item-container list-card
             if(options['linkField'] && (schema[options['linkField']] || schema['Slug'])) {
               markdown.push(`</a>`)
             }

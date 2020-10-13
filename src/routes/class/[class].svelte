@@ -24,7 +24,7 @@
 
 			{#if classObj}
 				<div class="list-block-container"> 
-					<div class="list-block-item-container _card _padding">
+					<div class="list-block-item-container list-card _card _padding">
 						{#if classObj.fields['Cover Image']}
 							<img alt="lecture cover img!!!" class="list-block-cover--page" src={ classObj.fields['Cover Image'][0] }>
 						{/if}
@@ -62,6 +62,11 @@
 							</div>
 						</a>
 					{/if}
+
+					<div class="Discussion _padding _card _divider-top">
+						<CommentBox locationId={slug} />
+					</div>
+
 				</div>
 
 			{/if}
@@ -109,11 +114,12 @@
   import marked from 'marked';
   import Video from '../../components/Video.svelte'
   import TeamCard from '../../components/TeamCard.svelte'
+	import CommentBox from '../../components/CommentBox.svelte';
 
-	export let lecture, classes, classObj, data, path, author
+	export let lecture, classes, classObj, data, path, author, slug
 
-	$: console.log(path)
-	$: console.log(data)
+	// $: console.log(path)
+	// $: console.log(data)
 
 	function getNextClass() {
 		const classId = classObj.id

@@ -4,49 +4,5 @@
 
 <style type="text/scss">
 
-	.FooterSignups-capsid {
-	  background: #f1fbff;
-	  border-top: 1px solid;
-	  border-bottom: 1px solid;
-	  border-right: 1px solid;
-	  border-left: solid 6px;
-	  border-color: #50cde0;
-	  // @extend ._shadow-1;
-
-	  input._form-input {
-	    background-color: #fbfdff;
-
-	    border-style: solid;
-	    border-width: 2px;
-	    border-color: #0084FF;
-	    border-top-color: transparent;
-	    border-left-color: transparent;
-	    border-right-color: transparent;
-
-	    &:hover, &:active, &:focus {
-	      border-style: solid;
-	      border-width: 2px;
-	      border-color: #0084FF;
-	      background-color: #fbfdff
-	    };
-	  }
-	  ._button {
-	    // font-weight: 700;
-	    margin: 0;
-	    background: transparent; //usetheme(capsid-cta-bg-color, $footer);
-	    border-color: #0084FF;
-	    color: #0084FF;
-	    &:hover {
-	      background: #0084FF;
-	      border-color: #0084FF;
-	      color: #fbfdff;
-	    };
-
-	    @media (max-width: 640px) {
-	      margin-top: 0.5rem;
-	      width: 100%;
-	    }
-	  }
-	}
 
 </style>

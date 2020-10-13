@@ -5,7 +5,7 @@
     const protocol = await this.fetch(`/api/notion?getField=Slug|${params.protocol}`).then(r => r.json())
 		
 
-		return { protocol: undefined || protocol[ref][0], slug: params.protocol};
+		return { protocol: undefined || protocol[ref][0], slug: `protocols-${params.protocol}`};
 	}
 </script>
 
@@ -15,7 +15,7 @@
 
 		{#if protocol}
 			<div class="list-block-container"> 
-				<div class="list-block-item-container _card _padding">
+				<div class="list-block-item-container list-card _card _padding">
 					{#if protocol.fields['Cover Image']}
 						<img alt="protocol cover img!!!" class="list-block-cover--page" src={ protocol.fields['Cover Image'][0] }>
 					{/if}
@@ -35,6 +35,10 @@
 				</div>
 			</div>
 
+			<div class="Discussion _padding _card _divider-top">
+				<CommentBox locationId={slug} />
+			</div>
+
 		{/if}
 	</div>
 </div>
@@ -44,9 +48,12 @@
 <script>
 
   import marked from 'marked';
-	export let protocol
 
-	$: console.log(protocol)
+	import CommentBox from '../../components/CommentBox.svelte';
+	
+	export let protocol, slug
+
+	$: console.log(protocol, slug)
 
 
 </script>
@@ -54,3 +61,5 @@
 <style>
 
 </style>
+
+

@@ -44,8 +44,8 @@ $height-input: 48px; //inherit; // coeur sets a height limit on inputs, but we d
 
 $sizes: (
   size-diff: 0,
-  size: 18px,
-  lineheight: 31px,
+  size: 17px,
+  lineheight: 30px,
 
   font-large: 19px,
 
@@ -131,7 +131,6 @@ $baseline: $sizeline;
 
 $colors: (
   warning: #F53232,
-  brand-orange: #FB9E1A,
 ); 
 @include addtheme($colors);
 
@@ -142,15 +141,19 @@ $colors-brand: (
   brand: #71EFF5, // dark blue
   brand-copy: rgba(0,0,0,.87),
   brand-active: #0163e4,
+  brand-lighter: lighten(#0163e4, 51%),
   brand-light: lighten(#0163e4, 12%),
   brand-dark: darken(#0163e4, 12%),
-  brand-alt: #ab0a0a,
+  brand-alt: #0722ab, // dark red doesn't look good: #ab0a0a,
   brand-focus: #00D7D9,
   background-light: #E7FBFF,
   brand-white: #FAFAFA,
   background-white: #FAFAFA,
   brand-background: #374f6a,
   brand-footer: #f3f3f3,
+  brand-red: #b90236,
+  brand-soft: #c9e0ff,
+  brand-orange: #F53232
 );
 
 @include addtheme($colors-brand);
@@ -218,9 +221,9 @@ $context: (
   // alert-color-cta: usetheme(teal_dull, $colors),
   alert: usetheme(warning, $colors),
   success: usetheme(secondary-500),
-  warning: usetheme(quarternary),
-  info: usetheme(_brown, $colors_),
-  danger: usetheme(red, $colors_),
+  warning: usetheme(brand-orange),
+  info: usetheme(brand-orange),
+  danger: usetheme(brand-red),
   disabled: usetheme(silver, $colors_),
   transparent: usetheme(transparent, $colors_),
 );

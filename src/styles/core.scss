@@ -1,26 +1,26 @@
-                
-     
+                  
        
+        
   
-@import '../../node_modules/coeur/styles/_head-reset.scss';  
+@import '../../node_modules/coeur/styles/_head-reset.scss';   
   
-     
-@import 'settings.scss';
+         
+@import 'settings.scss';  
 @import 'design.scss';
 @import 'layout'; // typography, basic design & whitespace
 
-
+ 
 // @import '../../node_modules/coeur/styles/head-typography';
  
-@import 'openphage.scss'; 
-
-    
-// modular    
+@import 'project';  
+ 
+      
+// modular      
 // @import 'components'; 
 // @import 'sections';
 // @import 'templates';
-
  
+  
 .ContentFrame-body {
 	// padding-bottom: 140px; // $size-9;
   position: relative;
@@ -30,7 +30,7 @@
   
 
 input {
-	-webkit-appearance: none;
+	-webkit-appearance: none; 
 }
  
 
@@ -75,19 +75,46 @@ input {
 
 
 @import '../../node_modules/coeur/styles/_body-starter.scss';
-
-// defined units
+ 
+// defined units 
 $unit: $size;
 $line-height: $unit * 1.6;
 $radius: $unit/4;
 
-$cool: red;
+$cool: red;  
 
 
 @import '../styles/_addendum.scss';
-
+ 
 
 html, body, * {
 	@extend ._font-body;
 }
+ 
+ 
+
+
+ 
+
+input[type=text],
+input[type=password],
+input[type=file],
+textarea,  {
+  border-radius: $radius;
+  border: $border-thin solid usetheme(brand-soft);
+  // border-color: usetheme(brand-light);
+
+  &:hover {
+    border-color:usetheme(brand-light);
+  }
+
+  &:focus {
+    border-color:usetheme(brand-active);
+  }
+}
+
+
+
+
+
 

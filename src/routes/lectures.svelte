@@ -116,11 +116,3 @@
 
   
 </script>
-
-<style type="text/scss">
-
-  :global(.Lectures-sidebar img) {
-    display: none;
-  }
-
-</style>

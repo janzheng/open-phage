@@ -1,0 +1,226 @@
+<!-- 
+
+	from tutorial: https://www.smashingmagazine.com/2020/06/static-sites-jamstack-apps-faunadb/
+
+	Consolidated files since I hate component hell
+
+ -->
+
+<div class="CommentBox">
+
+	<div class="Comments">
+		<h4 class="_margin-bottom">Comments</h4>
+
+    {#if comments && comments.data.length > 0}
+			{#each comments.data as item}
+				<div class="_card _padding">
+					<div class="_grid-2 _align-vertically">
+						<div class="">
+							{#await getProfileByPhid(item._phid) then profile}
+								{#if profile && profile.data}
+									<div class={`FaveThumb-profile`}>
+										<a href={`/user/${profile.data.fields['userName']}`}>
+											{#if profile.data.fields['ProfileImage'] && profile.data.fields['ProfileImage'].length > 0 }
+												<img class="FaveThumb-profile-img" alt={`profile for ${profile.data.fields['userName']}`} src={ profile.data.fields['ProfileImage'][0]['thumbnails']['small']['url'] }>
+											{/if}
+											<span class="FaveThumb-profile-username">{ profile.data.fields['userName'] }</span>
+										</a>
+									</div>
+								{/if}
+							{/await}
+						</div>
+						<div class="_font-small _right">{ getPrettyDate(item.ts) }</div>
+					</div>
+					<p class="_padding-top">{item.comment}</p>
+				</div>
+			{/each}
+		{:else}
+			<div class="_card _padding">
+				Be the first to leave a comment!
+			</div>
+		{/if}
+  </div>
+
+
+
+
+  {#if User && $User['Profile']}
+	  <form class="Formlet _padding-top-2" on:submit|preventDefault={async ()=> {
+	  	isPosting=true
+	  	await postComment()
+	  	isPosting=false
+	  }}>
+		  <div class="Formlet Formlet-textarea _form-control">
+		    <label for="sigMessage" class="_form-label">Leave a comment
+		    <textarea id="sigMessage"
+		              ref="textarea"
+		              name="sigMessage"
+		              rows="2"
+		              class="_form-input _block" 
+		              type="text"
+		              bind:value={comment}
+		    />
+			</div>
+
+			<div>
+				<button type="submit" class="_button __width-full __action _margin-bottom-none">Say something nice!</button>
+			</div>
+
+			{#if message}
+				<div class="_message __success _margin-top">
+					{ message }
+				</div>
+			{/if}
+		</form>
+
+	{:else}
+		<div class="_card __flat _padding">
+			<a href="/login">Log in</a> to leave a comment
+		</div>
+	{/if}
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+  import { goto, stores } from '@sapper/app';
+  import { onMount } from 'svelte';
+	import { User } from '../stores/stores.js';
+
+  import { getProfile } from '../_utils/auth/get-profile';
+  import { fetchPost } from '../_utils/fetch-helpers';
+  import { logger, logerror } from '../_utils/logger';
+
+
+  // can be url, id slug, to tie these messages to a permalink, thread, etc.
+  // if none provided, this is just a "general" message thread
+  export let locationId
+	let comments, comment, message, isPosting=false
+	let user, userData // userData used to id user on Fauna using _phid
+	let profile
+
+  onMount(async () => {
+  	await loadComments()
+  })
+
+	$: if(User && !$User['__isLoading']) {
+  	userData = {
+  		_phid: $User._phid,
+  		id: $User.id,
+  		userName: $User.userName
+  	}
+	}
+
+
+	const getPrettyDate = (ts) => {
+		const dateObj = new Date(ts / 1000);
+		return `${dateObj.toLocaleString('default', {weekday: 'long'})}, ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getDate()} at ${dateObj.toLocaleTimeString('default', {hour: '2-digit',minute: '2-digit', hour12: false})}`
+	}
+
+	const loadComments = async () => {
+    comments = await fetch(`api/comments?locId=${locationId}`).then(r => r.json())
+	} 
+
+	const getProfileByPhid = async (_phid) => {
+		profile = await getProfile(_phid, fetch)
+		return $profile
+	} 
+
+	const postComment = async () => {
+		const data = {
+			comment,
+			locId: locationId
+		}
+
+		if(!comment) {
+			message = "Don't forget to leave a nice comment!"
+			return
+		}
+
+		try {
+
+      const response = await fetchPost('/api/comments', data, fetch)
+			// success
+			if(response.status == 200) {
+				const result = await response.json()
+				loadComments() // reload messages, since no db stream
+				comment = ''
+				message = 'Message added!'
+			}
+
+			// error
+			if(response.status == 400) {
+				message = 'The comments server is currently offline'
+				// url = ''
+				// isLoading = false
+			}
+
+		} catch(err) {
+			console.error('signature post error:', err)
+			// error = err.message
+			// isLoading = false
+		}
+	}
+
+
+
+</script>
+
+
+<style type="text/scss">
+
+	.ProfileImage {
+		object-fit: cover;
+		border-radius: 100%;
+		width: 48px;
+		height: 48px;
+		vertical-align: middle;
+		margin-right: 16px;
+	}
+
+
+
+	.FaveThumb-profile {
+		// margin-top: 0.5rem;
+
+		a {
+			text-decoration: none;
+		}
+	}
+
+	.FaveThumb-profile-img {
+		object-fit: cover;
+		border-radius: 100%;
+		width: 48px;
+		height: 48px;
+		vertical-align: middle;
+		margin-right: 1rem;
+	}
+
+
+</style>
+
+
+
+

@@ -22,7 +22,7 @@
 
 		{#if lecture}
 			<div class="list-block-container"> 
-				<div class="list-block-item-container _card _padding">
+				<div class="list-block-item-container list-card _card _padding">
 					{#if lecture.fields['Cover Image']}
 						<img alt="lecture cover img!!!" class="list-block-cover--page" src={ lecture.fields['Cover Image'][0] }>
 					{/if}
@@ -54,6 +54,7 @@
 							{/if}
 
 							<div class="_margin-bottom-2">{@html marked(item.content.markdown.join('') || '') }</div>
+
 						{/each}
 					{/if}
 
@@ -82,6 +83,12 @@
 					{/if}
 
 				</div>
+
+				{#if classes.length == 1}
+					<div class="Discussion _padding _card _divider-top">
+						<CommentBox locationId={slug} />
+					</div>
+				{/if}
 			</div>
 
 		{/if}
@@ -94,18 +101,17 @@
 
   import marked from 'marked';
   import Video from '../../components/Video.svelte'
-	export let lecture, classes
+	import CommentBox from '../../components/CommentBox.svelte';
 
-	$: console.log(lecture, classes)
+	export let lecture, classes, slug
+
+	// $: console.log(lecture, classes)
 
 
 </script>
 
 <style type="text/scss">
 
-	.Lecture-link {
-		color: rgba(0, 0, 0, 0.87) !important;
-	}
 
 </style>
 

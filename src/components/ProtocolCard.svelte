@@ -2,7 +2,7 @@
 {#if protocol}
 	<div class="list-block-container"> 
 		<a class="list-block-link" href={protocol.fields['URL']}>
-			<div class="list-block-item-container _card _padding">
+			<div class="list-block-item-container list-card _card _padding">
 				{#if protocol.fields['Cover Image']}
 					<img alt="protocol cover img" class="list-block-cover" src={ protocol.fields['Cover Image'][0] }>
 				{/if}

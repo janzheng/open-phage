@@ -16,7 +16,7 @@
 
 	export let video, videoElem
 
-	// $: console.log(videoElem)
+	$: console.log(videoElem)
 
 	// $: if(videoElem) {
 	// 	videoElem.onloadedmetadata = (event) => {

@@ -1,0 +1,40 @@
+
+
+
+
+// lectures.svelte
+
+.Lectures-sidebar img {
+  display: none;
+}
+
+
+
+// [lecture].svelte
+
+.Lecture-link {
+	color: rgba(0, 0, 0, 0.87) !important;
+}
+
+
+
+
+/*  Lecture Card  */
+
+.Lecture-series-container {
+	&, * {
+		font-size: 0.9rem;
+		line-height: 1.3rem;
+	}
+}
+
+.Lecture-cover {
+	width: 100%;
+	max-height: 320px;
+	object-fit: cover;
+	border-radius: 4px;
+}
+
+img {
+	max-width: 100%;
+}

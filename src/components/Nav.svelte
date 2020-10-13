@@ -4,6 +4,8 @@
   import Cytosis from 'cytosis'
   import marked from 'marked'
 
+	import { handleLogout } from '../_utils/auth/sapper-auth-helpers';
+
   export let segment
 
   const Content$ = getContext('Content')
@@ -14,6 +16,12 @@
   let content
   $: content = Cytosis.findOne('header', Content ).fields['Markdown']
   // }
+
+  const User = getContext('User')
+  $: if($User) {
+  	console.log('[Nav] User / Profile:', $User, $User.Profile)
+  }
+
 
 </script>
 <!--
@@ -53,15 +61,19 @@
     			<a rel=prefetch href="/library" class={segment==='library'?'_active':''}>Library</a>
     			<!-- <a href="/about">About</a> -->
     			<div>
-  					<a rel=prefetch href="/login" class={segment==='login'?'_active':''}>Login</a>
-  					<!-- <a rel=prefetch class="" href="/login#signup" class={segment==='login#signup'?'_active':''}>Signup</a> -->
+						{#if !$User || !$User.Profile}
+	  					<a rel=prefetch href="/login" class={segment==='login'?'_active':''}>Log in</a>
+	  					<a rel=prefetch href="/signup" class={segment==='signup'?'_active':''}>Sign up</a>
+						{:else}
+							<a rel=prefetch class='{segment === "profile" ? "selected" : ""}' href='profile'>{$User.Profile.fields.userName}</a>
+							<a href="/" class="_item logout __text _margin-bottom-none-i" on:click={handleLogout} >logout</a>
+						{/if}
   				</div>
     		</div>
     	</div>
     </div>
   </div>
 </nav>
-
 
 
 <style type="text/scss">
