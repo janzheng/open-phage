@@ -7,7 +7,7 @@
   }
 </script>
 
-<div class="Home">
+<div class="Home"> 
 
 
   <div class="Home-content _section-page _padding-top-2 _margin-center ">
@@ -17,30 +17,30 @@
       <!~~ <div class="Home-logo _center">
         <div class="_margin-bottom-2"><img alt="Open Phage Flowers Logo" src="/Flowers.png"></div>
       </div> ~~>
-      <div class="Home-text">
+      <div class="Home-text"> 
         {#if yotion}
           <div>{@html marked(yotion['Slug|hero-intro'][0].content.markdown.join('') || '')}</div>
         {/if}
 
         <div class="">
           <!~~ <button class="__action __short">Browse lectures</button> ~~>
-          <a href="/lectures" class="_button __cta">Browse lectures</a>
+          <a href="/lectures" class="_button __cta">Browse all lectures</a>
         </div>
       </div>
     </div>-->
 
 
 
-    <div class="Home-body _section-article _margin-center _divider-top _divider-bottom">
+    <div class="Home-body _section-article _margin-center _margin-top-2 _divider-bottom">
 
       <div class="Home-text">
         {#if yotion}
           <div>{@html marked(yotion['Slug|hero-intro'][0].content.markdown.join('') || '')}</div>
         {/if}
 
-        <div class="">
+        <div class="_margin-top-2 _margin-bottom-2">
           <!-- <button class="__action __short">Browse lectures</button> -->
-          <a href="/lectures" class="_button __cta">Browse lectures</a>
+          <a href="/lectures" class="_button __cta">Explore phage lectures</a>
         </div>
       </div>
       

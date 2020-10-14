@@ -2,7 +2,7 @@
   export async function preload(page, session) {
     // const data = await this.fetch(`/api/notion?collections=Protocols,Videos,Library`).then(r => r.json())
 
-    const data = await this.fetch(`/api/notion?collections=Lecture Series, Lecture&contents=Welcome, Protocol, Reference, Reading, Lecture&getField=Content IDs|Welcome`).then(r => r.json())
+    const data = await this.fetch(`/api/notion?collections=Lecture Series, Lecture Content, Lab Experiments&contents=Welcome, Protocol, Reference, Reading, Lecture&getField=Content IDs|Welcome`).then(r => r.json())
 
     return { data };
   }
@@ -18,8 +18,8 @@
 
 
     <div class="Lectures-container _margin-center _divider-top _divider-bottom">
-
-      <LectureCard lecture={heroLecture} />
+ 
+      <LectureCard isHero={true} lecture={heroLecture} />
 
       <div class="Lectures-body _section _divider-top _divider-bottom">
         <div class="Lectures-main">
@@ -105,7 +105,13 @@
     lectures.map(lec => {
       lec['series'] = []
       const contentName = lec.fields['Content ID']
-      data['Lecture'].map(lecItem => {
+      data['Lecture Content'].map(lecItem => {
+        if(lecItem.fields['Content ID'] == contentName)
+          lec['series'].push(lecItem)
+      })
+
+
+      data['Lab Experiments'].map(lecItem => {
         if(lecItem.fields['Content ID'] == contentName)
           lec['series'].push(lecItem)
       })

@@ -102,10 +102,9 @@
 
 <script>
 
-  import { goto, stores } from '@sapper/app';
   import { onMount, onDestroy } from 'svelte';
 	import { User } from '../stores/stores.js';
-	import { get, writable } from 'svelte/store';
+	import { writable } from 'svelte/store';
 
   import { getProfile } from '../_utils/auth/get-profile';
   import { fetchPost } from '../_utils/fetch-helpers';

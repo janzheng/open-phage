@@ -63,7 +63,7 @@
 						</a>
 					{/if}
 
-					<div class="Discussion _padding _card _divider-top">
+					<div class="Discussion _padding _card _margin-top-2">
 						<CommentBox locationId={slug} />
 					</div>
 

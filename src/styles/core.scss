@@ -1,6 +1,6 @@
-                  
-       
+                   
         
+          
   
 @import '../../node_modules/coeur/styles/_head-reset.scss';   
   
@@ -20,7 +20,7 @@
 // @import 'sections';
 // @import 'templates';
  
-  
+   
 .ContentFrame-body {
 	// padding-bottom: 140px; // $size-9;
   position: relative;
@@ -72,11 +72,11 @@ input {
 
 // // // re-cascade
 // // @import '../../node_modules/coeur/styles/_head-helpers.scss';
-
-
+   
+     
 @import '../../node_modules/coeur/styles/_body-starter.scss';
- 
-// defined units 
+       
+// defined units    
 $unit: $size;
 $line-height: $unit * 1.6;
 $radius: $unit/4;
@@ -86,15 +86,15 @@ $cool: red;
 
 @import '../styles/_addendum.scss';
  
-
+ 
 html, body, * {
 	@extend ._font-body;
 }
  
- 
+  
+   
 
-
- 
+  
 
 input[type=text],
 input[type=password],

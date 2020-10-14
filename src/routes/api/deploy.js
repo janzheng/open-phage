@@ -1,5 +1,9 @@
 
+/*
 
+	Used to redeploy the site itself using Vercel hooks
+	
+*/
 const fetch = require("node-fetch")	
 import send from '@polka/send';
 

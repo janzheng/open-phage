@@ -2303,32 +2303,32 @@ button {
 }
 
 ._color-brand-light {
-  color: #2482fe;
+  color: #94c2ff;
 }
 ._color-brand-light-i {
-  color: #2482fe !important;
+  color: #94c2ff !important;
 }
 
 ._color-bg-brand-light {
-  background-color: #2482fe;
+  background-color: #94c2ff;
 }
 ._color-bg-brand-light-i {
-  background-color: #2482fe !important;
+  background-color: #94c2ff !important;
 }
 
 ._color-border-brand-light {
-  border-color: #2482fe;
+  border-color: #94c2ff;
 }
 ._color-border-brand-light-i {
-  border-color: #2482fe !important;
+  border-color: #94c2ff !important;
 }
 
 ._color-hover-brand-light:hover {
-  color: #2482fe;
+  color: #94c2ff;
 }
 
 ._color-hoverborder-brand-light:hover:after {
-  background-color: #2482fe;
+  background-color: #94c2ff;
 }
 
 ._color-brand-dark {
@@ -15628,25 +15628,60 @@ a.--nolink, ._link.--nolink {
   display: none;
 }
 
+.Lecture-link-card {
+  border: 2px solid transparent;
+}
+.Lecture-link-card:hover {
+  border-color: #0163e4 !important;
+  text-decoration: none;
+}
+.Lecture-link-card:focus {
+  border-color: #0149a7 !important;
+  text-decoration: none;
+}
+
 .Lecture-link {
-  color: rgba(0, 0, 0, 0.87) !important;
+  text-decoration: none;
+}
+
+.Lecture-classes {
+  counter-reset: classes;
+}
+.Lecture-classes .Lecture-classes-title::before {
+  counter-increment: classes;
+  content: counter(classes) ". ";
+  display: inline;
+}
+.Lecture-classes .Lecture-classes-title p {
+  display: inline-block;
 }
 
 /*  Lecture Card  */
-.Lecture-series-container, .Lecture-series-container * {
+.LectureCard-series-container h6 {
+  font-weight: normal !important;
+}
+.LectureCard-series-container .LectureCard-series * {
   font-size: 0.9rem;
   line-height: 1.3rem;
 }
+.LectureCard-series-container p {
+  margin-bottom: 0.75rem;
+}
 
-.Lecture-cover {
+.LectureCard-cover {
   width: 100%;
   max-height: 320px;
   object-fit: cover;
   border-radius: 4px;
 }
-
-img {
+.LectureCard-cover img {
   max-width: 100%;
+}
+
+.LectureCard.__hero .list-card {
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+  border-color: #94c2ff;
 }
 
 .Home, .ContentFrame-body {
@@ -15736,8 +15771,8 @@ input.__action, button.__action, a.__action {
   color: #FAFAFA;
 }
 input.__action:hover, input.__action:active, button.__action:hover, button.__action:active, a.__action:hover, a.__action:active {
-  background-color: #2482fe;
-  border-color: #2482fe;
+  background-color: #94c2ff;
+  border-color: #94c2ff;
 }
 input.__action:focus, button.__action:focus, a.__action:focus {
   background-color: #0149a7;
@@ -15777,6 +15812,7 @@ input.__cta:focus, button.__cta:focus, a.__cta:focus {
 
 .list-block-cover--page {
   max-width: 100%;
+  width: 100%;
   max-height: 400px;
   object-fit: cover;
   margin-bottom: 2rem;
@@ -15802,6 +15838,12 @@ input.__cta:focus, button.__cta:focus, a.__cta:focus {
   text-decoration: none;
 }
 
+[data-field=Name] {
+  font-size: 1.16rem;
+  line-height: 1.65rem;
+  margin-bottom: 0.45rem;
+}
+
 [data-field=Author] {
   margin-top: 0.39rem;
   margin-bottom: 0.39rem;
@@ -15813,8 +15855,8 @@ input.__action, button.__action, a.__action {
   color: #FAFAFA;
 }
 input.__action:hover, input.__action:active, button.__action:hover, button.__action:active, a.__action:hover, a.__action:active {
-  background-color: #2482fe !important;
-  border-color: #2482fe !important;
+  background-color: #94c2ff !important;
+  border-color: #94c2ff !important;
 }
 input.__action:focus, button.__action:focus, a.__action:focus {
   background-color: #0149a7 !important;
@@ -15891,6 +15933,15 @@ input.__cta:focus, button.__cta:focus, a.__cta:focus {
     margin-top: 0.5rem;
     width: 100%;
   }
+}
+
+/* 
+
+	Tiny components
+
+ */
+video {
+  max-width: 100%;
 }
 
 .ContentFrame-body {
@@ -15996,7 +16047,7 @@ input[type=text]:hover,
 input[type=password]:hover,
 input[type=file]:hover,
 textarea:hover {
-  border-color: #2482fe;
+  border-color: #94c2ff;
 }
 input[type=text]:focus,
 input[type=password]:focus,

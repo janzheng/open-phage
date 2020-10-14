@@ -195,6 +195,7 @@ input.__cta, button.__cta, a.__cta {
 }
 	.list-block-cover--page {
 		max-width: 100%;
+		width: 100%;
 		max-height: 400px;
 		object-fit: cover;
 		margin-bottom: 2rem;
@@ -233,9 +234,9 @@ input.__cta, button.__cta, a.__cta {
 	}
 
 [data-field="Name"] {
-  // font-size: 1.2rem;
-  // line-height: 2.3rem;
-  // margin-bottom: 0.5rem;
+  font-size: 1.16rem;
+  line-height: 1.65rem;
+  margin-bottom: 0.45rem;
 }
 
 [data-field="Author"] {
@@ -327,6 +328,7 @@ input.__cta, button.__cta, a.__cta {
 
 
 
+
 /* 
 
 	Footer
@@ -380,4 +382,24 @@ input.__cta, button.__cta, a.__cta {
     }
   }
 }
+
+
+
+
+
+/* 
+
+	Tiny components
+
+ */
+
+
+video {
+	max-width: 100%;
+}
+
+
+
+
+
 

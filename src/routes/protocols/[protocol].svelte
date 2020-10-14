@@ -35,7 +35,7 @@
 				</div>
 			</div>
 
-			<div class="Discussion _padding _card _divider-top">
+			<div class="Discussion _padding _card _margin-top-2">
 				<CommentBox locationId={slug} />
 			</div>
 
@@ -53,7 +53,7 @@
 	
 	export let protocol, slug
 
-	$: console.log(protocol, slug)
+	// $: console.log(protocol, slug)
 
 
 </script>

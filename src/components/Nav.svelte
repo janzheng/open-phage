@@ -95,6 +95,11 @@
 
 	a { 
 		padding-right: 1rem;
+		font-size: 1.1rem;
+
+		&:last-child {
+			padding-right: 0;
+		}
 
 		&._active {
 			font-weight: bold;
