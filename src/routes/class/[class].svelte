@@ -32,7 +32,7 @@
 
 	<div class="_section-page _margin-center _margin-bottom-2">
 		<div class="Class-return-home">
-			<a  rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-top-2 _margin-bottom-none-i">Return to lecture</a>
+			<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-top-2 _margin-bottom-none-i">Return to lecture</a>
 		</div>
 	</div>
 
@@ -123,7 +123,7 @@
 			{#if classes.length > 1}
 				<div class="Class-sidebar">
 					<div class="_margin-bottom">
-						<h6 class="_padding-top-none-i">{ lecture.title[0][0] }</h6>
+						<a class="__underline-none" rel=prefetch href={`/lecture/${lecture.fields['Slug']}`}><h6 class="_padding-top-none-i">{ lecture.title[0][0] }</h6></a>
 					</div>
 
 					<div class="Lecture-classes">

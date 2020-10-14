@@ -12,15 +12,22 @@
 
     const lecture = await this.fetch(`/api/notion?getLecture=${params.lecture}`).then(r => r.json())
 
-    // get the class if it's only one
-    let classObj
+    // get the class if it's only one / convenience
+    let firstClassObj
 
     // this renders the class here rather than on a /class/ route 
     if (lecture.classes.length == 1) {
-    	classObj = await this.fetch(`/api/notion?getClass=${lecture.classes[0].fields['Slug']}`).then(r => r.json())
+    	firstClassObj = await this.fetch(`/api/notion?getClass=${lecture.classes[0].fields['Slug']}`).then(r => r.json())
     }
 
-		return { lecture: lecture.lecture, classes: lecture.classes, slug: params.lecture, classObj};
+    // build classes for each??
+    let _lectures = lecture.classes.map(async (_class,i) => {
+    	let _cl = await this.fetch(`/api/notion?getClass=${_class.fields['Slug']}`).then(r => r.json())
+    	lecture.classes[i]['classObj'] = _cl
+    })
+    await Promise.all(_lectures)
+
+		return { lecture: lecture.lecture, classes: lecture.classes, slug: params.lecture, firstClassObj};
 	}
 </script>
 
@@ -64,10 +71,10 @@
 								<!-- <p data-field="Name">{ lecture.title[0][0] }</p> -->
 
 
-								{#if classObj['author']}
+								{#if firstClassObj['author']}
 									<!-- <p data-field="Author">{ classObj.fields['Author'] }</p> -->
 									<div class="_margin-top _margin-bottom-2" >
-										<TeamCard profile={classObj['author']} inline={true} />
+										<TeamCard profile={firstClassObj['author']} inline={true} />
 									</div>
 								{/if}
 
@@ -119,9 +126,13 @@
 							{/if}
 							<!-- <p data-field="Name">{ lecture.title[0][0] }</p> -->
 
-							{#if lecture.fields['Author']}
+							<!--{#if lecture.fields['Author']}
 								<p data-field="Author">{ lecture.fields['Author'] }</p>
-							{/if}
+								<div class="_margin-top _margin-bottom-2" >
+									<!~~ <TeamCard profile={lecture.classObj['author']} inline={true} /> ~~>
+								</div>
+							{/if}-->
+
 
 							{#if lecture.fields['Description']}
 								<p class="_margin-top-2 _margin-bottom-2" data-field="Description">
@@ -145,7 +156,11 @@
 											<strong class="Lecture-classes-title">{@html marked(item.title[0][0]) }</strong>
 										</a>
 										{#if item.fields['Author']}
-											<p data-field="Author">{ item.fields['Author'] }</p>
+											<!-- <p data-field="Author">{ item.fields['Author'] }</p> -->
+											
+											<div class="_margin-top _margin-bottom-2" >
+												<TeamCard profile={item.classObj['author']} inline={true} />
+											</div>
 										{/if}
 
 										{#if item.fields['Description']}
@@ -181,9 +196,9 @@
   import Breadcrumbs from '../../components/Breadcrumbs.svelte'
   import TeamCard from '../../components/TeamCard.svelte'
 
-	export let lecture, classes, slug, classObj
+	export let lecture, classes, slug, firstClassObj
 
-	$: console.log('[lecture]', classObj, lecture, classes)
+	$: console.log('[lecture]', firstClassObj, lecture, classes)
 
 
 </script>
