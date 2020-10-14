@@ -1,27 +1,49 @@
-<div class="_card _padding">
-  <div class="_grid-1-4">
-    <div>
-      {#if profile.fields['Profile Image']}
-        <div><img class="profile-img" src={profile.fields['Profile Image'][0]} alt={`${profile.fields['Name']} profile image`}></div>
-      {/if}
-    </div>
-    <div>
-      <h3>{profile.fields['Name']}</h3>
-      <p><em>{profile.fields['Content Types'].join(',')}</em></p>
-      <div>{@html marked(profile.fields['Short'] || '')}</div>
-      {#if !profile.fields['Video'] }
+
+
+  {#if inline}
+    <!-- used as embeds on lecture/class pages -->
+
+    <a class="TeamCard-link" href={`/team#${profile.fields['Slug']}`}>
+      <div id={profile.fields['Slug']} class="TeamCard __inline ">
+        <div class="_grid-1-7 _align-vertically">
+          <div>
+            {#if profile.fields['Profile Image']}
+              <div><img class="profile-img" src={profile.fields['Profile Image'][0]} alt={`${profile.fields['Name']} profile image`}></div>
+            {/if}
+          </div>
+          <div>
+            <div>{profile.fields['Name']}</div>
+            <p class="_font-small"><em>{profile.fields['Content Types'].join(',')}</em></p>
+          </div>
+        </div>
+      </div>
+    </a>
+  {:else}
+    <div id={profile.fields['Slug']} class="TeamCard __wide _card _padding">
+
+      <div class="_grid-1-4">
+        <div>
+          {#if profile.fields['Profile Image']}
+            <div><img class="profile-img" src={profile.fields['Profile Image'][0]} alt={`${profile.fields['Name']} profile image`}></div>
+          {/if}
+        </div>
+        <div>
+          <h3>{profile.fields['Name']}</h3>
+          <p><em>{profile.fields['Content Types'].join(',')}</em></p>
+          <div>{@html marked(profile.fields['Short'] || '')}</div>
+          {#if !profile.fields['Video'] }
+            <div class="_margin-top-2">{@html marked(profile.fields['Long'] || '') }</div>
+          {/if}
+        </div>
+
+      </div>
+    	{#if profile.fields['Video'] && profile.fields['Video'][0]}
+        <Video video={profile.fields['Video'][0]} />
         <div class="_margin-top-2">{@html marked(profile.fields['Long'] || '') }</div>
-      {/if}
+    	{/if}
     </div>
+  {/if}
 
-  </div>
-	{#if profile.fields['Video'] && profile.fields['Video'][0]}
-    <Video video={profile.fields['Video'][0]} />
-    <div class="_margin-top-2">{@html marked(profile.fields['Long'] || '') }</div>
-	{/if}
-
-
-</div>
 
 
 
@@ -32,7 +54,7 @@
   import { onMount, getContext, setContext } from 'svelte';
   import Video from './Video.svelte'
 
-  export let profile
+  export let profile, inline
 
 </script>
 
@@ -43,10 +65,12 @@
 
 <style type="text/scss">
 
-  .profile-img {
-    width: 100%;
-    max-width: 150px;
-    border-radius: 100%;
-
+  .__wide {
+    .profile-img {
+      width: 100%;
+      max-width: 150px;
+      border-radius: 100%;
+    }
   }
+
 </style>

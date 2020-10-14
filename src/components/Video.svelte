@@ -31,7 +31,7 @@
 		captionSrc = captions[0]
 	}
 
-	$: console.log('[Video]', video, videoElem, coverImg, filesize, captionSrc)
+	// $: console.log('[Video]', video, videoElem, coverImg, filesize, captionSrc)
 
 	// $: if(videoElem) {
 	// 	videoElem.onloadedmetadata = (event) => {

@@ -12,16 +12,23 @@
 
 // [lecture].svelte
 .Lecture-link-card {
-	border: 2px solid transparent;
+	border: 2px solid usetheme(brand-lighter);
+	box-shadow: inherit;
+	color: usetheme(brand-copy);
+	@extend %ease;
+	
+	&, * {
+		text-decoration: none;
+	}
 
   &:hover {
-		// color: usetheme(brand-copy) !important;
+		color: usetheme(brand-active) !important;
 		border-color: usetheme(brand-active) !important;
 		text-decoration: none;
 		// @extend %ease;
   }
   &:focus {
-  	// color: usetheme(brand-active);
+  	color: usetheme(brand-dark);
 		// color: usetheme(brand-copy) !important;
 		border-color: usetheme(brand-dark) !important;
 		text-decoration: none;
@@ -41,12 +48,13 @@
   	display: inline;
 	}
 	.Lecture-classes-title p {
-		display: inline-block;
+		// display: inline-block;
+		display: inline;
 	}
 }
 
 
-
+ 
 
 /*  Lecture Card  */
 

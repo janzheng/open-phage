@@ -12,7 +12,15 @@
 
     const lecture = await this.fetch(`/api/notion?getLecture=${params.lecture}`).then(r => r.json())
 
-		return { lecture: lecture.lecture, classes: lecture.classes, slug: params.lecture};
+    // get the class if it's only one
+    let classObj
+
+    // this renders the class here rather than on a /class/ route 
+    if (lecture.classes.length == 1) {
+    	classObj = await this.fetch(`/api/notion?getClass=${lecture.classes[0].fields['Slug']}`).then(r => r.json())
+    }
+
+		return { lecture: lecture.lecture, classes: lecture.classes, slug: params.lecture, classObj};
 	}
 </script>
 
@@ -55,8 +63,12 @@
 
 								<!-- <p data-field="Name">{ lecture.title[0][0] }</p> -->
 
-								{#if lecture.fields['Author']}
-									<p data-field="Author">{ lecture.fields['Author'] }</p>
+
+								{#if classObj['author']}
+									<!-- <p data-field="Author">{ classObj.fields['Author'] }</p> -->
+									<div class="_margin-top _margin-bottom-2" >
+										<TeamCard profile={classObj['author']} inline={true} />
+									</div>
 								{/if}
 
 								<!-- hide the card description for single classes since you jump right in -->
@@ -167,10 +179,11 @@
 	import CommentBox from '../../components/CommentBox.svelte'
 	import entities from 'entities'
   import Breadcrumbs from '../../components/Breadcrumbs.svelte'
+  import TeamCard from '../../components/TeamCard.svelte'
 
-	export let lecture, classes, slug
+	export let lecture, classes, slug, classObj
 
-	$: console.log('[lecture]', lecture, classes)
+	$: console.log('[lecture]', classObj, lecture, classes)
 
 
 </script>

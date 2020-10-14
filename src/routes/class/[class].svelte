@@ -30,18 +30,18 @@
 	  />
   {/if}
 
-	<div class="_section-page _margin-center _divider-bottom">
+	<div class="_section-page _margin-center _margin-bottom-2">
 		<div class="Class-return-home">
 			<a  rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-top-2 _margin-bottom-none-i">Return to lecture</a>
 		</div>
 	</div>
 
 
-	<div class="_section-page _margin-center _divider-top _divider-bottom">
+	<div class="_section-page _margin-center _margin-top-2 _divider-bottom">
 
 		<h2>{ classObj.title[0][0] }</h2>
 
-		<div class={` _padding-top-2  ${classes.length > 1 ? '_grid-3-1 _grid-gap-large' : ''}`}>
+		<div class={` _padding-top-2  ${classes.length > 1 ? '_grid-3-1' : ''}`}>
 			
 		  <div class="Class-body">
 
@@ -49,25 +49,35 @@
 				{#if classObj}
 					<div class="list-block-container"> 
 						<div class="list-block-item-container list-card _card _padding">
-							{#if classObj.fields['Cover Image']}
-								<img alt="lecture cover img!!!" class="list-block-cover--page" src={ classObj.fields['Cover Image'][0] }>
-							{/if}
+							{#if classObj.fields['Video'] && classObj.fields['Video'][0]}
+			    				<div class=" _margin-bottom-2">
+			            	<Video cover={classObj.fields['Video Cover']} video={classObj.fields['Video'][0]} filesize={classObj.fields['Video Size']} captions={classObj.fields['Video Captions']} />
+			            </div>
+			          {:else}
+									{#if classObj.fields['Cover Image']}
+										<img alt="lecture cover img!!!" class="list-block-cover--page" src={ classObj.fields['Cover Image'][0] }>
+									{/if}
+								{/if}
+
+
+
 
 							<!-- <p data-field="Name">{ classObj.title[0][0] }</p> -->
 
 							{#if author}
 								<!-- <p data-field="Author">{ classObj.fields['Author'] }</p> -->
-								<TeamCard profile={author} />
+								<TeamCard class="_margin-top _margin-bottom" profile={author} inline={true} />
 							{/if}
 
-							{#if classObj.fields['Description']}
+							<!-- only use descriptions on lectures index -->
+							<!-- {#if classObj.fields['Description']}
 								<div class="_margin-top-2" data-field="Description">
 									{@html marked(classObj.fields['Description'] || '') }
 								</div>
 							{/if}
-
+ -->
 							{#if classObj.content.markdown}
-								<div class="_divider-top _divider-bottom">
+								<div class="_margin-top-2">
 									{@html marked(classObj.content.markdown.join('') || '')}
 								</div>
 							{/if}
@@ -76,22 +86,24 @@
 
 						<!-- next class -->
 						{#if nextClass}
-							<a rel=prefetch class="Lecture-link" href={`/class/${nextClass.fields['Slug']}`}>
-								<div class="_margin-top _margin-bottom _padding _card">
-									Next class: 
-									<p data-field="Name">{ nextClass.title[0][0] }</p>
+							<div class="NextClass-container _margin-top _margin-bottom">
+								<a rel=prefetch class="NextClass-link __underline-none " href={`/class/${nextClass.fields['Slug']}`}>
+									<div class="NextClass-card Lecture-link-card _padding _card">
+										Next class
+										<p data-field="Name">{ nextClass.title[0][0] }</p>
 
-									{#if nextClass.fields['Description']}
-										<div class="_margin-top " data-field="Description">
-											{@html marked(nextClass.fields['Description'] || '') }
-										</div>
-									{/if}
-								</div>
-							</a>
+										{#if nextClass.fields['Description']}
+											<div class="_margin-top " data-field="Description">
+												{@html marked(nextClass.fields['Description'] || '') }
+											</div>
+										{/if}
+									</div>
+								</a>
+							</div>
 						{/if}
 
 						<div class="Class-return-home _divider-bottom">
-							<a  rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-top-2 _margin-bottom-none-i">Return to lecture</a>
+							<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-top-2 _margin-bottom-none-i">Return to lecture</a>
 						</div>
 
 						<div class="Discussion _padding _card _margin-top-2">
@@ -110,28 +122,31 @@
 			<!-- sidebar -->
 			{#if classes.length > 1}
 				<div class="Class-sidebar">
-					<div class="_margin-bottom-2">
-						<h6 class="_padding-top-2">{ lecture.title[0][0] }</h6>
+					<div class="_margin-bottom">
+						<h6 class="_padding-top-none-i">{ lecture.title[0][0] }</h6>
 					</div>
-					{#each classes as item}
-						<div class=" ">
-							<a rel=prefetch class={`Class-toc--link ${ path==='/class/'+item.fields['Slug']? '_active':''}`} href={`/class/${item.fields['Slug']}`}>
-								{#if item.fields['Cover Image']}
-									<img alt="lecture cover img" class="Lecture-cover" src={ item.fields['Cover Image'][0] }>
-								{/if}
-								{@html marked(item.title[0][0]) }
-							</a>
-							{#if item.fields['Author']}
-								<p data-field="Author">{ item.fields['Author'] }</p>
-							{/if}
 
-							<!-- 
-							{#if item.fields['Description']}
-								<p data-field="Description">{ item.fields['Description'] }</p>
-							{/if}
-							-->
-						</div>
-					{/each}
+					<div class="Lecture-classes">
+						{#each classes as item}
+							<div class="_margin-bottom">
+								<a rel=prefetch class={`Lecture-link __copy Class-toc--link ${ path==='/class/'+item.fields['Slug']? '__active':''}`} href={`/class/${item.fields['Slug']}`}>
+									<!-- {#if item.fields['Cover Image']}
+										<img alt="lecture cover img" class="Lecture-cover" src={ item.fields['Cover Image'][0] }>
+									{/if} -->
+									<span class="Lecture-classes-title">{@html marked(item.title[0][0]) }</span>
+								</a>
+								<!-- {#if item.fields['Author']}
+									<p data-field="Author">{ item.fields['Author'] }</p>
+								{/if} -->
+
+								<!-- 
+								{#if item.fields['Description']}
+									<p data-field="Description">{ item.fields['Description'] }</p>
+								{/if}
+								-->
+							</div>
+						{/each}
+					</div>
 				</div>
 			{/if}
 
@@ -180,12 +195,16 @@
 
 <style type="text/scss">
 
-	.Class-toc--link {
-		color: rgba(0, 0, 0, 0.87) !important;
+	// .Class-toc--link {
+	// 	color: rgba(0, 0, 0, 0.87) !important;
+	// }
+
+	.__active {
+		font-weight: bold;
 	}
 
-	._active {
-		font-weight: bold;
+	.Class-sidebar {
+    min-width: 250px;
 	}
 
 </style>

@@ -6276,7 +6276,7 @@ Tip: this outputs
     @include ease()
 
  */
-.list-block-link .list-card, ._card.__clickable:hover, ._card.__clickable, a.\--border-inverse:hover, ._link.\--border-inverse:hover, a.\--inactive, a.\--draft, a.\--disabled, ._link.\--inactive, ._link.\--draft, ._link.\--disabled, a.\--active, ._link.\--active, a:hover, ._link:hover, a:focus, a:active, a:visited, ._link:focus, ._link:active, ._link:visited, a, ._link, button,
+.list-block-link .list-card, .Lecture-link-card, ._card.__clickable:hover, ._card.__clickable, a.\--border-inverse:hover, ._link.\--border-inverse:hover, a.\--inactive, a.\--draft, a.\--disabled, ._link.\--inactive, ._link.\--draft, ._link.\--disabled, a.\--active, ._link.\--active, a:hover, ._link:hover, a:focus, a:active, a:visited, ._link:focus, ._link:active, ._link:visited, a, ._link, button,
 a._button,
 ._button, ._ease {
   -webkit-transition: all 230ms ease;
@@ -15607,6 +15607,19 @@ a:hover, a:active, ._link:hover, ._link:active {
   color: #0722ab !important;
   text-decoration-color: #0722ab !important;
 }
+a.__copy, ._link.__copy {
+  color: rgba(0, 0, 0, 0.87);
+}
+a.__copy:visited, ._link.__copy:visited {
+  color: rgba(0, 0, 0, 0.87);
+}
+a.__copy:hover, a.__copy:active, ._link.__copy:hover, ._link.__copy:active {
+  color: #0722ab !important;
+  text-decoration-color: #0722ab !important;
+}
+a.__copy.__active, ._link.__copy.__active {
+  color: #0163e4 !important;
+}
 a._button, ._link._button {
   text-decoration: none;
 }
@@ -15629,13 +15642,20 @@ a.--nolink, ._link.--nolink {
 }
 
 .Lecture-link-card {
-  border: 2px solid transparent;
+  border: 2px solid #eaf3ff;
+  box-shadow: inherit;
+  color: rgba(0, 0, 0, 0.87);
+}
+.Lecture-link-card, .Lecture-link-card * {
+  text-decoration: none;
 }
 .Lecture-link-card:hover {
+  color: #0163e4 !important;
   border-color: #0163e4 !important;
   text-decoration: none;
 }
 .Lecture-link-card:focus {
+  color: #0149a7;
   border-color: #0149a7 !important;
   text-decoration: none;
 }
@@ -15653,7 +15673,7 @@ a.--nolink, ._link.--nolink {
   display: inline;
 }
 .Lecture-classes .Lecture-classes-title p {
-  display: inline-block;
+  display: inline;
 }
 
 /*  Lecture Card  */
@@ -15797,8 +15817,6 @@ input.__cta:focus, button.__cta:focus, a.__cta:focus {
 
 .list-block-item-container, .list-card {
   overflow: auto;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 }
 .list-block-item-container p:last-child, .list-card p:last-child {
   margin-bottom: 0 !important;
@@ -15953,9 +15971,31 @@ video {
 .Breadcrumbs {
   background-color: #eaf3ff;
 }
+.Breadcrumbs a {
+  text-decoration: none !important;
+}
 .Breadcrumbs span {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+}
+
+.TeamCard-link {
+  text-decoration: none;
+}
+.TeamCard-link .__inline .profile-img {
+  vertical-align: middle;
+  width: 100%;
+  max-width: 65px;
+  border-radius: 100%;
+}
+.TeamCard-link, .TeamCard-link:visited {
+  color: rgba(0, 0, 0, 0.87) !important;
+}
+.TeamCard-link:hover, .TeamCard-link:active {
+  color: #0163e4 !important;
+}
+.TeamCard-link:focus {
+  color: #0149a7 !important;
 }
 
 .ContentFrame-body {

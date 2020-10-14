@@ -413,11 +413,36 @@ video {
 
 .Breadcrumbs {
 	background-color: usetheme(brand-lighter);
+	a {
+		text-decoration: none !important;
+	}
 	span {
 		padding-left: 0.5rem;
 		padding-right: 0.5rem;
 	}
 }
 
+.TeamCard-link {
+	.__inline {
+	  .profile-img {
+	  	vertical-align: middle;
+	    width: 100%;
+	    max-width: 65px;
+	    border-radius: 100%;
+	  }
+	}
 
+	text-decoration: none;
+
+	&, &:visited {
+  	color: usetheme(brand-copy) !important;
+	}
+
+  &:hover, &:active {
+  	color: usetheme(brand-active) !important;
+  }
+  &:focus {
+  	color: usetheme(brand-dark) !important;
+  }
+}
 
