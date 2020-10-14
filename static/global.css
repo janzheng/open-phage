@@ -15797,6 +15797,8 @@ input.__cta:focus, button.__cta:focus, a.__cta:focus {
 
 .list-block-item-container, .list-card {
   overflow: auto;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 .list-block-item-container p:last-child, .list-card p:last-child {
   margin-bottom: 0 !important;

@@ -9,7 +9,7 @@
 <div class="CommentBox">
 
 	<div class="Comments">
-		<h4 class="_margin-bottom">Comments</h4>
+		<h4 class="_padding-top-none-i _margin-bottom">Comments</h4>
 
     {#if comments && comments.data.length > 0}
 			{#each comments.data as item}
@@ -33,7 +33,7 @@
 				</div>
 			{/each}
 		{:else}
-			<div class="_card _padding">
+			<div class="_card __flat _padding _padding-top-2 _padding-bottom-2">
 				Be the first to leave a comment!
 			</div>
 		{/if}
@@ -72,7 +72,7 @@
 		</form>
 
 	{:else}
-		<div class="_card __flat _padding">
+		<div class="_card __flat _padding _margin-bottom-none">
 			<a href="/login">Log in</a> to leave a comment
 		</div>
 	{/if}

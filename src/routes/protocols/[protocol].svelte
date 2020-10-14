@@ -11,7 +11,7 @@
 
 
 <div class="Protocol _section-page _padding-top-2 _margin-center ">
-  <div class=" _section-article _margin-center _divider-top _divider-bottom">
+  <div class=" _section-article _margin-center _margin-top-2 _divider-bottom">
 
 		{#if protocol}
 			<div class="list-block-container"> 

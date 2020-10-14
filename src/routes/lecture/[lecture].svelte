@@ -29,10 +29,10 @@
 	<div class="_section-page _padding-top-2 _margin-center ">
 
 
-	  <div class=" _section-article _margin-center _divider-top _divider-bottom">
+	  <div class=" _section-article _margin-center _margin-top-2 _divider-bottom">
 
 			{#if lecture}
-				<h2>{ lecture.title[0][0] }</h2>
+				<h2 class="_padding-bottom-2">{ lecture.title[0][0] }</h2>
 				<div class="list-block-container"> 
 					<div class="list-block-item-container list-card __main _card _padding">
 

@@ -22,11 +22,11 @@
 
   <div class="Lectures _section-page _padding-top-2 _margin-center ">
 
-    <div class="Lectures-container _margin-center _divider-top _divider-bottom">
+    <div class="Lectures-container _margin-center _margin-top-2 ">
  
       <LectureCard isHero={true} lecture={heroLecture} />
 
-      <div class="Lectures-body _section _divider-top _divider-bottom">
+      <div class="Lectures-body _section _divider-bottom">
         <div class="Lectures-main">
           {#if lectures}
             {#each lectures as item}
@@ -123,7 +123,7 @@
       })
     })
 
-    console.log('lectures ::::', lectures)
+    // console.log('[lectures]', lectures)
   }
 
   let library

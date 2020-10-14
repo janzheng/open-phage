@@ -2,7 +2,7 @@
 {#if lecture}
 	<div class={`LectureCard list-block-container ${isHero ? '__hero' : ''}`}> 
 		<a rel=prefetch class="list-block-link" href={lecture.fields['URL']}>
-			<div class={`list-block-item-container list-card _card _padding ${lecture.fields['Cover Image'] ? '_grid-1-3 _grid-gap-large' : ''}`}>
+			<div class={`list-block-item-container list-card _card _padding _padding-top-2-i _padding-bottom-2-i ${lecture.fields['Cover Image'] ? '_grid-1-3 _grid-gap-large' : ''}`}>
 
 				<div>
 					{#if lecture.fields['Cover Image']}
