@@ -15948,6 +15948,14 @@ video {
   max-width: 100%;
 }
 
+.Breadcrumbs {
+  background-color: #eaf3ff;
+}
+.Breadcrumbs span {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
 .ContentFrame-body {
   position: relative;
   z-index: 10;

@@ -13,9 +13,14 @@
 
 <div class="Lectures">
 
+  <Breadcrumbs links={[
+    {href:'/', name:'Home'},
+    {href:'/lectures', name:'Lectures'},
+    ]} 
+  />
+
 
   <div class="Lectures _section-page _padding-top-2 _margin-center ">
-
 
     <div class="Lectures-container _margin-center _divider-top _divider-bottom">
  
@@ -82,6 +87,7 @@
   import LectureCard from '../components/LectureCard.svelte'
   import ProtocolCard from '../components/ProtocolCard.svelte'
   import LinkCard from '../components/LinkCard.svelte'
+  import Breadcrumbs from '../components/Breadcrumbs.svelte'
 
   // Content passed down from layout
   const Content$ = getContext('Content')
@@ -92,7 +98,7 @@
 
 
   export let data
-  $: console.log('yotion!!!!!:', data)
+  // $: console.log('yotion!!!!!:', data)
 
   let heroLecture
   $: if(data) heroLecture = data['Lecture Series'][0]

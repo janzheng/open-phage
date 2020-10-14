@@ -411,7 +411,13 @@ video {
 }
 
 
-
+.Breadcrumbs {
+	background-color: usetheme(brand-lighter);
+	span {
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+	}
+}
 
 
 

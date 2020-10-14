@@ -39,7 +39,7 @@
 
 
   export let data
-  $: console.log('yotion!!!!!:', data)
+  // $: console.log('yotion!!!!!:', data)
 
   let content 
   $: if(data) {
