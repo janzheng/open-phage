@@ -119,14 +119,4 @@ export const debug = function(nameObj,...logs) {
 
 
 
-// can't believe this isn't built into a brower https://css-tricks.com/snippets/javascript/unescape-html-in-js/
-export const htmlDecode = (input) => {
-  if(process.browser && typeof document !== undefined) { // only possible on browser
-    var e = document.createElement('div');
-    e.innerHTML = input;
-    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
-  }
-}
-
-
 

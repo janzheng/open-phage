@@ -10,7 +10,7 @@
 	  Your browser does not support the video tag.
 	</video>
 
-	<div class="">
+	<div class="_font-small">
 		<a href={video}>Download video file</a>
 		{#if filesize} ({filesize}) {/if}
 	</div>

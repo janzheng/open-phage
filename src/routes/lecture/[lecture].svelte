@@ -22,7 +22,7 @@
 
 		{#if lecture}
 			<div class="list-block-container"> 
-				<div class="list-block-item-container list-card _card _padding">
+				<div class="list-block-item-container list-card __large _card _padding">
 
 
 					<!-- single-class lecture — just add the class in here -->
@@ -59,7 +59,7 @@
 							{/if} -->
 
 							<div class="" data-field="Description">
-								{@html marked(htmlDecode(item.content.markdown.join('')) || '') }
+								{@html marked(entities.decode(item.content.markdown.join('')) || '') }
 							</div>
 
 
@@ -152,7 +152,7 @@
   import marked from 'marked';
   import Video from '../../components/Video.svelte'
 	import CommentBox from '../../components/CommentBox.svelte';
-	import { htmlDecode } from '../../_utils/_helpers'
+	import entities from 'entities'
 
 	export let lecture, classes, slug
 

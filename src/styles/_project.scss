@@ -233,6 +233,11 @@ input.__cta, button.__cta, a.__cta {
 	  }
 	}
 
+
+
+
+
+
 [data-field="Name"] {
   font-size: 1.16rem;
   line-height: 1.65rem;
@@ -245,6 +250,13 @@ input.__cta, button.__cta, a.__cta {
 }
 
 
+
+	.list-block-item-container.__large {
+		[data-field="Name"] {
+  		margin-bottom: 2rem;
+
+		}
+	}
 
 
 

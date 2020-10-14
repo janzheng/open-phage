@@ -15849,6 +15849,10 @@ input.__cta:focus, button.__cta:focus, a.__cta:focus {
   margin-bottom: 0.39rem;
 }
 
+.list-block-item-container.__large [data-field=Name] {
+  margin-bottom: 2rem;
+}
+
 input.__action, button.__action, a.__action {
   border: 2px solid #0163e4;
   background-color: #0163e4;
