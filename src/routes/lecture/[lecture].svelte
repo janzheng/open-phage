@@ -22,7 +22,7 @@
 
 		{#if lecture}
 			<div class="list-block-container"> 
-				<div class="list-block-item-container list-card __large _card _padding">
+				<div class="list-block-item-container list-card __main _card _padding">
 
 
 					<!-- single-class lecture — just add the class in here -->

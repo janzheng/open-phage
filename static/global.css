@@ -15849,7 +15849,7 @@ input.__cta:focus, button.__cta:focus, a.__cta:focus {
   margin-bottom: 0.39rem;
 }
 
-.list-block-item-container.__large [data-field=Name] {
+.list-block-item-container.__main [data-field=Name] {
   margin-bottom: 2rem;
 }
 
