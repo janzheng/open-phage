@@ -1,6 +1,6 @@
 /* Turns an array of text, returned by Notion's API, into Markdown */
 
-const katex = require("katex")
+// const katex = require("katex")
 const textArrayToMarkdown = require("./textArrayToMarkdown.js")
 const asyncForEach = require("../helpers/asyncForEach.js")
 const textArrayToHtml = require("./textArrayToHtml.js")
@@ -241,7 +241,7 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
         return 
       }
       const equation = block.properties.title[0][0]
-      const equationHtml = katex.renderToString(equation, { throwOnError: false })
+      // const equationHtml = katex.renderToString(equation, { throwOnError: false })
       markdown.push(`<div class="equation">${equationHtml}</div>`)
     } else if(["embed"].includes(type)) {
       markdown.push(`<iframe src="${block.properties.source[0][0]}"></iframe>`)
