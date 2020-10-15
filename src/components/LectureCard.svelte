@@ -23,7 +23,7 @@
 
 					{#if showSeries && lecture['series'] && lecture['series'].length > 1}
 						<div class="LectureCard-series-container _card _padding _margin-top-2">
-							<h6 class="">Lecture Chapters</h6>
+							<h6 class="">Lecture Series</h6>
 							<div class="LectureCard-series">
 								{#each lecture['series'] as item}
 									<p class="LectureCard-series-item" data-field="Description">{ item.title[0] }</p>

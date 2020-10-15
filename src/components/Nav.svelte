@@ -57,16 +57,16 @@
     	</div>
     	<div class="_padding-top-2-xs _padding-left-2-sm _md-pfix">
     		<div class="_flex _flex-right">
-    			<a rel=prefetch href="/lectures" class={segment==='lectures'?'_active':''}>Lectures</a>
-    			<a rel=prefetch href="/library" class={segment==='library'?'_active':''}>Library</a>
+    			<a rel=prefetch href="/lectures" class={`__underline-none ${segment==='lectures'?'_active':''}`}>Lectures</a>
+    			<a rel=prefetch href="/library" class={`__underline-none ${segment==='library'?'_active':''}`}>Library</a>
     			<!-- <a href="/about">About</a> -->
     			<div>
 						{#if !$User || !$User.Profile}
-	  					<a rel=prefetch href="/login" class={segment==='login'?'_active':''}>Log in</a>
-	  					<a rel=prefetch href="/signup" class={segment==='signup'?'_active':''}>Sign up</a>
+	  					<a rel=prefetch href="/login" class={`__underline-none ${segment==='login'?'_active':''}`}>Log in</a>
+	  					<a rel=prefetch href="/signup" class={`__underline-none ${segment==='signup'?'_active':''}`}>Sign up</a>
 						{:else}
-							<a rel=prefetch class='{segment === "profile" ? "selected" : ""}' href='profile'>{$User.Profile.fields.userName}</a>
-							<a href="/" class="_item logout __text _margin-bottom-none-i" on:click={handleLogout} >logout</a>
+							<a rel=prefetch class={`__underline-none ${segment === "profile" ? "selected" : ""}`} href='profile'>{$User.Profile.fields.userName}</a>
+							<a href="/" class="__underline-none _item logout __text _margin-bottom-none-i" on:click={handleLogout} >logout</a>
 						{/if}
   				</div>
     		</div>

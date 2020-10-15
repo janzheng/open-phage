@@ -4,7 +4,10 @@
 
     const data = await this.fetch(`/api/notion?collections=Lecture Series, Lecture Content, Lab Experiments&contents=Welcome, Protocol, Reference, Reading, Lecture&getField=Content IDs|Welcome`).then(r => r.json())
 
-    return { data };
+
+    const status = await this.fetch(`/api/status`).then(r => r.json())
+
+    return { data, status };
   }
 </script>
 
@@ -97,7 +100,7 @@
 	$: intro = Cytosis.findField('intro', Content, 'Content')
 
 
-  export let data
+  export let data, status
   // $: console.log('yotion!!!!!:', data)
 
   let heroLecture
@@ -105,17 +108,29 @@
 
   let lectures
   $: if(data) {
+
   	lectures = [...data['Lecture Series']]
   	lectures = lectures.slice(1) // remove first one since it's a "hero"
 
+    // filter out unpublished lectures
+    // not that safe but mostly this is to clean up the UI
+
+    if(status === 'Published')
+      lectures = lectures.filter(lec=>lec.fields['Status']==='Published')
+    else if(status === 'Published' || status === 'Preview')
+      lectures = lectures.filter(lec=>(lec.fields['Status']==='Published' || lec.fields['Status']==='Preview'))
+    else
+      lectures = []
+
+
     lectures.map(lec => {
+
       lec['series'] = []
       const contentName = lec.fields['Content ID']
       data['Lecture Content'].map(lecItem => {
         if(lecItem.fields['Content ID'] == contentName)
           lec['series'].push(lecItem)
       })
-
 
       data['Lab Experiments'].map(lecItem => {
         if(lecItem.fields['Content ID'] == contentName)

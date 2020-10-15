@@ -251,6 +251,7 @@ export async function get(req, res) {
 				let data =  getBase({collection: c})
 				base[c] = data
 			})
+
 		}
 
 		// grab by content type

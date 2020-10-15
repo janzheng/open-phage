@@ -112,7 +112,7 @@
 						{/if}
 
 						<div class="Class-return-home _divider-bottom _margin-top">
-							<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-bottom-none-i">Return to lecture</a>
+							<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-bottom-none-i">Return to lecture series</a>
 						</div>
 
 						<div class="Discussion _padding _card _margin-top-2">
@@ -145,7 +145,9 @@
 									<span class="Lecture-classes-title">{@html marked(item.title[0][0]) }</span>
 
 									<div class="_margin-top" >
-										<TeamCard profile={item.classObj['author']} simple={true} />
+										{#if item.classObj['author']}
+											<TeamCard profile={item.classObj['author']} simple={true} />
+										{/if}
 									</div>
 								<!-- {#if item.fields['Author']}
 									<p data-field="Author">{ item.fields['Author'] }</p>
