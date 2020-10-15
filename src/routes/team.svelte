@@ -45,7 +45,7 @@
 
   export let data
 
-  $: console.log('[team] data:', data)
+  $: console.log('[Team] data:', data)
 
   
 </script>

@@ -30,7 +30,7 @@ import { config } from "dotenv";
 
 import { notifyAdmins, notifySubscribe, notifyEventSignup } from '../../_utils/_mailer.js'
 
-import cytosis from "../../../static/cytosis.json"
+import cytosis from "../../../static/data/cytosis.json"
 
 
 

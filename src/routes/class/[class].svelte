@@ -84,7 +84,7 @@
 								</div>
 							{/if}
  -->
-							{#if classObj.content.markdown}
+							{#if classObj.content.markdown && classObj.content.markdown.join('').length > 0}
 								<div class="_margin-top-2">
 									{@html marked(classObj.content.markdown.join('') || '')}
 								</div>

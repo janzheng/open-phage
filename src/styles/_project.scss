@@ -451,6 +451,14 @@ video {
 	    border-radius: 100%;
 	  }
 	}
+
+  .__wide {
+    .profile-img {
+      width: 100%;
+      max-width: 150px;
+      border-radius: 100%;
+    }
+  }
 }
 
 .TeamCard-link {

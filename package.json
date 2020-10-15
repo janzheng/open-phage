@@ -17,7 +17,7 @@
     "now-preview": "now --local-config=now-preview.json",
     "commit": "git add . -A ; git commit ; git push origin preview ",
     "loader": "node src/_utils/loader.js f34a041d08744868a0ca06a6a0671b5a",
-    "cleanup": "rm __sapper__; rm static/notion.js; rm static/cytosis.js"
+    "cleanup": "rm -r __sapper__ ; rm static/data/notion.json; rm static/data/cytosis.json"
   },
   "engines": {
     "node": "12.x"

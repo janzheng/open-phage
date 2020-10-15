@@ -22,6 +22,7 @@
         }
       }}>
         <label class="_form-label _margin-bottom-2" htmlFor="username">User name
+          <p class="_font-small">Please use your full name, e.g. "Jessica Sacher"</p>
           <input
             class="_width-full _margin-top-half"
             type="text"
@@ -29,6 +30,9 @@
             name="username"
             bind:value={userName}
           />
+          {#if userName}
+            <p class="_padding-top-half _font-small">Your profile link will appear as /users/{sluggerate(userName)}</p>
+          {/if}
         </label>
 
         <label class="_form-label _margin-bottom-2" htmlFor="email">Email
@@ -52,6 +56,10 @@
           />
         </label>
 
+
+        <div class="_margin-bottom">
+          {@html marked(`By clicking Sign Up, you agree to our [Privacy Policy](/privacy#top) and [Terms & Conditions](/terms#top).`)}
+        </div>
 
         {#if !isLoading}
           <button class="_button __action __width-full _margin-right-none-i" type="submit">Sign Up</button>
@@ -82,9 +90,12 @@
 
 
 <script>
+  import marked from 'marked';
+
   import { handleOauth, handleSignup } from '../_utils/auth/sapper-auth-helpers';
   import { onMount } from 'svelte';
   import { getUser } from '../_utils/auth/get-user';
+  import { sluggerate } from '../_utils/_helpers';
 
 
   let email = '', password = '', userName = ''

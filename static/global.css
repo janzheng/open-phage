@@ -2303,32 +2303,32 @@ button {
 }
 
 ._color-brand-light {
-  color: #94c2ff;
+  color: #1a7cfe;
 }
 ._color-brand-light-i {
-  color: #94c2ff !important;
+  color: #1a7cfe !important;
 }
 
 ._color-bg-brand-light {
-  background-color: #94c2ff;
+  background-color: #1a7cfe;
 }
 ._color-bg-brand-light-i {
-  background-color: #94c2ff !important;
+  background-color: #1a7cfe !important;
 }
 
 ._color-border-brand-light {
-  border-color: #94c2ff;
+  border-color: #1a7cfe;
 }
 ._color-border-brand-light-i {
-  border-color: #94c2ff !important;
+  border-color: #1a7cfe !important;
 }
 
 ._color-hover-brand-light:hover {
-  color: #94c2ff;
+  color: #1a7cfe;
 }
 
 ._color-hoverborder-brand-light:hover:after {
-  background-color: #94c2ff;
+  background-color: #1a7cfe;
 }
 
 ._color-brand-dark {
@@ -15637,6 +15637,312 @@ a.--nolink, ._link.--nolink {
   position: relative;
 }
 
+/* 
+
+	For Account + Profile pages
+
+ */
+.ProfileRender-image {
+  border-radius: 100%;
+  object-fit: cover;
+  height: 15rem;
+  width: 15rem;
+  border: 0.2rem solid #c9e0ff;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.ProfileRender-imagePlaceholder {
+  border-radius: 100%;
+  object-fit: cover;
+  height: 15rem;
+  width: 15rem;
+  border: 0.2rem solid #c9e0ff;
+  text-align: center;
+  margin: 0 auto;
+}
+
+@font-face {
+  font-family: "phagedir";
+  src: url("/icons/phagedir.eot");
+  src: url("/icons/phagedir.eot#iefix") format("embedded-opentype"), url("/icons/phagedir.woff") format("woff"), url("/icons/phagedir.ttf") format("truetype"), url("/icons/phagedir.svg#phagedir") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+._font-phage {
+  font-family: "phagedir";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: 0.05em;
+  padding-right: 1em;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 17px;
+  position: relative;
+  bottom: -0.1rem;
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: text-top;
+  font-size: 120% !important;
+  padding-right: 32px;
+}
+._font-phage.icon-mail {
+  font-size: 110% !important;
+  position: relative;
+  bottom: -1px;
+  left: -3px;
+}
+._font-phage.icon-linkedin {
+  font-size: 110% !important;
+  position: relative;
+  bottom: 0px;
+  left: -1px;
+  color: #0077b5;
+}
+._font-phage.icon-twitter {
+  font-size: 123% !important;
+  position: relative;
+  bottom: -1px;
+  left: -3px;
+  color: #26C4F1;
+}
+._font-phage.icon-orcid {
+  font-size: 126% !important;
+  position: relative;
+  bottom: -1px;
+  left: -4px;
+  color: #a6ce39;
+}
+._font-phage.icon-researchgate {
+  font-size: 120% !important;
+  position: relative;
+  bottom: 0px;
+  left: -2px;
+  color: #00CCBB;
+}
+._font-phage.icon-google-scholar {
+  font-size: 120% !important;
+  position: relative;
+  bottom: -3px;
+  left: -3px;
+  color: #3F47CC;
+}
+._font-phage.icon-github-circled {
+  font-size: 116% !important;
+  position: relative;
+  bottom: -3px;
+  left: -2px;
+  color: #333333;
+}
+._font-phage.icon-facebook {
+  font-size: 110% !important;
+  position: relative;
+  bottom: -4px;
+  left: 1px;
+  color: #3b5998;
+}
+
+.icon-mail:before {
+  content: "";
+}
+
+/* '' */
+.icon-bookmark:before {
+  content: "";
+}
+
+/* '' */
+.icon-tag:before {
+  content: "";
+}
+
+/* '' */
+.icon-down-open:before {
+  content: "";
+}
+
+/* '' */
+.icon-left-open:before {
+  content: "";
+}
+
+/* '' */
+.icon-right-open:before {
+  content: "";
+}
+
+/* '' */
+.icon-up-open:before {
+  content: "";
+}
+
+/* '' */
+.icon-cc:before {
+  content: "";
+}
+
+/* '' */
+.icon-cc-by:before {
+  content: "";
+}
+
+/* '' */
+.icon-cc-nc:before {
+  content: "";
+}
+
+/* '' */
+.icon-cc-sa:before {
+  content: "";
+}
+
+/* '' */
+.icon-cancel:before {
+  content: "";
+}
+
+/* '' */
+.icon-search:before {
+  content: "";
+}
+
+/* '' */
+.icon-researcherid:before {
+  content: "";
+}
+
+/* '' */
+.icon-publons:before {
+  content: "";
+}
+
+/* '' */
+.icon-open-access:before {
+  content: "";
+}
+
+/* '' */
+.icon-researchgate:before {
+  content: "";
+}
+
+/* '' */
+.icon-doi:before {
+  content: "";
+}
+
+/* '' */
+.icon-figshare:before {
+  content: "";
+}
+
+/* '' */
+.icon-pubmed:before {
+  content: "";
+}
+
+/* '' */
+.icon-biorxiv:before {
+  content: "";
+}
+
+/* '' */
+.icon-cv:before {
+  content: "";
+}
+
+/* '' */
+.icon-academia:before {
+  content: "";
+}
+
+/* '' */
+.icon-google-scholar:before {
+  content: "";
+}
+
+/* '' */
+.icon-orcid:before {
+  content: "";
+}
+
+/* '' */
+.icon-bookmark-empty:before {
+  content: "";
+}
+
+/* '' */
+.icon-twitter:before {
+  content: "";
+}
+
+/* '' */
+.icon-github-circled:before {
+  content: "";
+}
+
+/* '' */
+.icon-rss:before {
+  content: "";
+}
+
+/* '' */
+.icon-mail-alt:before {
+  content: "";
+}
+
+/* '' */
+.icon-linkedin:before {
+  content: "";
+}
+
+/* '' */
+.icon-lightbulb:before {
+  content: "";
+}
+
+/* '' */
+.icon-code:before {
+  content: "";
+}
+
+/* '' */
+.icon-rss-squared:before {
+  content: "";
+}
+
+/* '' */
+.icon-youtube-play:before {
+  content: "";
+}
+
+/* '' */
+.icon-mail-squared:before {
+  content: "";
+}
+
+/* '' */
+.icon-paypal:before {
+  content: "";
+}
+
+/* '' */
+.icon-linkedin-squared:before {
+  content: "";
+}
+
+/* '' */
+.icon-facebook:before {
+  content: "";
+}
+
+/* '' */
 .Lectures-sidebar img {
   display: none;
 }
@@ -15707,7 +16013,7 @@ a.--nolink, ._link.--nolink {
 .LectureCard.__hero .list-card {
   padding-top: 2rem !important;
   padding-bottom: 2rem !important;
-  border-color: #94c2ff;
+  border-color: #1a7cfe;
 }
 
 .Home, .ContentFrame-body {
@@ -15797,8 +16103,8 @@ input.__action, button.__action, a.__action {
   color: #FAFAFA;
 }
 input.__action:hover, input.__action:active, button.__action:hover, button.__action:active, a.__action:hover, a.__action:active {
-  background-color: #94c2ff;
-  border-color: #94c2ff;
+  background-color: #1a7cfe;
+  border-color: #1a7cfe;
 }
 input.__action:focus, button.__action:focus, a.__action:focus {
   background-color: #0149a7;
@@ -15885,8 +16191,8 @@ input.__action, button.__action, a.__action {
   color: #FAFAFA;
 }
 input.__action:hover, input.__action:active, button.__action:hover, button.__action:active, a.__action:hover, a.__action:active {
-  background-color: #94c2ff !important;
-  border-color: #94c2ff !important;
+  background-color: #1a7cfe !important;
+  border-color: #1a7cfe !important;
 }
 input.__action:focus, button.__action:focus, a.__action:focus {
   background-color: #0149a7 !important;
@@ -16005,6 +16311,11 @@ video {
   vertical-align: text-top;
   width: 100%;
   max-width: 32px;
+  border-radius: 100%;
+}
+.TeamCard .__wide .profile-img {
+  width: 100%;
+  max-width: 150px;
   border-radius: 100%;
 }
 
@@ -16130,7 +16441,7 @@ input[type=text]:hover,
 input[type=password]:hover,
 input[type=file]:hover,
 textarea:hover {
-  border-color: #94c2ff;
+  border-color: #1a7cfe;
 }
 input[type=text]:focus,
 input[type=password]:focus,

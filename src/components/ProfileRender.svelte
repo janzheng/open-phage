@@ -18,11 +18,20 @@
 			{#if previewImage || profileImage}
 				<img class="ProfileRender-image" src={previewImage || profileImage} alt={`${name} profile`}/>
 			{:else}
+				<!-- deliberately empty -->
 				<div class="ProfileRender-imagePlaceholder"></div>
 			{/if}
 			<div class="ProfileRender-username _margin-top-2">{Profile.fields['userName'] || 'username'}</div>
 			<div class="ProfileRender-description">{@html marked(Profile.fields['Pitch'] || '')}</div>
 			<SocialBox email={email} socialProfiles={socialProfiles} />
+
+
+      {#if Profile.fields['Slug']}
+        <div class="ProfileRender-slug _margin-top-2">
+          View profile at <a href={`/user/${Profile.fields['Slug']}`} target="_blank">{`/user/${Profile.fields['Slug']}`}
+        </div>
+      {/if}
+
 		</article>
 	{/if}
 
@@ -89,25 +98,6 @@
 
 <style type="text/scss">
 
-	.ProfileRender-image {
-		border-radius: 100%;
-		object-fit: cover; // contain;
-		height: 1rem * 5;
-		width: 1rem * 5;
-		border: 0.2rem solid #c9e0ff;
-		text-align: center;
-		margin: 0 auto;
-	}
-
-	.ProfileRender-imagePlaceholder {
-		border-radius: 100%;
-		object-fit: cover; // contain;
-		height: 1rem * 5;
-		width: 1rem * 5;
-		border: 0.2rem solid #c9e0ff;
-		text-align: center;
-		margin: 0 auto;
-	}
 
 </style>
 

@@ -6,11 +6,11 @@
     <!-- used as embeds on lecture/class pages -->
 
     <a class="TeamCard-link" href={`/team#${profile.fields['Slug']}`}>
-      <div id={profile.fields['Slug']} class="TeamCard __inline ">
+      <div id={profile.fields['Slug']} class="TeamCard-container __inline ">
         <div class="_grid-1-7 _align-vertically">
           <div>
             {#if profile.fields['Profile Image']}
-              <div><img class="profile-img" src={profile.fields['Profile Image'][0]} alt={`${profile.fields['Name']} profile image`}></div>
+              <div><img class="profile-img" src={profile.fields['Profile Image Source'] || profile.fields['Profile Image'][0]} alt={`${profile.fields['Name']} profile image`}></div>
             {/if}
           </div>
           <div>
@@ -25,11 +25,11 @@
   {:else if simple}
     <!-- like inline, but smaller and no link -->
 
-    <div id={profile.fields['Slug']} class="TeamCard __simple ">
+    <div id={profile.fields['Slug']} class="TeamCard-container __simple ">
       <div class="_flex">
         <div class="">
           {#if profile.fields['Profile Image']}
-            <img class="profile-img" src={profile.fields['Profile Image'][0]} alt={`${profile.fields['Name']} profile image`}>
+            <img class="profile-img" src={profile.fields['Profile Image Source'] || profile.fields['Profile Image'][0]} alt={`${profile.fields['Name']} profile image`}>
           {/if}
         </div>
         <div class="_margin-left _flex-1 _align-vertically">
@@ -44,12 +44,12 @@
 
 
   {:else}
-    <div id={profile.fields['Slug']} class="TeamCard __wide _card _padding">
+    <div id={profile.fields['Slug']} class="TeamCard-container __wide _card _padding">
 
       <div class="_grid-1-4">
         <div>
           {#if profile.fields['Profile Image']}
-            <div><img class="profile-img" src={profile.fields['Profile Image'][0]} alt={`${profile.fields['Name']} profile image`}></div>
+            <div><img class="profile-img" src={profile.fields['Profile Image Source'] || profile.fields['Profile Image'][0]} alt={`${profile.fields['Name']} profile image`}></div>
           {/if}
         </div>
         <div>
@@ -83,7 +83,7 @@
   import { onMount, getContext, setContext } from 'svelte';
   import Video from './Video.svelte'
 
-  export let profile, inline, simple
+  export let profile, inline=false, simple=false
 
 </script>
 
@@ -93,13 +93,5 @@
 
 
 <style type="text/scss">
-
-  .__wide {
-    .profile-img {
-      width: 100%;
-      max-width: 150px;
-      border-radius: 100%;
-    }
-  }
 
 </style>

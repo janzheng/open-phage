@@ -159,6 +159,37 @@ self.addEventListener('fetch', event => {
 workbox.loadModule('workbox-cacheable-response');
 workbox.loadModule('workbox-range-requests');
 
+
+// notion-derived assets
+
+workbox.routing.registerRoute(
+  new RegExp('^http://localhost:2024/api/notion/asset/'),
+  new workbox.strategies.CacheFirst({
+    cacheName: 'media-cache',
+    plugins: [
+      new workbox.cacheableResponse.CacheableResponsePlugin({
+        statuses: [0, 200],
+      })
+    ]
+  })
+);
+
+workbox.routing.registerRoute(
+  new RegExp('^https://open-phage.vercel.app.'),
+  new workbox.strategies.CacheFirst({
+    cacheName: 'media-cache',
+    plugins: [
+      new workbox.cacheableResponse.CacheableResponsePlugin({
+        statuses: [0, 200],
+      })
+    ]
+  })
+);
+
+
+
+
+
 workbox.routing.registerRoute(
   new RegExp('^https://s3.us-west-2.amazonaws.com/'),
   new workbox.strategies.CacheFirst({

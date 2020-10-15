@@ -24,7 +24,7 @@
 import send from '@polka/send';
 import Cytosis from 'cytosis';
 import * as sapper from '@sapper/server';
-import base from "../../../../static/notion.json"
+import base from "../../../../static/data/notion.json"
 import { cacheGet, cacheSet, cacheClear } from "../../../_utils/cache"
 
 import { config } from "dotenv";

@@ -20,7 +20,7 @@
 
 <script>
 
-	export let video, cover, filesize, captions
+	export let video, cover=false, filesize=false, captions=false
 	let videoElem, coverImg, captionSrc
 
 	// cover just takes the Notion field array of images

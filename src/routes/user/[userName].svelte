@@ -1,15 +1,15 @@
 
-
-nothing here for now
-
-<!--<script context="module">
+<script context="module">
   export async function preload({ params, query }) {
     // the `slug` parameter is available because
     // this file is called [slug].svelte
     // const res = await this.fetch(`api/profile?slug=${params.slug}`)
 
     console.log('PRELOAD grabbing user ', params.userName)
-    const _result = await this.fetch(`api/profile?userName=${params.userName}`).then(r => r.json())
+    // const _result = await this.fetch(`api/profile?userName=${params.userName}`).then(r => r.json())
+
+    const _result = await this.fetch(`api/profile?slug=${params.userName}`).then(r => r.json())
+
 
     console.log('PRELOAD result:', _result)
     return {profile: _result.data, userName: params.userName }
@@ -33,14 +33,13 @@ nothing here for now
 
 
 {#if profile}
-  <ProfileFaves {profile} />
+  <!-- <ProfileFaves {profile} /> -->
 {/if}
 
 
 <script>
   import { getContext, onMount } from 'svelte'
   import Cytosis from 'cytosis';
-  import Masonry from 'svelte-masonry/Masonry.svelte'
 
   import FaveThumb from '../../components/FaveThumb.svelte'
   import ProfileRender from '../../components/ProfileRender.svelte'
@@ -59,4 +58,3 @@ nothing here for now
 
 
 
--->

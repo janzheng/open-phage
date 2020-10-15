@@ -1,6 +1,6 @@
-                       
+                          
         
-            
+              
           
 @import '../../node_modules/coeur/styles/_head-reset.scss';   
   
@@ -12,11 +12,12 @@
  
 // @import '../../node_modules/coeur/styles/head-typography';
   
+@import 'profile'; 
 @import 'project';  
- 
+  
          
 // modular      
-// @import 'components';  
+// @import 'components';   
 // @import 'sections';
 // @import 'templates';
  
@@ -24,7 +25,7 @@
 .ContentFrame-body {
 	// padding-bottom: 140px; // $size-9;
   position: relative;
-  z-index: 10;
+  z-index: 10; 
   overflow: hidden;
 }
   

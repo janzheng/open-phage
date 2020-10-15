@@ -1,5 +1,5 @@
 
-<div class="ProfileEdit">
+<div class="ProfileEdit _margin-top-2">
 	<!-- 
   <div class="_grid-2 _margin-bottom-2">
     <form on:submit|preventDefault={handleSaveProfile}>
@@ -87,7 +87,8 @@
 	      />
 	    </label> -->
 
-	    <label class="_margin-bottom-2" htmlFor="userName">User Name
+	    <label class="_margin-bottom-2" htmlFor="userName">Display Name
+        <p class="_font-small">Please use your full name, e.g. "Jessica Sacher"</p>
 	      <input
 	        class="_width-full"
 	        type="text"
@@ -97,6 +98,12 @@
 	        on:input={triggeronChanged}
 	      />
 	    </label>
+
+      <!-- this should only update on save, not dynamically (as it won't check for collisions) -->
+      {#if user['Profile'].fields['Slug']}
+        <p class="ProfileEdit-slug">
+          Your profile can be accessed at <a href={`/user/${user['Profile'].fields['Slug']}`} target="_blank">{`/user/${user['Profile'].fields['Slug']}`}</p>
+      {/if}
 
       <label class="_margin-bottom-2" htmlFor="email">Account Email
         <p class="_font-small">This email is used for account management and password resets, and will not be shared publicly. If you change your email, you will need to log in again.</p>
@@ -157,7 +164,7 @@
 	    </label>-->
 	  </form>
 
-    <div class="_margin-bottom-2">
+    <div class="">
       <form on:submit|preventDefault={async ()=>{
         isLoading = true
         await handleSaveProfile()
@@ -200,6 +207,7 @@
   import { goto, stores } from '@sapper/app';
   import { setContext, getContext, onMount, tick } from 'svelte';
 
+  import { sluggerate } from '../_utils/_helpers';
   import { logger, logerror } from '../_utils/logger';
   import { getUser } from '../_utils/auth/get-user';
   import { fetchPost, fetchPostForm } from '../_utils/fetch-helpers';
