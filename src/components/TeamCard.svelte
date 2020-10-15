@@ -1,5 +1,7 @@
 
 
+<div class="TeamCard">
+
   {#if inline}
     <!-- used as embeds on lecture/class pages -->
 
@@ -18,6 +20,29 @@
         </div>
       </div>
     </a>
+
+
+  {:else if simple}
+    <!-- like inline, but smaller and no link -->
+
+    <div id={profile.fields['Slug']} class="TeamCard __simple ">
+      <div class="_flex">
+        <div class="">
+          {#if profile.fields['Profile Image']}
+            <img class="profile-img" src={profile.fields['Profile Image'][0]} alt={`${profile.fields['Name']} profile image`}>
+          {/if}
+        </div>
+        <div class="_margin-left _flex-1 _align-vertically">
+          {profile.fields['Name']}
+          <!-- <p class="_font-small _margin-bottom-none-i"><em>{profile.fields['Content Types'].join(',')}</em></p> -->
+        </div>
+      </div>
+    </div>
+
+
+
+
+
   {:else}
     <div id={profile.fields['Slug']} class="TeamCard __wide _card _padding">
 
@@ -45,6 +70,10 @@
   {/if}
 
 
+</div>
+
+
+
 
 
 <script>
@@ -54,7 +83,7 @@
   import { onMount, getContext, setContext } from 'svelte';
   import Video from './Video.svelte'
 
-  export let profile, inline
+  export let profile, inline, simple
 
 </script>
 

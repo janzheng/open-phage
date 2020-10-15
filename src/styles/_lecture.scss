@@ -16,7 +16,7 @@
 	box-shadow: inherit;
 	color: usetheme(brand-copy);
 	@extend %ease;
-	
+
 	&, * {
 		text-decoration: none;
 	}
@@ -38,6 +38,16 @@
 .Lecture-link {
 	// color: rgba(0, 0, 0, 0.87) !important;
 	text-decoration: none;
+
+
+	&.__active {
+		.Lecture-link-card {
+			border-color: usetheme(brand-dark);
+		}
+  	&, * {
+  		color: usetheme(brand-dark) !important;
+  	}
+	}
 }
 .Lecture-classes {
 	counter-reset: classes;

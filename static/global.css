@@ -15663,6 +15663,12 @@ a.--nolink, ._link.--nolink {
 .Lecture-link {
   text-decoration: none;
 }
+.Lecture-link.__active .Lecture-link-card {
+  border-color: #0149a7;
+}
+.Lecture-link.__active, .Lecture-link.__active * {
+  color: #0149a7 !important;
+}
 
 .Lecture-classes {
   counter-reset: classes;
@@ -15915,6 +15921,20 @@ input.__cta:focus, button.__cta:focus, a.__cta:focus {
 
 /* 
 
+	[Class] pages
+
+ */
+.Class-sidebar {
+  min-width: 270px;
+  line-height: 24px;
+}
+.Class-sidebar a, .Class-sidebar a p {
+  font-size: 17px;
+  line-height: 24px;
+}
+
+/* 
+
 	Footer
 
  */
@@ -15977,6 +15997,13 @@ video {
 .Breadcrumbs span {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+}
+
+.TeamCard .__simple .profile-img {
+  vertical-align: text-top;
+  width: 100%;
+  max-width: 32px;
+  border-radius: 100%;
 }
 
 .TeamCard-link {

@@ -148,25 +148,25 @@
 							<div class="Lecture-classes">
 								{#each classes as item}
 									<!-- <div class="Lecture-link-card _card _padding _margin-bottom-2"> -->
-									<div class="_margin-bottom-2">
-										<a rel=prefetch class="Lecture-link" href={`/class/${item.fields['Slug']}`}>
+									<a rel=prefetch class="Lecture-link" href={`/class/${item.fields['Slug']}`}>
+										<div class="Lecture-link-card _card _padding _margin-bottom">
 											{#if item.fields['Cover Image']}
 												<img alt="lecture cover img" class="Lecture-cover" src={ item.fields['Cover Image'][0] }>
 											{/if}
 											<strong class="Lecture-classes-title">{@html marked(item.title[0][0]) }</strong>
-										</a>
-										{#if item.fields['Author']}
-											<!-- <p data-field="Author">{ item.fields['Author'] }</p> -->
-											
-											<div class="_margin-top _margin-bottom-2" >
-												<TeamCard profile={item.classObj['author']} inline={true} />
-											</div>
-										{/if}
+											{#if item.fields['Author']}
+												<!-- <p data-field="Author">{ item.fields['Author'] }</p> -->
+												
+												<div class="_margin-top _margin-bottom-2" >
+													<TeamCard profile={item.classObj['author']} simple={true} />
+												</div>
+											{/if}
 
-										{#if item.fields['Description']}
-											<div data-field="Description">{@html marked(item.fields['Description']) }</div>
-										{/if}
-									</div>
+											{#if item.fields['Description']}
+												<div data-field="Description">{@html marked(item.fields['Description']) }</div>
+											{/if}
+										</div>
+									</a>
 								{/each}
 							</div>
 						{/if}

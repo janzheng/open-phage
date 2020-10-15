@@ -323,6 +323,22 @@ input.__cta, button.__cta, a.__cta {
 
 
 
+/* 
+
+	[Class] pages
+
+ */
+
+
+	.Class-sidebar {
+    min-width: 270px;
+		line-height: 24px;
+
+    a { &, p {
+  		font-size: 17px;
+			line-height: 24px;
+    }}
+	}
 
 
 
@@ -422,6 +438,19 @@ video {
 	}
 }
 
+
+
+.TeamCard {
+	.__simple {
+	  .profile-img {
+	  	vertical-align: text-top;
+	    width: 100%;
+	    max-width: 32px;
+	    border-radius: 100%;
+	  }
+	}
+}
+
 .TeamCard-link {
 	.__inline {
 	  .profile-img {
@@ -431,6 +460,8 @@ video {
 	    border-radius: 100%;
 	  }
 	}
+
+
 
 	text-decoration: none;
 

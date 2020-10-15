@@ -1,10 +1,10 @@
-                      
+                       
         
             
-   
+          
 @import '../../node_modules/coeur/styles/_head-reset.scss';   
   
-         
+          
 @import 'settings.scss';  
 @import 'design.scss';
 @import 'layout'; // typography, basic design & whitespace
@@ -14,9 +14,9 @@
   
 @import 'project';  
  
-      
+         
 // modular      
-// @import 'components'; 
+// @import 'components';  
 // @import 'sections';
 // @import 'templates';
  
@@ -28,11 +28,11 @@
   overflow: hidden;
 }
   
-
-input {
-	-webkit-appearance: none; 
-}
  
+input {
+	-webkit-appearance: none;    
+}
+  
 
  
 

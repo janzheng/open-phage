@@ -6,6 +6,14 @@
 
     const data = await this.fetch(`/api/notion?getClass=${params.class}`).then(r => r.json())
 
+    // build classes for each??
+    let _lectures = data.classes.map(async (_class,i) => {
+    	let _cl = await this.fetch(`/api/notion?getClass=${_class.fields['Slug']}`).then(r => r.json())
+    	data.classes[i]['classObj'] = _cl
+    })
+    await Promise.all(_lectures)
+
+
 		return { 
 			data: data, 
 			lecture: data.lecture, 
@@ -41,7 +49,7 @@
 
 		<h2>{ classObj.title[0][0] }</h2>
 
-		<div class={` _padding-top-2  ${classes.length > 1 ? '_grid-3-1' : ''}`}>
+		<div class={` _padding-top-2  ${classes.length > 1 ? '_grid-3-1 _grid-gap-large' : ''}`}>
 			
 		  <div class="Class-body">
 
@@ -86,24 +94,25 @@
 
 						<!-- next class -->
 						{#if nextClass}
-							<div class="NextClass-container _margin-top _margin-bottom">
-								<a rel=prefetch class="NextClass-link __underline-none " href={`/class/${nextClass.fields['Slug']}`}>
-									<div class="NextClass-card Lecture-link-card _padding _card">
-										Next class
-										<p data-field="Name">{ nextClass.title[0][0] }</p>
+							<div class="NextClass-container _margin-top">
+								<!-- <a rel=prefetch class="NextClass-link __underline-none " href={`/class/${nextClass.fields['Slug']}`}> -->
+								<a rel=prefetch class="_button __width-full __cta _margin-bottom-none-i __underline-none " href={`/class/${nextClass.fields['Slug']}`}>
+									<!-- <div class="NextClass-card Lecture-link-card _padding _card"> -->
+										<div class="_margin-bottom-half">Next class</div>
+										<p class="_margin-bottom-none-i" data-field="Name">{ nextClass.title[0][0] }</p>
 
-										{#if nextClass.fields['Description']}
+										<!-- {#if nextClass.fields['Description']}
 											<div class="_margin-top " data-field="Description">
 												{@html marked(nextClass.fields['Description'] || '') }
 											</div>
-										{/if}
-									</div>
+										{/if} -->
+									<!-- </div> -->
 								</a>
 							</div>
 						{/if}
 
-						<div class="Class-return-home _divider-bottom">
-							<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-top-2 _margin-bottom-none-i">Return to lecture</a>
+						<div class="Class-return-home _divider-bottom _margin-top">
+							<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-bottom-none-i">Return to lecture</a>
 						</div>
 
 						<div class="Discussion _padding _card _margin-top-2">
@@ -128,13 +137,16 @@
 
 					<div class="Lecture-classes">
 						{#each classes as item}
-							<div class="_margin-bottom">
-								<a rel=prefetch class={`Lecture-link __copy Class-toc--link ${ path==='/class/'+item.fields['Slug']? '__active':''}`} href={`/class/${item.fields['Slug']}`}>
+							<a rel=prefetch class={`Lecture-link __copy Class-toc--link ${ path==='/class/'+item.fields['Slug']? '__active':''}`} href={`/class/${item.fields['Slug']}`}>
+								<div class="Lecture-link-card _card _card _padding _margin-bottom">
 									<!-- {#if item.fields['Cover Image']}
 										<img alt="lecture cover img" class="Lecture-cover" src={ item.fields['Cover Image'][0] }>
 									{/if} -->
 									<span class="Lecture-classes-title">{@html marked(item.title[0][0]) }</span>
-								</a>
+
+									<div class="_margin-top" >
+										<TeamCard profile={item.classObj['author']} simple={true} />
+									</div>
 								<!-- {#if item.fields['Author']}
 									<p data-field="Author">{ item.fields['Author'] }</p>
 								{/if} -->
@@ -144,7 +156,8 @@
 									<p data-field="Description">{ item.fields['Description'] }</p>
 								{/if}
 								-->
-							</div>
+								</div>
+							</a>
 						{/each}
 					</div>
 				</div>
@@ -199,13 +212,7 @@
 	// 	color: rgba(0, 0, 0, 0.87) !important;
 	// }
 
-	.__active {
-		font-weight: bold;
-	}
 
-	.Class-sidebar {
-    min-width: 250px;
-	}
 
 </style>
 
