@@ -4,6 +4,17 @@
 
     const data = await this.fetch(`/api/notion?contents=Lecture Video, Lab Video, Protocol, Reference, Reading`).then(r => r.json())
 
+
+    if(data['Protocol']) {
+      let _users = data['Protocol'].map(async (d,i) => {
+        if(d.fields['Author']) {
+          let user = await this.fetch(`/api/notion?getUser=${d.fields['Author']}`).then(r => r.json())
+          data['Protocol'][i] = {...data['Protocol'][i], ...user}
+        }
+      })
+      await Promise.all(_users)
+    }
+
     return { data };
   }
 </script>
@@ -109,7 +120,7 @@
 
 
   export let data
-  // $: console.log('yotion!!!!!:', data)
+  // $: console.log('[Library]', data)
 
   let readings
   $: if(data) readings = [...data['Reading']]

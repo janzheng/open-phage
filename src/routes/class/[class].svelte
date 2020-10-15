@@ -40,7 +40,7 @@
 
 	<div class="_section-page _margin-center _margin-bottom-2">
 		<div class="Class-return-home">
-			<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-top-2 _margin-bottom-none-i">Return to lecture</a>
+			<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-top-2 _margin-bottom-none-i">Return to lecture series</a>
 		</div>
 	</div>
 

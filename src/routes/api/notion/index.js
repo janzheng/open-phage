@@ -223,9 +223,14 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 
 
 
+
+
+
+
+
 export async function get(req, res) {
 
-	const {id, collection, collections, content, contents, getField, fields, getLecture, getClass} = req.query
+	const {id, collection, collections, content, contents, getField, fields, getLecture, getClass, getUser} = req.query
   let json, base = {}
 
   try {
@@ -258,7 +263,7 @@ export async function get(req, res) {
 		if(contents) { 
 			let arr = contents.split(', ')
 			arr.map((c) => {
-				let data =  getBase({content: c})
+				let data = getBase({content: c})
 				base[c] = data
 			})
 		}
@@ -283,6 +288,24 @@ export async function get(req, res) {
 		// get a class through slug, but also return the lecture series and adjoining classes
 		if(getClass) { 
 			base = {...base, ...getBase({getClass}) }
+		}
+
+		// get user/team/personnel via slug
+		// returns an []
+		if(getUser) { 
+			let users = []
+			let data = getBase({collection: 'Personnel'})
+			let dataKeys = Object.keys(data)
+			let arr = getUser.split(', ')
+			arr.map((c) => {
+				dataKeys.map(d => {
+					if(data[d].fields['Slug'] === c)
+						users.push(data[d])
+				})
+			})
+
+
+			base = {...base, users: users }
 		}
 
 

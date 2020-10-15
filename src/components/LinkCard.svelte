@@ -29,7 +29,7 @@
 
 	// $list {"class": "test-list", "itemContainerClass": "_card _padding", "coverField":"Cover Image", "showFields": "Name, Author, Description, DOI", "linkField":"URL"}
 
-	$: console.log(item)
+	// $: console.log('[LinkCard]', item)
 
 
 </script>

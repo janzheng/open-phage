@@ -16086,6 +16086,9 @@ body {
   position: relative;
   z-index: 10;
 }
+.Footer a {
+  text-decoration: none;
+}
 
 .ScheduleItem .date {
   font-weight: bold;

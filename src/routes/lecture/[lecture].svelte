@@ -47,6 +47,11 @@
 	  <div class=" _section-article _margin-center _margin-top-2 _divider-bottom">
 
 			{#if lecture}
+
+				{#if classes.length > 1}
+					<h6 class="_padding-bottom-none-i __normal">Lecture Series</h6>
+				{/if}
+
 				<h2 class="_padding-bottom-2">{ lecture.title[0][0] }</h2>
 				<div class="list-block-container"> 
 					<div class="list-block-item-container list-card __main _card _padding">
@@ -146,6 +151,9 @@
 							{/if}
 
 							<div class="Lecture-classes">
+
+								<h6 class="__normal">Lecture Series</h6>
+
 								{#each classes as item}
 									<!-- <div class="Lecture-link-card _card _padding _margin-bottom-2"> -->
 									<a rel=prefetch class="Lecture-link" href={`/class/${item.fields['Slug']}`}>

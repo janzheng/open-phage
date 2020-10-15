@@ -18,6 +18,9 @@ const getContentFromId = require("../_utils/yotion/notion/getContentFromId")
 
 const Cytosis = require("cytosis").default
 
+if (!fs.existsSync('./static/data')){
+   fs.mkdirSync('./static/data');
+}
 
 
 
