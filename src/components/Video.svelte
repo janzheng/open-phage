@@ -11,7 +11,9 @@
 	</video>
 
 	<div class="_font-small">
-		<a href={video}>Download video file</a>
+		{#if download}
+			<a href={video}>Download video file</a>
+		{/if}
 		{#if filesize} ({filesize}) {/if}
 	</div>
 {/if}
@@ -20,7 +22,7 @@
 
 <script>
 
-	export let video, cover=false, filesize=false, captions=false
+	export let video, cover=false, filesize=false, captions=false, download=true
 	let videoElem, coverImg, captionSrc
 
 	// cover just takes the Notion field array of images
