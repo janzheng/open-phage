@@ -63,7 +63,7 @@
 
       </div>
     	{#if profile.fields['Video'] && profile.fields['Video'][0]}
-        <Video video={profile.fields['Video'][0]} />
+        <Video cover={profile.fields['Video Cover']} video={profile.fields['Video'][0]} />
         <div class="_margin-top-2">{@html marked(profile.fields['Long'] || '') }</div>
     	{/if}
     </div>
