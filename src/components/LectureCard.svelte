@@ -21,11 +21,25 @@
 						<div data-field="Description">{@html marked(lecture.fields['Description'] || '') }</div>
 					{/if}
 
+
+					<!-- for lectures w/ a single class -->
+					{#if lectureClass}
+						<div class="_margin-top"> 
+							<UserSliver url={lectureClass.fields['URL']} />
+						</div>
+					<!-- for lecture series -->
+					{:else}
+						<div class="_margin-top"> 
+							<UserSliver url={lecture.fields['URL']} />
+						</div>
+					{/if}
+
 					{#if showSeries && lecture['series'] && lecture['series'].length > 1}
 						<div class="LectureCard-series-container _card _padding _margin-top-2">
 							<h6 class="">Lecture Series</h6>
 							<div class="LectureCard-series">
 								{#each lecture['series'] as item}
+									<UserSliver classes={'_float-left _margin-right-half'} showText={false} url={item.fields['URL']} />
 									<p class="LectureCard-series-item" data-field="Description">{ item.title[0] }</p>
 								{/each}
 							</div>
@@ -45,11 +59,18 @@
 <script>
 
   import marked from 'marked';
+  import UserSliver from './UserSliver.svelte'
+
 	export let lecture, showSeries, isHero
+
+	// these exist for series with only one class
+	let lectureClass 
+	$: if(lecture && lecture.series && lecture.series.length == 1)
+		lectureClass = lecture.series[0]
 
 // $list {"class": "test-list", "itemContainerClass": "_card _padding", "coverField":"Cover Image", "showFields": "Name, Author, Description, DOI", "linkField":"URL"}
 
-	// $: console.log('Lecture Card:', lecture.fields['Name'], lecture)
+	// $: console.log('[Lecture Card]', lecture.fields['Name'], lecture)
 
 
 </script>

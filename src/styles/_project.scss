@@ -175,6 +175,22 @@ input.__cta, button.__cta, a.__cta {
 }
 
 
+input.__quiet, button.__quiet, a.__quiet {
+	border: 2px solid usetheme(brand-lighter);
+	background-color: usetheme(brand-white);
+	color: usetheme(brand-active);
+
+	&:hover, &:active {
+		background-color: usetheme(brand-active) !important;
+		border-color: usetheme(brand-active) !important;
+		color: usetheme(brand-white) !important;
+	}
+	&:focus {
+		background-color: usetheme(brand-dark);
+		border-color: usetheme(brand-dark);
+		color: usetheme(brand-white);
+	}
+}
 
 
 
@@ -209,7 +225,7 @@ input.__cta, button.__cta, a.__cta {
 		text-decoration: none;
 
 		.list-card {
-			border: 2px solid usetheme(brand-lighter);
+			border: 2px solid usetheme(brand-lightest);
 			@extend %ease;
 		}
 
@@ -432,7 +448,7 @@ video {
 
 
 .Breadcrumbs {
-	background-color: usetheme(brand-lighter);
+	background-color: usetheme(brand-lightest);
 	a {
 		text-decoration: none !important;
 	}

@@ -16,14 +16,19 @@ import { User } from '../../stores/stores.js';
 
 export const getUser = async (setStore=true) => {
   try {
-    const response = await fetch(`api/passport/login`)
+    console.log('[getUser] Getting user ...')
+    // const response = await fetch(`api/passport/login`)
+
+    const response = await fetch(`api/passport/login`, {
+      headers: { 'Skip-SWR': true }
+    })
 
     if(response.status == 200) {
       const results = await response.json()
       // console.log('[getUser] Latest user object:', results)
 
       if(results.user) {
-        // console.log('get user -->', results.user, setStore, User)
+        console.log('[getUser] -->', results.user, setStore, User)
 
         if(setStore && User) { // update the UI store w/ user object
           User.set(results.user) // update the store object

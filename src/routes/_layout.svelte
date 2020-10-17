@@ -11,11 +11,15 @@
 
 <script>
   import { getContext, onMount, tick } from 'svelte';
-	import { goto } from '@sapper/app';
+	import { goto, stores } from '@sapper/app';
 
 	import Nav from '../components/Nav.svelte';
 	import Footer from '../components/Footer.svelte';
 	import { head, site_url } from '../_utils/_head.js';
+
+
+  import { derived } from 'svelte/store';
+  const { preloading } = stores();
 
 	// This trick passes down preloaded data to all modules
 	// https://stackoverflow.com/questions/60911171/how-to-pass-data-from-a-layout-to-a-page-in-sapper
@@ -78,7 +82,23 @@
 </svelte:head>
 
 
+
+
 <div id="top" class="ContentFrame Layout">
+
+
+
+	<!-- {#if $preloading} -->
+	  <!-- Show Loading spinner -->
+	  <!-- LOADING LOADING -->
+		<div class="__loadingbar">
+		  <div class="line"></div>
+		  <div class="subline inc"></div>
+		  <div class="subline dec"></div>
+		</div>
+	<!-- {/if} -->
+
+
 	<Nav {segment}/>
 
 	<main id="main" class="ContentFrame-body __content-frame">
@@ -92,9 +112,9 @@
 
 
 
-<!-- 
+
 <style type="text/scss">
-  // // @import '../styles/core';
-</style> -->
+
+</style>
 
 

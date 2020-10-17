@@ -77,13 +77,19 @@
 								<TeamCard class="_margin-top _margin-bottom" profile={author} inline={true} />
 							{/if}
 
+							{#if $User}
+								<div class="Class-user _margin-top-2 _margin-bottom-2">
+									<UserPanel {classObj}/>
+								</div>
+							{/if}
+
 							<!-- only use descriptions on lectures index -->
 							<!-- {#if classObj.fields['Description']}
 								<div class="_margin-top-2" data-field="Description">
 									{@html marked(classObj.fields['Description'] || '') }
 								</div>
 							{/if}
- -->
+							-->
 							{#if classObj.content.markdown && classObj.content.markdown.join('').length > 0}
 								<div class="_margin-top-2">
 									{@html marked(classObj.content.markdown.join('') || '')}
@@ -177,14 +183,17 @@
 <script>
 
   import marked from 'marked';
+	import { User } from '../../stores/stores.js';
+
   import Video from '../../components/Video.svelte'
   import TeamCard from '../../components/TeamCard.svelte'
 	import CommentBox from '../../components/CommentBox.svelte'
   import Breadcrumbs from '../../components/Breadcrumbs.svelte'
+  import UserPanel from '../../components/UserPanel.svelte'
 
 	export let lecture, classes, classObj, data, path, author, slug
 
-	$: console.log('[class]', classObj)
+	// $: console.log('[class]', classObj)
 	// $: console.log(data)
 
 	function getNextClass() {
@@ -204,6 +213,8 @@
 	let nextClass
 	$: if(data)
 		nextClass = getNextClass()
+
+
 
 
 </script>

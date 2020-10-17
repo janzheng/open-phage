@@ -15,6 +15,12 @@
 				{#if item.fields['Description']}
 					<p data-field="Description">{ item.fields['Description'] }</p>
 				{/if}
+
+				<!-- {#if $User}
+					<div class="Class-user _margin-top-2 _margin-bottom-2">
+						<UserPanel {classObj}/>
+					</div>
+				{/if} -->
 			</div>
 		</a>
 	</div>
@@ -24,6 +30,9 @@
 
 
 <script>
+
+	// import { User } from '../stores/stores.js';
+  // import UserPanel from './components/UserPanel.svelte'
 
 	export let item
 

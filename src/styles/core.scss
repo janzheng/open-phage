@@ -1,4 +1,4 @@
-                           
+                            
         
               
           
@@ -22,14 +22,14 @@
 // @import 'templates';
  
    
-.ContentFrame-body {
+.ContentFrame-body { 
 	// padding-bottom: 140px; // $size-9;
   position: relative;
   z-index: 10; 
   overflow: hidden;
 }
   
- 
+   
 input {
 	-webkit-appearance: none;    
 }
@@ -106,14 +106,63 @@ textarea,  {
   // border-color: usetheme(brand-light);
 
   &:hover {
-    border-color:usetheme(brand-light);
+    border-color: usetheme(brand-light);
   }
 
   &:focus {
-    border-color:usetheme(brand-active);
+    border-color: usetheme(brand-active);
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+// https://stackoverflow.com/questions/34773266/how-to-write-css-keyframes-to-indeterminate-material-design-progress-bar
+.__loadingbar {
+  top: 0;
+  // position: absolute;
+  position: fixed;
+  width: 100%;
+  height: 6px;
+  overflow-x: hidden;
+  
+  .line {
+    top: 0;
+    position: absolute;
+    background: usetheme(brand-dark);
+    width: 150%;
+    height: 5px;
+  }
+
+  .subline {
+    top: 0;
+    position: absolute;
+    background: usetheme(brand-lighter);
+    height:5px; 
+  }
+  .inc {
+    animation: increase 5s infinite;
+  }
+  .dec {
+    animation: decrease 5s 0.5s infinite;
+  }
+
+  @keyframes increase {
+   from { left: -5%; width: 5%; }
+   to { left: 130%; width: 100%;}
+  }
+  @keyframes decrease {
+   from { left: -80%; width: 80%; }
+   to { left: 110%; width: 10%;}
+  }
+}
 
 
 

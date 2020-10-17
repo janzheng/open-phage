@@ -19,10 +19,12 @@
 					</div>
 				{/if}
 
-
 				{#if protocol.fields['Description']}
 					<p data-field="Description">{ protocol.fields['Description'] }</p>
 				{/if}
+
+				<UserSliver url={protocol.fields['URL']} />
+
 			</div>
 		</a>
 	</div>
@@ -33,7 +35,8 @@
 
 <script>
 
-  import TeamCard from '../components/TeamCard.svelte'
+  import UserSliver from './UserSliver.svelte'
+  import TeamCard from './TeamCard.svelte'
 
 	export let protocol
 

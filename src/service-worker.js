@@ -45,8 +45,15 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+	// console.log('**-----** [GET] Headers', event.request.headers)
 	// console.log('[SW] Fetch event:', event.request.url, event.request.method, event.request.headers.has('range'), event.request.cache)
 	if (event.request.method !== 'GET' || event.request.headers.has('range')) return;
+
+	// custom header for skipping SWR, for logins etc.
+	if (event.request.headers.has('Skip-SWR')) {
+		// console.log('**-----** [GET] Skipping SWR', event.request.headers)
+		return
+	}
 
 	const url = new URL(event.request.url);
 

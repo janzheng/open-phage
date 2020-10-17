@@ -18,7 +18,7 @@ import * as sapper from '@sapper/server';
 
 import Cytosis from 'cytosis';
 import { config } from "dotenv";
-import { cacheGet, cacheSet, cacheClear } from "../../../../_utils/cache"
+import { cacheGet, cacheSet, cacheClear, getCacheKeys} from "../../../../_utils/cache"
 // import { getContentFromTable } from "../../../../_utils/notion"
 import { sendData } from "../../../../_utils/sapper-helpers" 
 import { saveSetup, save } from '../../../../_utils/save.js'
@@ -99,7 +99,7 @@ saveSetup({ // for easy airtable saving
 export async function post(req, res) {
   // const {Name, PublicEmail, Social, Pitch, Title, CV} = req.body
   const { type } = req.query
-  let { faveId } = req.body
+  let { url } = req.body
 
   // not sure why it wraps req around _ctx
   let user = req.session._ctx.user
@@ -116,17 +116,18 @@ export async function post(req, res) {
 
   let userProfile = await getProfileByPhid(user['_phid'], false) // get logged in user's profile
 
-  if(type === 'addFave') {
-    if(!userProfile.fields['Favorites']) {
-    	userProfile.fields['Favorites'] = [faveId]
-    } else if(!userProfile.fields['Favorites'].includes(faveId)) {
-    	userProfile.fields['Favorites'].push(faveId)
+  console.log('>>>>>', type)
+  if(type === 'addLectureBookmark') {
+    if(!userProfile.fields['PGH Bookmarks']) {
+    	userProfile.fields['PGH Bookmarks'] = [url]
+    } else if(!userProfile.fields['PGH Bookmarks'].includes(url)) {
+    	userProfile.fields['PGH Bookmarks'].push(url)
     }
-  } else if (type === 'removeFave') {
-    if(userProfile.fields['Favorites']) {
-      let index = userProfile.fields['Favorites'].indexOf(faveId)
+  } else if (type === 'removeLectureBookmark') {
+    if(userProfile.fields['PGH Bookmarks']) {
+      let index = userProfile.fields['PGH Bookmarks'].indexOf(url)
       if(index > -1)
-        userProfile.fields['Favorites'].splice(index,1)
+        userProfile.fields['PGH Bookmarks'].splice(index,1)
     }
   }
 
@@ -135,21 +136,24 @@ export async function post(req, res) {
     // save the profile
     userProfile = await saveProfile({
     	recordId: userProfile.fields['recordId'],
-    	Favorites: userProfile.fields['Favorites']
+    	'PGH Bookmarks': userProfile.fields['PGH Bookmarks']
     })
 
-    return sendData({
-      status: true,
-      data: userProfile,
-    }, res)
+    // return sendData({
+    //   status: true,
+    //   data: userProfile,
+    // }, res)
 
     // need to re-log in to update server session
-    // req.login(user, async (err) => {
-    //   return sendData({
-    //     status: true,
-    //     data: userProfile,
-    //   }, res)
-    // })
+    user['Profile'] = userProfile
+    req.login(user, async (err) => {
+
+      console.log('XXXXXX Cleanup:', getCacheKeys())
+      return sendData({
+        status: true,
+        data: userProfile,
+      }, res)
+    })
 
   } catch(err) {
     console.error('[api/profile/fave]', err)

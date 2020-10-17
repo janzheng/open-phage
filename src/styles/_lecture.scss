@@ -12,7 +12,7 @@
 
 // [lecture].svelte
 .Lecture-link-card {
-	border: 2px solid usetheme(brand-lighter);
+	border: 2px solid usetheme(brand-lightest);
 	box-shadow: inherit;
 	color: usetheme(brand-copy);
 	@extend %ease;

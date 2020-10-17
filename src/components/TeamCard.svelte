@@ -66,6 +66,22 @@
         <Video cover={profile.fields['Video Cover']} download={false} filesize={profile.fields['Video Size']} video={profile.fields['Video'][0]} />
         <div class="_margin-top-2">{@html marked(profile.fields['Long'] || '') }</div>
     	{/if}
+
+      {#if teachingsKeys.length > 0}
+        <div class="TeamCard-teachings">
+          {#each teachingsKeys as tkey}
+            <h6 class="_padding-bottom-half">{teachingLabels[tkey]}</h6>
+            <div class="TeamCard-teachings-item-container _margin-bottom-2">
+              {#each teachings[tkey] as item}
+                <div class="TeamCard-teachings-item">
+                  <!-- {JSON.stringify(item)} -->
+                  <a href={`/${item.fields['URL']}`}>{item.fields['Name']}</a>
+                </div>
+              {/each}
+            </div>
+          {/each}
+        </div>
+      {/if}
     </div>
   {/if}
 
@@ -83,8 +99,21 @@
   import { onMount, getContext, setContext } from 'svelte';
   import Video from './Video.svelte'
 
-  export let profile, inline=false, simple=false
+  export let profile, inline=false, simple=false, teachings={}
 
+  let teachingsKeys = []
+  let teachingLabels = {
+    'Lecture Content': 'Lectures',
+    'Lab Experiments': 'Lab Experiments',
+    'Lab Videos': 'Lab Videos',
+    'Protocols': 'Protocols',
+  }
+
+  // $: console.log('[TeamCard] ', teachings)
+
+  $: {
+    teachingsKeys = Object.keys(teachings)
+  }
 </script>
 
 

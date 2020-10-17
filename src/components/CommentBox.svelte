@@ -17,12 +17,12 @@
 					<div class="_grid-2 _align-vertically">
 						<div class="">
 							{#if $profiles[item._phid] && $profiles[item._phid].data}
-								<div class={`FaveThumb-profile`}>
+								<div class={`CommentBox-profile`}>
 									<a href={`/user/${$profiles[item._phid].data.fields['userName']}`}>
 										{#if $profiles[item._phid].data.fields['ProfileImage'] && $profiles[item._phid].data.fields['ProfileImage'].length > 0 }
-											<img class="FaveThumb-profile-img" alt={`profile for ${$profiles[item._phid].data.fields['userName']}`} src={ $profiles[item._phid].data.fields['ProfileImage'][0]['thumbnails']['small']['url'] }>
+											<img class="CommentBox-profile-img" alt={`profile for ${$profiles[item._phid].data.fields['userName']}`} src={ $profiles[item._phid].data.fields['ProfileImage'][0]['thumbnails']['small']['url'] }>
 										{/if}
-										<span class="FaveThumb-profile-username">{$profiles[item._phid].data.fields['userName'] }</span>
+										<span class="CommentBox-profile-username">{$profiles[item._phid].data.fields['userName'] }</span>
 									</a>
 								</div>
 							{/if}
@@ -226,7 +226,7 @@
 
 
 
-	.FaveThumb-profile {
+	.CommentBox-profile {
 		// margin-top: 0.5rem;
 
 		a {
@@ -234,7 +234,7 @@
 		}
 	}
 
-	.FaveThumb-profile-img {
+	.CommentBox-profile-img {
 		object-fit: cover;
 		border-radius: 100%;
 		width: 48px;

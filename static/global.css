@@ -2273,33 +2273,62 @@ button {
   background-color: #0163e4;
 }
 
-._color-brand-lighter {
+._color-brand-lightest {
   color: #eaf3ff;
 }
-._color-brand-lighter-i {
+._color-brand-lightest-i {
   color: #eaf3ff !important;
 }
 
-._color-bg-brand-lighter {
+._color-bg-brand-lightest {
   background-color: #eaf3ff;
 }
-._color-bg-brand-lighter-i {
+._color-bg-brand-lightest-i {
   background-color: #eaf3ff !important;
 }
 
-._color-border-brand-lighter {
+._color-border-brand-lightest {
   border-color: #eaf3ff;
 }
-._color-border-brand-lighter-i {
+._color-border-brand-lightest-i {
   border-color: #eaf3ff !important;
 }
 
-._color-hover-brand-lighter:hover {
+._color-hover-brand-lightest:hover {
   color: #eaf3ff;
 }
 
-._color-hoverborder-brand-lighter:hover:after {
+._color-hoverborder-brand-lightest:hover:after {
   background-color: #eaf3ff;
+}
+
+._color-brand-lighter {
+  color: #add0ff;
+}
+._color-brand-lighter-i {
+  color: #add0ff !important;
+}
+
+._color-bg-brand-lighter {
+  background-color: #add0ff;
+}
+._color-bg-brand-lighter-i {
+  background-color: #add0ff !important;
+}
+
+._color-border-brand-lighter {
+  border-color: #add0ff;
+}
+._color-border-brand-lighter-i {
+  border-color: #add0ff !important;
+}
+
+._color-hover-brand-lighter:hover {
+  color: #add0ff;
+}
+
+._color-hoverborder-brand-lighter:hover:after {
+  background-color: #add0ff;
 }
 
 ._color-brand-light {
@@ -16130,6 +16159,22 @@ input.__cta:focus, button.__cta:focus, a.__cta:focus {
   color: #FAFAFA;
 }
 
+input.__quiet, button.__quiet, a.__quiet {
+  border: 2px solid #add0ff;
+  background-color: #FAFAFA;
+  color: #0163e4;
+}
+input.__quiet:hover, input.__quiet:active, button.__quiet:hover, button.__quiet:active, a.__quiet:hover, a.__quiet:active {
+  background-color: #0163e4 !important;
+  border-color: #0163e4 !important;
+  color: #FAFAFA !important;
+}
+input.__quiet:focus, button.__quiet:focus, a.__quiet:focus {
+  background-color: #0149a7;
+  border-color: #0149a7;
+  color: #FAFAFA;
+}
+
 .list-block-item-container, .list-card {
   overflow: auto;
 }
@@ -16451,4 +16496,51 @@ input[type=password]:focus,
 input[type=file]:focus,
 textarea:focus {
   border-color: #0163e4;
+}
+
+.__loadingbar {
+  top: 0;
+  position: fixed;
+  width: 100%;
+  height: 6px;
+  overflow-x: hidden;
+}
+.__loadingbar .line {
+  top: 0;
+  position: absolute;
+  background: #0149a7;
+  width: 150%;
+  height: 5px;
+}
+.__loadingbar .subline {
+  top: 0;
+  position: absolute;
+  background: #add0ff;
+  height: 5px;
+}
+.__loadingbar .inc {
+  animation: increase 5s infinite;
+}
+.__loadingbar .dec {
+  animation: decrease 5s 0.5s infinite;
+}
+@keyframes increase {
+  from {
+    left: -5%;
+    width: 5%;
+  }
+  to {
+    left: 130%;
+    width: 100%;
+  }
+}
+@keyframes decrease {
+  from {
+    left: -80%;
+    width: 80%;
+  }
+  to {
+    left: 110%;
+    width: 10%;
+  }
 }

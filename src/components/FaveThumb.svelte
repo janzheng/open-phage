@@ -1,9 +1,9 @@
-
+<!--
 
 {#if fave && fave.fields }
 	<div class="FaveThumb _card _padding" >
 
-		<!-- <div>{fave['baseId']}-{fave['id']} | {faveId} </div> -->
+		<!~~ <div>{fave['baseId']}-{fave['id']} | {faveId} </div> ~~>
 
 		{#if fave.fields['Images'] && fave.fields['Images'][0] && fave.fields['Images'][0]['thumbnails']}
 			<div class="FaveThumb-cover _relative">
@@ -28,13 +28,13 @@
 		<div class={`FaveThumb-profile _margin-top ${$profile && $profile.data ? '_grid-2-1-xs _align-vertically' : ''} `}>
 
 			<div class="">
-				<!-- <button on:click={handleDelete} class="_button __action __text _padding-none-i _margin-bottom-none" >Delete</button> -->
-				<!-- ❤️ -->
+				<!~~ <button on:click={handleDelete} class="_button __action __text _padding-none-i _margin-bottom-none" >Delete</button> ~~>
+				<!~~ ❤️ ~~>
 				
 
-				<!-- <div class=" __truncate-short"> -->
+				<!~~ <div class=" __truncate-short"> ~~>
 				<div>
-					<!-- <div>showBookmarked? {showBookmarked} | loading: {isLoading}</div> -->
+					<!~~ <div>showBookmarked? {showBookmarked} | loading: {isLoading}</div> ~~>
 					{#if showBookmarked || (!isLoading && isFavorite(fave))} 
 						<button class="__text _padding-none-i _margin-none-i" on:click={async()=>{
 							showBookmarked = false
@@ -52,7 +52,7 @@
 							isLoading = false
 						}}>🤍</button>&nbsp;
 					{/if} 
-					<!-- <a class="_font-small" rel=prefetch href={href}>🤔</a>  -->
+					<!~~ <a class="_font-small" rel=prefetch href={href}>🤔</a>  ~~>
 					<a class="_font-small" rel=prefetch href={href}>{commentCount > 0 ? `Comments (${commentCount})` : 'Details'}</a> 
 				</div>
 			</div>
@@ -65,7 +65,7 @@
 						{:else}
 							<span class="FaveThumb-profile-username">{ $profile.data.fields['userName'] }</span>
 						{/if}
-						<!-- <fspan class="FaveThumb-profile-username">{ $profile.data.fields['userName'] }</span> -->
+						<!~~ <fspan class="FaveThumb-profile-username">{ $profile.data.fields['userName'] }</span> ~~>
 					</a>
 				</div>
 			{/if}
@@ -229,3 +229,4 @@
 </style>
 
 
+-->

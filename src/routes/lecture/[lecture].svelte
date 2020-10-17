@@ -83,6 +83,12 @@
 									</div>
 								{/if}
 
+								{#if $User}
+									<div class="Class-user _margin-top-2 _margin-bottom-2">
+										<UserPanel classObj={item}/>
+									</div>
+								{/if}
+
 								<!-- hide the card description for single classes since you jump right in -->
 								<!-- {#if lecture.fields['Description']}
 									<p class="_margin-top-2 _margin-bottom-2" data-field="Description">
@@ -150,6 +156,13 @@
 								</div>
 							{/if}
 
+							{#if $User}
+								<!-- users can bookmark an entire lecture series -->
+								<div class="Class-user _margin-top-2 _margin-bottom-2">
+									<UserPanel classObj={lecture}/>
+								</div>
+							{/if}
+
 							<div class="Lecture-classes">
 
 								<h6 class="__normal">Lecture Series</h6>
@@ -173,6 +186,9 @@
 											{#if item.fields['Description']}
 												<div data-field="Description">{@html marked(item.fields['Description']) }</div>
 											{/if}
+											<div class="_margin-top _margin-bottom">
+												<UserSliver url={item.fields['URL']} />
+											</div>
 										</div>
 									</a>
 								{/each}
@@ -198,9 +214,13 @@
 <script>
 
   import marked from 'marked'
+	import entities from 'entities'
+
+	import { User } from '../../stores/stores.js';
+  import UserSliver from '../../components/UserSliver.svelte'
+  import UserPanel from '../../components/UserPanel.svelte'
   import Video from '../../components/Video.svelte'
 	import CommentBox from '../../components/CommentBox.svelte'
-	import entities from 'entities'
   import Breadcrumbs from '../../components/Breadcrumbs.svelte'
   import TeamCard from '../../components/TeamCard.svelte'
 

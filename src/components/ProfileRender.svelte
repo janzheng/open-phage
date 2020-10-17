@@ -55,14 +55,14 @@
 	let User = getContext('User')
 	export let Profile // could either be passed in or gotten from User
 
-	export let previewImage, userProfile // generated from an uploaded image through file reader
+	export let previewImage, userOwnsProfile // generated from an uploaded image through file reader
 
 	let name, email, siteTitle, profileImage, pitch, socialProfiles, cvContent, userName
 	
 	// if we have a User from the store, we set profile to that
 	// but only if we haven't passed in Profile as a prop
 	// $: if(!Profile && $User && $User.Profile) { // this prevents future updates
-	$: if(userProfile && $User && $User.Profile) {
+	$: if(userOwnsProfile && $User) {
 		Profile = $User.Profile
 	} 
 

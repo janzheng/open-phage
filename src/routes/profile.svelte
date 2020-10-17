@@ -14,12 +14,16 @@
         <h1>{$User.Profile.fields['Name']}'s Profile</h1>
         <p>(This page is only viewable to you)</p>
 
+        <div class="Profile-bookmarks _margin-top-2 _card _padding __flat">
+          <ProfileCourseBookmarks />
+        </div>
 
-        <div class="Profile-edit _margin-bottom-2 _card _padding">
+
+        <div class="Profile-edit _margin-bottom-2 _card _padding __flat">
           <div class="Profile-preview _margin-bottom-2">
             <h6>Profile Preview</h6>
             <div class="_section-article _margin-center">
-              <ProfileRender userProfile={true} />
+              <ProfileRender userOwnsProfile={true} />
             </div>
           </div>
 
@@ -30,10 +34,13 @@
             <ProfileEdit class="" />
           {/if}
         </div>
+
+
+
 <!-- 
         <div class="Profile-bookmarks _margin-bottom-2">
           <h2>Best Of</h2>
-          <ProfileBookmarks />
+          <ProfileCourseBookmarks />
         </div>
 
         <div class="Profile-faves _margin-bottom-2">
@@ -62,7 +69,7 @@
   import ProfileRender from '../components/ProfileRender.svelte';
   import ProfileEdit from '../components/ProfileEdit.svelte';
   import ProfileFaves from '../components/ProfileFaves.svelte';
-  import ProfileBookmarks from '../components/ProfileBookmarks.svelte';
+  import ProfileCourseBookmarks from '../components/ProfileCourseBookmarks.svelte';
 
   import { User } from '../stores/stores.js';
 

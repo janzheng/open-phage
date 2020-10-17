@@ -141,7 +141,8 @@ $colors-brand: (
   brand: #71EFF5, // dark blue
   brand-copy: rgba(0,0,0,.87),
   brand-active: #0163e4,
-  brand-lighter: lighten(#0163e4, 51%),
+  brand-lightest: lighten(#0163e4, 51%),
+  brand-lighter: lighten(#0163e4, 39%),
   brand-light: lighten(#0163e4, 10%),
   brand-dark: darken(#0163e4, 12%),
   brand-alt: #0722ab, // dark red doesn't look good: #ab0a0a,

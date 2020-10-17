@@ -43,6 +43,14 @@
 					{#if protocol.content.markdown}
 						{@html marked(protocol.content.markdown.join('') || '')}
 					{/if}
+
+
+					{#if $User}
+						<div class="Class-user _margin-top-2 _margin-bottom-2">
+							<UserPanel classObj={protocol} />
+						</div>
+					{/if}
+
 				</div>
 			</div>
 
@@ -59,6 +67,9 @@
 <script>
 
   import marked from 'marked';
+
+	import { User } from '../../stores/stores.js';
+  import UserPanel from '../../components/UserPanel.svelte'
 
   import TeamCard from '../../components/TeamCard.svelte'
 	import CommentBox from '../../components/CommentBox.svelte';

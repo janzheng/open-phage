@@ -27,13 +27,13 @@
 
     <div class="Lectures-container _margin-center _margin-top-2 ">
  
-      <LectureCard isHero={true} lecture={heroLecture} />
+      <!-- <LectureCard isHero={true} lecture={heroLecture} /> -->
 
       <div class="Lectures-body _section _divider-bottom">
         <div class="Lectures-main">
           {#if lectures}
-            {#each lectures as item}
-              <LectureCard class="_margin-bottom-2" lecture={item} showSeries={true} showMaterial={true} />
+            {#each lectures as item, i}
+              <LectureCard isHero={i==0} lecture={item} showSeries={true} showMaterial={true} />
             {/each}
           {/if}
         </div>
@@ -110,7 +110,7 @@
   $: if(data) {
 
   	lectures = [...data['Lecture Series']]
-  	lectures = lectures.slice(1) // remove first one since it's a "hero"
+  	// lectures = lectures.slice(1) // remove first one since it's a "hero"
 
     // filter out unpublished lectures
     // not that safe but mostly this is to clean up the UI
@@ -138,7 +138,7 @@
       })
     })
 
-    // console.log('[lectures]', lectures)
+    console.log('[lectures]', lectures)
   }
 
   let library

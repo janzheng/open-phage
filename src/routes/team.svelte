@@ -2,7 +2,15 @@
   export async function preload(page, session) {
     const data = await this.fetch(`/api/notion?collection=Personnel`).then(r => r.json())
 
-    return { data };
+    let authorSlugs=''
+
+    let _data = data.map(d => {
+      authorSlugs += d.fields['Slug'] + ', '
+    })
+
+    let authorTeachings = await this.fetch(`/api/notion?getAuthorItems=${authorSlugs}`).then(r => r.json())
+
+    return { data, authorTeachings };
   }
 </script>
 
@@ -16,7 +24,7 @@
       <h1>Team Members</h1>
 
     	{#each data as profile}
-    		<TeamCard {profile} />
+    		<TeamCard {profile} teachings={authorTeachings[profile.fields['Slug']]} />
     	{/each}
 
     </div>
@@ -40,12 +48,9 @@
   let intro
 	$: intro = Cytosis.findField('intro', Content, 'Content')
 
+  export let data, authorTeachings
 
-
-
-  export let data
-
-  $: console.log('[Team] data:', data)
+  $: console.log('[Team] data:', data, authorTeachings)
 
   
 </script>
