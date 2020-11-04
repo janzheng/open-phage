@@ -2,9 +2,9 @@
 {#if $User}
 	<div class="UserPanel _card __flat _padding">
 		{#if isBkmk}
-			<button class="_button __quiet _margin-bottom-none-i" on:click={handleRemoveLectureBookmark(classObj.fields['URL'])}>🌟 Remove from bookmarks</button>
+			<button class="_button __quiet _margin-bottom-none-i" on:click={handleRemoveLectureBookmark(classObj.fields['URL'])}>🌟 Remove from your bookmarks</button>
 		{:else}
-			<button class="_button __quiet _margin-bottom-none-i" on:click={handleAddLectureBookmark(classObj.fields['URL'])}>⭐️ Add to bookmarks</button>
+			<button class="_button __quiet _margin-bottom-none-i" on:click={handleAddLectureBookmark(classObj.fields['URL'])}>⭐️ Add to your bookmarks</button>
 		{/if}
 	</div>
 {/if}

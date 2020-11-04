@@ -9,7 +9,6 @@
     })
 
     let authorTeachings = await this.fetch(`/api/notion?getAuthorItems=${authorSlugs}`).then(r => r.json())
-
     return { data, authorTeachings };
   }
 </script>
@@ -17,13 +16,12 @@
 
 <div class="Team">
 
-
   <div class="_section-page _padding-top-2 _margin-center ">
     <div class="_section-article _margin-center _divider-top _divider-bottom">
 
       <h1>Team Members</h1>
 
-    	{#each data as profile}
+    	{#each filterData as profile}
     		<TeamCard {profile} teachings={authorTeachings[profile.fields['Slug']]} />
     	{/each}
 
@@ -38,8 +36,10 @@
 	import Cytosis from 'cytosis';
   import marked from 'marked';
 
-  import { onMount, getContext, setContext } from 'svelte';
+  import { onMount, getContext, setContext } from 'svelte'
   import TeamCard from '../components/TeamCard.svelte'
+  import { Status } from '../stores/stores.js'
+  import { filterByStatus } from '@/_utils/app-helpers'
 
   // Content passed down from layout
   const Content$ = getContext('Content')
@@ -48,9 +48,14 @@
   let intro
 	$: intro = Cytosis.findField('intro', Content, 'Content')
 
-  export let data, authorTeachings
+  export let data, filterData, authorTeachings
 
-  $: console.log('[Team] data:', data, authorTeachings)
+  $: {
+    filterData = filterByStatus(data)
+    // console.log('Status:', $Status)
+  }
+
+  // $: console.log('[Team] data:', data, authorTeachings)
 
   
 </script>

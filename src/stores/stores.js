@@ -16,3 +16,6 @@ export const User = writable({
 	// used to check for existence / if it's loaded or not; 
 	// failed attempts will return status: false 
 });
+
+
+export const Status = writable('Published')

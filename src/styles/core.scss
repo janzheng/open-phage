@@ -1,4 +1,4 @@
-                            
+                             
         
               
           
@@ -19,7 +19,7 @@
 // modular      
 // @import 'components';   
 // @import 'sections';
-// @import 'templates';
+// @import 'templates'; 
  
    
 .ContentFrame-body { 
@@ -92,22 +92,22 @@ html, body, * {
 	@extend ._font-body;
 }
  
-  
    
+    
  
-  
+    
 
 input[type=text],
 input[type=password],
-input[type=file],
-textarea,  {
-  border-radius: $radius;
+input[type=file], 
+textarea  {
+  border-radius: $radius; 
   border: $border-thin solid usetheme(brand-soft);
   // border-color: usetheme(brand-light);
 
   &:hover {
     border-color: usetheme(brand-light);
-  }
+  } 
 
   &:focus {
     border-color: usetheme(brand-active);

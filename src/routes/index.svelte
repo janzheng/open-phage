@@ -40,7 +40,7 @@
 
         <div class="_margin-top-2 _margin-bottom-2">
           <!-- <button class="__action __short">Browse lectures</button> -->
-          <a href="/lectures" class="_button __cta">Explore phage lectures</a>
+          <a href="/lectures" class="_button __cta __largebtn">Explore phage lectures</a>
         </div>
       </div>
       
@@ -116,3 +116,9 @@
 
 
 </script>
+
+
+
+<style type="text/scss">
+
+</style>

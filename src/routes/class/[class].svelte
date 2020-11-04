@@ -40,7 +40,9 @@
 
 	<div class="_section-page _margin-center _margin-bottom-2">
 		<div class="Class-return-home">
-			<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-top-2 _margin-bottom-none-i">Return to lecture series</a>
+			<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-top-2 _margin-bottom-none-i">
+				⟵ Return to Series
+			</a>
 		</div>
 	</div>
 
@@ -49,7 +51,7 @@
 
 		<h2>{ classObj.title[0][0] }</h2>
 
-		<div class={` _padding-top-2  ${classes.length > 1 ? '_grid-3-1 _grid-gap-large' : ''}`}>
+		<div class={` _padding-top-2  ${filteredClasses.length > 1 ? '_grid-3-1 _grid-gap-large' : ''}`}>
 			
 		  <div class="Class-body">
 
@@ -59,7 +61,7 @@
 						<div class="list-block-item-container list-card _card _padding">
 							{#if classObj.fields['Video'] && classObj.fields['Video'][0]}
 			    				<div class=" _margin-bottom-2">
-			            	<Video cover={classObj.fields['Video Cover']} video={classObj.fields['Video'][0]} filesize={classObj.fields['Video Size']} captions={classObj.fields['Video Captions']} />
+			            	<Video classes="Class-video" cover={classObj.fields['Video Cover']} video={classObj.fields['Video'][0]} filesize={classObj.fields['Video Size']} captions={classObj.fields['Video Captions']} />
 			            </div>
 			          {:else}
 									{#if classObj.fields['Cover Image']}
@@ -118,7 +120,9 @@
 						{/if}
 
 						<div class="Class-return-home _divider-bottom _margin-top">
-							<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-bottom-none-i">Return to lecture series</a>
+							<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-bottom-none-i">
+								⟵ Return to lecture series
+							</a>
 						</div>
 
 						<div class="Discussion _padding _card _margin-top-2">
@@ -135,14 +139,14 @@
 
 
 			<!-- sidebar -->
-			{#if classes.length > 1}
+			{#if filteredClasses.length > 1}
 				<div class="Class-sidebar">
 					<div class="_margin-bottom">
 						<a class="__underline-none" rel=prefetch href={`/lecture/${lecture.fields['Slug']}`}><h6 class="_padding-top-none-i">{ lecture.title[0][0] }</h6></a>
 					</div>
 
 					<div class="Lecture-classes">
-						{#each classes as item}
+						{#each filteredClasses as item}
 							<a rel=prefetch class={`Lecture-link __copy Class-toc--link ${ path==='/class/'+item.fields['Slug']? '__active':''}`} href={`/class/${item.fields['Slug']}`}>
 								<div class="Lecture-link-card _card _card _padding _margin-bottom">
 									<!-- {#if item.fields['Cover Image']}
@@ -192,6 +196,10 @@
   import UserPanel from '../../components/UserPanel.svelte'
 
 	export let lecture, classes, classObj, data, path, author, slug
+	let filteredClasses
+	
+	import { filterByStatus } from '@/_utils/app-helpers'
+
 
 	// $: console.log('[class]', classObj)
 	// $: console.log(data)
@@ -214,6 +222,9 @@
 	$: if(data)
 		nextClass = getNextClass()
 
+	$: {
+		filteredClasses = filterByStatus(classes)
+	}
 
 
 
@@ -224,6 +235,12 @@
 	// .Class-toc--link {
 	// 	color: rgba(0, 0, 0, 0.87) !important;
 	// }
+	
+	:global(.Class-video) {
+		// :global(video) {
+			width: 100%
+		// }
+	}
 
 
 

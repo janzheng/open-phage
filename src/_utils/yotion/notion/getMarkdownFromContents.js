@@ -105,7 +105,7 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
 
           let optionStr = block.properties.title[0][0].substring(5).trim()
 
-          console.log('OPTIONSTR:::: ', optionStr)
+          // console.log('OPTIONSTR:::: ', optionStr)
           let options
           if(optionStr) {
             options = JSON.parse(optionStr)

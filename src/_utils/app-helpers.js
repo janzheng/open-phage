@@ -4,7 +4,7 @@ import { get } from 'svelte/store';
 
 import { cachet } from './sapper-helpers';
 import { fetchPost } from './fetch-helpers';
-import { User } from '../stores/stores.js';
+import { User, Status } from '../stores/stores.js';
 
 
 
@@ -242,6 +242,25 @@ export const handleRemoveFavorite = async (fave) => {
   return results
 }
 
+
+
+
+// take an array, if it has fields.Status:
+// - if current status is Published, only let through Status==Published
+// - if current status is Preview, let through Published|Preview
+// - if it doesn't have fields it won't be let through
+// returns an array
+export const filterByStatus = (arr) => {
+  let status = get(Status)
+  let _arr = arr.filter(d => {
+    if(status == 'Published' && d.fields['Status'] == 'Published')
+      return d
+    else if (status == 'Preview' && (d.fields['Status']=='Preview' || d.fields['Status']=='Published'))
+      return d
+  })
+  // console.log('filterByStatus Status:', status, _arr)
+  return _arr
+}
 
 
 

@@ -72,11 +72,13 @@
           {#each teachingsKeys as tkey}
             <h6 class="_padding-bottom-half">{teachingLabels[tkey]}</h6>
             <div class="TeamCard-teachings-item-container _margin-bottom-2">
-              {#each teachings[tkey] as item}
+              {#each getTeachingItems(teachings[tkey]) as item}
                 <div class="TeamCard-teachings-item">
                   <!-- {JSON.stringify(item)} -->
                   <a href={`/${item.fields['URL']}`}>{item.fields['Name']}</a>
                 </div>
+              {:else}
+                No <span class="__lower">{teachingLabels[tkey]}</span> yet
               {/each}
             </div>
           {/each}
@@ -95,9 +97,10 @@
 <script>
 
   import marked from 'marked';
-
   import { onMount, getContext, setContext } from 'svelte';
+
   import Video from './Video.svelte'
+  import { filterByStatus } from '@/_utils/app-helpers'
 
   export let profile, inline=false, simple=false, teachings={}
 
@@ -113,6 +116,16 @@
 
   $: {
     teachingsKeys = Object.keys(teachings)
+  }
+
+  const getTeachingItems = (item) => {
+    // item is an array of lectures etc.
+    if(!item || item.length ==0)
+      return []
+      
+    let arr = filterByStatus(item)
+    console.log('filter?!?!?!', item, arr)
+    return arr
   }
 </script>
 

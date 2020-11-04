@@ -27,7 +27,18 @@
 		z-index: 30;
 	}
 
-
+	// for homepage hero welcome video
+	.homepage-list {
+		.list-block-cover {
+			float: inherit;
+			width: 100%;
+			margin-bottom: 1rem;
+		}
+		[data-field="Name"] {
+			font-size: 1.32rem;		
+			line-height: 1.32rem * 1.4;
+		}
+	}
 
 
 .Form-body {
@@ -59,10 +70,11 @@ body {
 }
 
 .__content-footer {
+	position: relative;
+	// position: sticky;
 	min-height: 20vh;
 	// background-color: red;
 	z-index: 20; // footer z
-	// position: sticky;
 	bottom: 0;
 	left: 0;
 	width: 100%;
@@ -154,6 +166,12 @@ input.__action, button.__action, a.__action {
 		background-color: usetheme(brand-dark);
 		border-color: usetheme(brand-dark);
 	}
+}
+
+input.__largebtn, button.__largebtn, a.__largebtn {
+	width: 100%;
+	padding: $size-4;
+	text-align: center;
 }
 
 

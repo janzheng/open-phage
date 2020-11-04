@@ -1,7 +1,7 @@
 
 {#if video}
 	<!-- <video class="Video" width="640" controls preload="metadata" bind:this={videoElem}> -->
-	<video class="Video" width="640" controls preload="none" poster={coverImg} bind:this={videoElem}>
+	<video class="Video {classes}" {width} controls preload="none" poster={coverImg} bind:this={videoElem}>
 	  <source src={video} controls="true" type="video/mp4">
     <track default
            kind="captions"
@@ -22,7 +22,7 @@
 
 <script>
 
-	export let video, cover=false, filesize=false, captions=false, download=true
+	export let video, cover=false, filesize=false, captions=false, download=true, width=640, classes=""
 	let videoElem, coverImg, captionSrc
 
 	// cover just takes the Notion field array of images

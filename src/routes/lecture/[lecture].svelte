@@ -31,6 +31,10 @@
 	}
 </script>
 
+
+
+
+
 <div class="Lecture ">
 
   <Breadcrumbs links={[
@@ -167,7 +171,7 @@
 
 								<h6 class="__normal">Lecture Series</h6>
 
-								{#each classes as item}
+								{#each filteredClasses as item}
 									<!-- <div class="Lecture-link-card _card _padding _margin-bottom-2"> -->
 									<a rel=prefetch class="Lecture-link" href={`/class/${item.fields['Slug']}`}>
 										<div class="Lecture-link-card _card _padding _margin-bottom">
@@ -216,6 +220,8 @@
   import marked from 'marked'
 	import entities from 'entities'
 
+  import { filterByStatus } from '@/_utils/app-helpers'
+
 	import { User } from '../../stores/stores.js';
   import UserSliver from '../../components/UserSliver.svelte'
   import UserPanel from '../../components/UserPanel.svelte'
@@ -225,9 +231,13 @@
   import TeamCard from '../../components/TeamCard.svelte'
 
 	export let lecture, classes, slug, firstClassObj
+	let filteredClasses
 
-	$: console.log('[lecture]', firstClassObj, lecture, classes)
+	// $: console.log('[lecture]', firstClassObj, lecture, classes)
 
+	$: {
+    filteredClasses = filterByStatus(classes)
+	}
 
 </script>
 

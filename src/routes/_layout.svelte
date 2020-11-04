@@ -4,7 +4,7 @@
     const Content = await this.fetch(`/api/content`).then(r => r.json())
     // const Content = cytosis.results['Content']
     // console.log('_layout Content:', Content)
-    return { Content };
+    return { Content, Status: process.env.STATUS };
   }
 </script>
 
@@ -16,6 +16,7 @@
 	import Nav from '../components/Nav.svelte';
 	import Footer from '../components/Footer.svelte';
 	import { head, site_url } from '../_utils/_head.js';
+	import * as Stores from '../stores/stores.js';
 
 
   import { derived } from 'svelte/store';
@@ -24,7 +25,7 @@
 	// This trick passes down preloaded data to all modules
 	// https://stackoverflow.com/questions/60911171/how-to-pass-data-from-a-layout-to-a-page-in-sapper
 	export let segment
-	export let Content
+	export let Content, Status
 
   import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
@@ -36,7 +37,12 @@
   $: $Content$ = Content
   // $: $Schedule$ = Schedule
   // $: $Profiles$ = Profiles
-  setContext('Content', Content$)
+	setContext('Content', Content$)
+	
+	$: {
+		Stores.Content.set($Content$)
+		Stores.Status.set(Status)
+	}
 
 
 
@@ -100,6 +106,7 @@
 
 
 	<Nav {segment}/>
+	
 
 	<main id="main" class="ContentFrame-body __content-frame">
 		<slot ></slot>

@@ -8,8 +8,8 @@ export const site_color = '#71EFF5';
 export const site_description = 'Open Phage'; 
 
 // const site_ico = '/ico_dull.png'; // site icon
-export const site_ico = '/icon.png';
-export const site_image = '/share_img.jpg';
+export const site_ico = '/icon_pd.png';
+export const site_image = '/share_img_pd.jpg';
 export const site_search = 'index,follow';
 export const site_author = 'Jan Zheng';
 export const page_name = ''; // placeholder for the copy+paste

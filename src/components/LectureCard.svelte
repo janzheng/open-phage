@@ -34,11 +34,11 @@
 						</div>
 					{/if}
 
-					{#if showSeries && lecture['series'] && lecture['series'].length > 1}
+					{#if showSeries && filteredSeries && filteredSeries.length > 0}
 						<div class="LectureCard-series-container _card _padding _margin-top-2">
-							<h6 class="">Lecture Series</h6>
+							<h6 class="">Contents</h6>
 							<div class="LectureCard-series">
-								{#each lecture['series'] as item}
+								{#each filteredSeries as item}
 									<UserSliver classes={'_float-left _margin-right-half'} showText={false} url={item.fields['URL']} />
 									<p class="LectureCard-series-item" data-field="Description">{ item.title[0] }</p>
 								{/each}
@@ -60,13 +60,20 @@
 
   import marked from 'marked';
   import UserSliver from './UserSliver.svelte'
+  import { filterByStatus } from '@/_utils/app-helpers'
 
 	export let lecture, showSeries, isHero
+	let filteredSeries
 
 	// these exist for series with only one class
 	let lectureClass 
 	$: if(lecture && lecture.series && lecture.series.length == 1)
 		lectureClass = lecture.series[0]
+
+	$: {
+		filteredSeries = filterByStatus(lecture['series'])
+		console.log('filtered ??', lecture['series'], filteredSeries)
+	}
 
 // $list {"class": "test-list", "itemContainerClass": "_card _padding", "coverField":"Cover Image", "showFields": "Name, Author, Description, DOI", "linkField":"URL"}
 

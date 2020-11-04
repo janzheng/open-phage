@@ -16063,6 +16063,16 @@ a.--nolink, ._link.--nolink {
   z-index: 30;
 }
 
+.homepage-list .list-block-cover {
+  float: inherit;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.homepage-list [data-field=Name] {
+  font-size: 1.32rem;
+  line-height: 1.848rem;
+}
+
 .Form-body {
   padding: 0;
 }
@@ -16084,6 +16094,7 @@ body {
 }
 
 .__content-footer {
+  position: relative;
   min-height: 20vh;
   z-index: 20;
   bottom: 0;
@@ -16141,6 +16152,12 @@ input.__action:hover, input.__action:active, button.__action:hover, button.__act
 input.__action:focus, button.__action:focus, a.__action:focus {
   background-color: #0149a7;
   border-color: #0149a7;
+}
+
+input.__largebtn, button.__largebtn, a.__largebtn {
+  width: 100%;
+  padding: 32px;
+  text-align: center;
 }
 
 input.__cta, button.__cta, a.__cta {

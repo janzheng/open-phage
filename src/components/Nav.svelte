@@ -53,7 +53,7 @@
     <!-- {@html marked(content)} -->
   	<div class="_grid-1-5-sm _align-vertically">
     	<div>
-    		<a rel=prefetch href="/"><img width="50px" src="logo.png" alt="logo for home"></a>
+    		<a rel=prefetch href="/"><img width="50px" src="icon_pd.png" alt="logo for home"></a>
     	</div>
     	<div class="_padding-top-2-xs _padding-left-2-sm _md-pfix">
     		<div class="_flex _flex-right">

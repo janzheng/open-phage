@@ -2,9 +2,7 @@
   export async function preload(page, session) {
     // const data = await this.fetch(`/api/notion?collections=Protocols,Videos,Library`).then(r => r.json())
 
-    const data = await this.fetch(`/api/notion?collections=Lecture Series, Lecture Content, Lab Experiments&contents=Welcome, Protocol, Reference, Reading, Lecture&getField=Content IDs|Welcome`).then(r => r.json())
-
-
+    const data = await this.fetch(`/api/notion?collections=Lecture Series, Lecture Content, Lab Experiments, Lab Videos&contents=Welcome, Protocol, Reference, Reading, Lecture&getField=Content IDs|Welcome`).then(r => r.json())
     const status = await this.fetch(`/api/status`).then(r => r.json())
 
     return { data, status };
@@ -32,8 +30,8 @@
       <div class="Lectures-body _section _divider-bottom">
         <div class="Lectures-main">
           {#if lectures}
-            {#each lectures as item, i}
-              <LectureCard isHero={i==0} lecture={item} showSeries={true} showMaterial={true} />
+            {#each filteredLectures as item, i}
+              <LectureCard isHero={i==0} lecture={item} showSeries={i>0 ? true:false} showMaterial={true} />
             {/each}
           {/if}
         </div>
@@ -92,11 +90,14 @@
   import LinkCard from '../components/LinkCard.svelte'
   import Breadcrumbs from '../components/Breadcrumbs.svelte'
 
+  import { filterByStatus } from '@/_utils/app-helpers'
+
+
   // Content passed down from layout
   const Content$ = getContext('Content')
   $: Content = $Content$
 
-  let intro
+  let intro, filteredLectures
 	$: intro = Cytosis.findField('intro', Content, 'Content')
 
 
@@ -115,15 +116,16 @@
     // filter out unpublished lectures
     // not that safe but mostly this is to clean up the UI
 
-    if(status === 'Published')
-      lectures = lectures.filter(lec=>lec.fields['Status']==='Published')
-    else if(status === 'Published' || status === 'Preview')
-      lectures = lectures.filter(lec=>(lec.fields['Status']==='Published' || lec.fields['Status']==='Preview'))
-    else
-      lectures = []
+    filteredLectures = filterByStatus(lectures)
+    // if(status === 'Published')
+    //   lectures = lectures.filter(lec=>lec.fields['Status']==='Published')
+    // else if(status === 'Published' || status === 'Preview')
+    //   lectures = lectures.filter(lec=>(lec.fields['Status']==='Published' || lec.fields['Status']==='Preview'))
+    // else
+    //   lectures = []
 
 
-    lectures.map(lec => {
+    filteredLectures.map(lec => {
 
       lec['series'] = []
       const contentName = lec.fields['Content ID']
@@ -136,9 +138,14 @@
         if(lecItem.fields['Content ID'] == contentName)
           lec['series'].push(lecItem)
       })
+
+      data['Lab Videos'].map(lecItem => {
+        if(lecItem.fields['Content ID'] == contentName)
+          lec['series'].push(lecItem)
+      })
     })
 
-    console.log('[lectures]', lectures)
+    console.log('[lectures]', filteredLectures)
   }
 
   let library
