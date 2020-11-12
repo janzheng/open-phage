@@ -5,5 +5,13 @@
       "src": "package.json",
       "use": "now-sapper"
     }
+  ],
+  "headers": [
+    {
+      "source": "/api/notion/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    }
   ]
 }

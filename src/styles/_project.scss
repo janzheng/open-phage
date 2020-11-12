@@ -161,6 +161,7 @@ input.__action, button.__action, a.__action {
 	&:hover, &:active {
 		background-color: usetheme(brand-light);
 		border-color: usetheme(brand-light);
+		color: usetheme(brand-white) !important;
 	}
 	&:focus {
 		background-color: usetheme(brand-dark);

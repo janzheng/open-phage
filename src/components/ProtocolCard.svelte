@@ -40,10 +40,8 @@
 
 	export let protocol
 
-// $list {"class": "test-list", "itemContainerClass": "_card _padding", "coverField":"Cover Image", "showFields": "Name, Author, Description, DOI", "linkField":"URL"}
-
-	$: console.log('[ProtocolCard]',protocol)
-
+	// $list {"class": "test-list", "itemContainerClass": "_card _padding", "coverField":"Cover Image", "showFields": "Name, Author, Description, DOI", "linkField":"URL"}
+	// $: console.log('[ProtocolCard]',protocol)
 
 </script>
 

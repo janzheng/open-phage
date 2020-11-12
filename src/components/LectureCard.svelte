@@ -72,7 +72,6 @@
 
 	$: {
 		filteredSeries = filterByStatus(lecture['series'])
-		console.log('filtered ??', lecture['series'], filteredSeries)
 	}
 
 // $list {"class": "test-list", "itemContainerClass": "_card _padding", "coverField":"Cover Image", "showFields": "Name, Author, Description, DOI", "linkField":"URL"}

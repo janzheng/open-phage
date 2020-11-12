@@ -181,8 +181,7 @@
 											<strong class="Lecture-classes-title">{@html marked(item.title[0][0]) }</strong>
 											{#if item.fields['Author']}
 												<!-- <p data-field="Author">{ item.fields['Author'] }</p> -->
-												
-												<div class="_margin-top _margin-bottom-2" >
+												<div class="_margin-top _margin-bottom" >
 													<TeamCard profile={item.classObj['author']} simple={true} />
 												</div>
 											{/if}
@@ -190,9 +189,9 @@
 											{#if item.fields['Description']}
 												<div data-field="Description">{@html marked(item.fields['Description']) }</div>
 											{/if}
-											<div class="_margin-top _margin-bottom">
-												<UserSliver url={item.fields['URL']} />
-											</div>
+											{#if item.fields['URL'] && $User}
+												<UserSliver classes="_margin-top _margin-bottom" url={item.fields['URL']} />
+											{/if}
 										</div>
 									</a>
 								{/each}

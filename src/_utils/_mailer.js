@@ -1,265 +1,139 @@
 
-// import Mailgun from 'mailgun.js'; // insecure, uses private API
-
-import nodemailer from 'nodemailer'
+import mailgun from 'mailgun.js'; // insecure, uses private API, but works better w/ Vercel
+// import nodemailer from 'nodemailer'
 import { config } from "dotenv";
 
 config() // https://github.com/sveltejs/sapper/issues/122
 // import uuid from 'uuid-by-string';
 
-import { subscribeTemplate, signupTemplate, adminTemplate  } from "./_email-templates.js"
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.mailgun.org",
-  secure: true,
-  auth: {
-    user: process.env.SMTP_USER, // app.get('smtp').user,
-    pass: process.env.SMTP_PASS, // app.get('smtp').pass
-  }
-});
+let transporter, mg
 
+export const mailFrom = `${process.env.MG_NAME || 'Phage Directory'} <${process.env.MG_SENDER || process.env.SMTP_USER}>`
+export const mailReplyTo = `\"${process.env.MG_NAME}\" <${process.env.MG_REPLYTO || 'hello@phage.directory'}>`
+// need to create a new transporter for every call!
+// nodemailer doesn't work w/ Vercel (anymore, bc of AWS)
 
+if(process.env.MG_API && process.env.MG_DOMAIN && process.env.MG_SENDER) {
+	mg = mailgun.client({
+		username: 'api',
+	  key: process.env.MG_API, // app.get('smtp').user,
+	})
+}
 
-export const notifyAdmins =  async ({registered, type, json}) => {
+// needs to remain not exported!
+const sendMail = async (mailData) => {
+		let emailAddr = mailData['to']
 
+	// console.log('[sendMail] Attempting to send mail...')
+
+	if(process.env.MG_SEND_LOG !== 'true') {
+		if(transporter) {
+			console.log('[sendMail] Sending using SMTP to', emailAddr)
+		} else if(mg) {
+			console.log('[sendMail] Sending using MailgunJS to', emailAddr)
+		}
+	}
+
+	// MG_SEND_ON used to deactivate sending from env as a breaker
+	if(process.env.MG_SEND_ON !== 'true') {
+		console.error('[sendMail] MG_SEND is turned off')
+		// throw new Error('[sendMail] MG_SEND is turned off')
+		return
+	}
+	
 	try {
-		const html = await adminTemplate(registered, type, json)
+		if(transporter) {
+			// console.log('sending using SMTP to', emailAddr)
+			// return transporter.sendMail(mailData, function(error, info){
+			//   if (error) {
+			//     console.error(error)
+			//   } else {
+			//     console.log('[sendMail] Email sent: ' + info.response + ' ' + emailAddr);
+			//     return Promise.resolve(info)
+			//   }
+			// });
+		} else if (mg) {
+			// console.log('sending using Mailgun to', emailAddr, mg.messages, mailData)
+			console.log('[sendMail] Sending using Mailgun to', emailAddr)
+			const _msg = await mg.messages.create(process.env.MG_DOMAIN, mailData)
+	    console.log('[sendMail] --- Email sent:', _msg, emailAddr);
+			return _msg
+		} else {
+			throw new Error('No email method setup!')
+			return false
+		}
+	} catch(e) {
+		console.error('[sendMail] error:', e)
+		return false
+	}
+	console.error('[sendMail] Returning false ... email not sent')
+	return false
+}
+
+
+/* 
+
+	Customizable notifiers
+
+*/
+
+
+// keep templating fns out of here — keep this just for admin notifications
+export const mailtoAdmins = async (data) => {
+	try {
+		
+		const html = data['html'] || data['template']
+		const subject = data['subject'] || data['template'] ? data['template']['subject'] : ''
 
 		const mailData = {
-	    from: `${'PHAVES'} <${process.env.SMTP_USER}>`,
-		  'reply-to': "\"PHAVES\" <phaves@phage.directory>",
-	    to: [`${process.env.NOTIFY_ADMINS}`],
-	    subject: `[Auto] PHAVES ${type}!`,
+	    from: mailFrom,
+		  'reply-to': mailReplyTo,
+	    to: [`${process.env.MG_ADMINS}`],
+	    subject: `[AutoAdmin] ${process.env.MG_NAME} ${subject}`,
 	    html: html,
 	    text: html,
-		};
+		}
 
-
-		transporter.sendMail(mailData, function(error, info){
-		  if (error) {
-		    console.log(error);
-		  } else {
-		    console.log('Email sent: ' + info.response);
-		    return true
-		  }
-		});
+		if(process.env.MG_SEND_ADMIN_ON !== 'true')
+			return
+			
+		const res = await sendMail(mailData)
+		return res
 
 	} catch (e) {
 		console.error(e)
 	}
 }
-
 
 
 // notify subscribers
-export const notifySubscribe = async ({registered, type}) => {
+export const mailto = async (data) => {
+
+	if(!data || !data['email'] || !data['subject'] || !(!data['template'] || !data['html'])){
+		console.error('[mailto] error: provide template/html, and email', data)
+		// throw new Error('[mailto] error: provide template/html, and email')
+		return
+	}
+
+	const html = data['html'] || data['template']['html']
+	const subject = data['subject'] || data['template'] ? data['template']['subject'] : ''
 
 	try {
-		const html = await subscribeTemplate(registered, type)
-
 		const mailData = {
-	    from: `${'PHAVES'} <${process.env.SMTP_USER}>`,
-		  'reply-to': "\"PHAVES\" <phaves@phage.directory>",
-	    to: [`${registered.fields['Email']}`],
-	    subject: `Subscribed to PHAVES!`,
+	    from: mailFrom,
+		  'reply-to': mailReplyTo,
+	    to: data['email'],
+	    subject: subject,
 	    html: html,
 	    text: html,
 		};
 
-
-		transporter.sendMail(mailData, function(error, info){
-		  if (error) {
-		    console.log(error);
-		  } else {
-		    console.log('Email sent: ' + info.response + ' ' + registered.fields['Email']);
-		    return true
-		  }
-		});
+		const res = await sendMail(mailData)
+		return res
 
 	} catch (e) {
 		console.error(e)
 	}
 }
-
-
-
-// notify event signups
-export const notifyEventSignup = async ({registered, type, json}) => {
-
-	try {
-		const html = await signupTemplate(registered, type, json)
-
-		const mailData = {
-	    from: `${'PHAVES'} <${process.env.SMTP_USER}>`,
-		  'reply-to': "\"PHAVES\" <phaves@phage.directory>",
-	    to: [`${registered.fields['Email']}`],
-	    subject: `Signed up for PHAVES event!`,
-	    html: html,
-	    text: html,
-		};
-
-
-		transporter.sendMail(mailData, function(error, info){
-		  if (error) {
-		    console.log(error);
-		  } else {
-		    console.log('Email sent: ' + info.response + ' ' + registered.fields['Email']);
-		    return true
-		  }
-		});
-
-	} catch (e) {
-		console.error(e)
-	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var transporter = nodemailer.createTransport({
-//   host: "smtp.mailgun.org",
-//   secure: true,
-//   auth: {
-//     user: process.env.P2050_SMTP_USER, // app.get('smtp').user,
-//     pass: process.env.P2050_SMTP_PASS, // app.get('smtp').pass
-//   }
-// });
-
-// var mailOptions = {
-//   from: "\"PHAVES\" <phaves@mail.phage.directory>",
-//   'reply-to': "\"PHAVES\" <support@phage.directory>",
-//   to: 'phaves@phage.directory',
-//   subject: 'Sending Email using Node.js',
-//   // html: "<h1>That was easy!</h1>",
-//   text: 'That was easy!'
-// };
-
-
-
-// export async function automailer(mailer) {
-
-// 	const mailData = mailer || mailOptions
-
-// 	console.log(' >>>>>> sending email w/ data >>>', process.env.P2050_SMTP_USER, process.env.P2050_SMTP_PASS)
-// 	console.log(' >>>>>> sending email to >>>', mailData)
-
-
-// 	transporter.sendMail(mailData, function(error, info){
-// 	  if (error) {
-// 	    console.log(error);
-// 	  } else {
-// 	    console.log('Email sent: ' + info.response);
-// 	  }
-// 	});
-
-// 	// mg.messages.create('automail.phage.directory', {
-// 	//    from: mailOptions.from,
-// 	//    to: ["janeazy@gmail.com"],
-// 	//    subject: "Hello",
-// 	//    text: "Testing some Mailgun awesomness!",
-// 	//    html: "<h1>Testing some Mailgun awesomness!</h1>"
-// 	//  })
-// 	//  .then(msg => {
-// 	//  	console.log(msg)
-// 	// 	return Promise.resolve('a-ok!')
-// 	//  }) // logs response data
-// 	//  .catch(err => {
-// 	//  	console.log(err)
-// 	// 	return Promise.reject(err)
-// 	//  }); // logs any error
-
-// }
-
-
-
-
-// export async function notifySubscribe(mailer) {
-
-// 	const mailData = mailOptions
-// 	mailData['to'] = 'useremail'
-// 	mailData['subject'] = 'Subscribed to PHAVES!'
-// 	mailData['text'] = 'Subscribed to PHAVES!'
-
-// 	console.log(' >>>>>> sending email w/ data >>>', process.env.P2050_SMTP_USER, process.env.P2050_SMTP_PASS)
-// 	console.log(' >>>>>> sending email to >>>', mailData)
-
-
-// 	transporter.sendMail(mailData, function(error, info){
-// 	  if (error) {
-// 	    console.log(error);
-// 	  } else {
-// 	    console.log('Email sent: ' + info.response);
-// 	  }
-// 	});
-
-// 	// mg.messages.create('automail.phage.directory', {
-// 	//    from: mailOptions.from,
-// 	//    to: ["janeazy@gmail.com"],
-// 	//    subject: "Hello",
-// 	//    text: "Testing some Mailgun awesomness!",
-// 	//    html: "<h1>Testing some Mailgun awesomness!</h1>"
-// 	//  })
-// 	//  .then(msg => {
-// 	//  	console.log(msg)
-// 	// 	return Promise.resolve('a-ok!')
-// 	//  }) // logs response data
-// 	//  .catch(err => {
-// 	//  	console.log(err)
-// 	// 	return Promise.reject(err)
-// 	//  }); // logs any error
-
-// }
-
-
-
-
-// export async function notifyEventSignup(mailer) {
-
-// 	const mailData = mailer || mailOptions
-
-// 	console.log(' >>>>>> sending email w/ data >>>', process.env.P2050_SMTP_USER, process.env.P2050_SMTP_PASS)
-// 	console.log(' >>>>>> sending email to >>>', mailData)
-
-
-// 	transporter.sendMail(mailData, function(error, info){
-// 	  if (error) {
-// 	    console.log(error);
-// 	  } else {
-// 	    console.log('Email sent: ' + info.response);
-// 	  }
-// 	});
-
-// 	// mg.messages.create('automail.phage.directory', {
-// 	//    from: mailOptions.from,
-// 	//    to: ["janeazy@gmail.com"],
-// 	//    subject: "Hello",
-// 	//    text: "Testing some Mailgun awesomness!",
-// 	//    html: "<h1>Testing some Mailgun awesomness!</h1>"
-// 	//  })
-// 	//  .then(msg => {
-// 	//  	console.log(msg)
-// 	// 	return Promise.resolve('a-ok!')
-// 	//  }) // logs response data
-// 	//  .catch(err => {
-// 	//  	console.log(err)
-// 	// 	return Promise.reject(err)
-// 	//  }); // logs any error
-
-// }
-
-
-
-
-
 

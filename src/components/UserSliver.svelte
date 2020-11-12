@@ -1,10 +1,10 @@
 
 {#if $User}
-	<div class={`${classes} UserSliver`}>
-		{#if isBkmk}
-			<span>🌟 {#if showText}Bookmarked{/if}</span>
-		{/if}
-	</div>
+	{#if isBkmk}
+		<div class={`${classes} UserSliver`}>
+				<span>🌟 {#if showText}Bookmarked{/if}</span>
+		</div>
+	{/if}
 {/if}
 
 

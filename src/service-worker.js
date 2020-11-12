@@ -182,7 +182,7 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-  new RegExp('^https://open-phage.vercel.app.'),
+  new RegExp('^https://online.phagesforglobalhealth.org/api/notion/asset/'),
   new workbox.strategies.CacheFirst({
     cacheName: 'media-cache',
     plugins: [
@@ -234,7 +234,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
   // new RegExp('^https://dl.airtable.com'),
-  /\.(?:png|jpg|jpeg|svg|mp4|webm)$/,
+  /\.(?:png|jpg|jpeg|svg|mp4|webm|srt)$/,
   new workbox.strategies.CacheFirst({
     cacheName: 'media-cache',
     plugins: [

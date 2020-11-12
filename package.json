@@ -1,11 +1,10 @@
 {
-  "name": "openphage",
-  "description": "Open Phage Training Program",
+  "name": "pghonline",
+  "description": "PGH: Online",
   "version": "0.0.1",
   "scripts": {
     "dev": "sapper dev --port 2024",
-    "devpub": "STATUS=Published sapper dev --port 2024",
-    "loaderdev": "npm run loader; npm run dev",
+    "devprod": "STATUS=Published sapper dev --port 2024",
     "zeit-notes": "zeit has problems building on their end, but 'zeit prod' does it locally. Requires build to use export, but old sapper build is: sapper build --legacy",
     "build": "npm run loader; ls && sapper build --legacy",
     "qbuild": "ls && sapper build --legacy",
@@ -19,6 +18,7 @@
     "commit": "git add . -A ; git commit ; git push origin preview ",
     "commitprod": "git add . -A ; git commit ; git push origin master ",
     "loader": "node src/_utils/loader.js f34a041d08744868a0ca06a6a0671b5a",
+    "loaderdev": "npm run loader; npm run dev",
     "cleanup": "rm -r __sapper__ ; rm static/data/notion.json; rm static/data/cytosis.json"
   },
   "engines": {
@@ -38,15 +38,14 @@
     "cytosis": "^0.0.418",
     "entities": "^2.0.3",
     "faunadb": "^3.0.1",
-    "node-fetch": "^2.6.1",
-    "nodemailer": "^6.4.14",
-    "polka": "next",
-    "sirv": "^0.4.0",
     "formidable": "^1.2.2",
-    "sharp": "^0.26.1"
+    "mailgun.js": "^2.0.1",
+    "node-fetch": "^2.6.1",
+    "polka": "next",
+    "sharp": "^0.26.1",
+    "sirv": "^0.4.0"
   },
   "devDependencies": {
-    "util": "^0.12.3",
     "@babel/core": "^7.9.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-syntax-import-meta": "^7.10.4",
@@ -83,6 +82,7 @@
     "sapper": "^0.28.0",
     "svelte": "^3.24.1",
     "svelte-preprocess": "^3.7.4",
+    "util": "^0.12.3",
     "yup": "^0.29.1"
   }
 }

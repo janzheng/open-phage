@@ -94,7 +94,8 @@
 							-->
 							{#if classObj.content.markdown && classObj.content.markdown.join('').length > 0}
 								<div class="_margin-top-2">
-									{@html marked(classObj.content.markdown.join('') || '')}
+									{@html marked(mdLines)}
+									<!-- {@html marked(classObj.content.markdown.join('') || '')} -->
 								</div>
 							{/if}
 
@@ -196,13 +197,15 @@
   import UserPanel from '../../components/UserPanel.svelte'
 
 	export let lecture, classes, classObj, data, path, author, slug
-	let filteredClasses
+	let filteredClasses, mdLines=''
 	
 	import { filterByStatus } from '@/_utils/app-helpers'
 
+	marked.setOptions({
+		gfm: false,
+		breaks: false
+	})
 
-	// $: console.log('[class]', classObj)
-	// $: console.log(data)
 
 	function getNextClass() {
 		const classId = classObj.id
@@ -214,7 +217,6 @@
 			}
 			// console.log('?!', c.id)
 		})
-		// console.log('?!!!', nextClass)
 		return nextClass
 	}
 
@@ -224,6 +226,13 @@
 
 	$: {
 		filteredClasses = filterByStatus(classes)
+	}
+
+	$: {
+		console.log('umm...')
+		classObj.content.markdown.map(line => {
+			mdLines += line.trim() + '\n\n'
+		})
 	}
 
 

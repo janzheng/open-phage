@@ -33,6 +33,7 @@
 
     <div class="Home-body _section-article _margin-center _margin-top-2 _divider-bottom">
 
+      <!-- top-bottom -->
       <div class="Home-text">
         {#if yotion}
           <div>{@html marked(yotion['Slug|hero-intro'][0].content.markdown.join('') || '')}</div>
@@ -40,7 +41,7 @@
 
         <div class="_margin-top-2 _margin-bottom-2">
           <!-- <button class="__action __short">Browse lectures</button> -->
-          <a href="/lectures" class="_button __cta __largebtn">Explore phage lectures</a>
+          <a href="/lectures" class="_button __action __largebtn">Explore our Phage Library</a>
         </div>
       </div>
       

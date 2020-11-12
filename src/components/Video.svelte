@@ -1,7 +1,7 @@
 
 {#if video}
 	<!-- <video class="Video" width="640" controls preload="metadata" bind:this={videoElem}> -->
-	<video class="Video {classes}" {width} controls preload="none" poster={coverImg} bind:this={videoElem}>
+	<video class="Video {classes}" {width} controls preload="none" poster={coverImg} bind:this={videoElem} crossorigin="anonymous">
 	  <source src={video} controls="true" type="video/mp4">
     <track default
            kind="captions"

@@ -3,9 +3,9 @@
     // const data = await this.fetch(`/api/notion?collections=Protocols,Videos,Library`).then(r => r.json())
 
     const data = await this.fetch(`/api/notion?collections=Lecture Series, Lecture Content, Lab Experiments, Lab Videos&contents=Welcome, Protocol, Reference, Reading, Lecture&getField=Content IDs|Welcome`).then(r => r.json())
-    const status = await this.fetch(`/api/status`).then(r => r.json())
+    // const status = await this.fetch(`/api/status`).then(r => r.json())
 
-    return { data, status };
+    return { data };
   }
 </script>
 
@@ -101,7 +101,7 @@
 	$: intro = Cytosis.findField('intro', Content, 'Content')
 
 
-  export let data, status
+  export let data
   // $: console.log('yotion!!!!!:', data)
 
   let heroLecture
@@ -117,12 +117,6 @@
     // not that safe but mostly this is to clean up the UI
 
     filteredLectures = filterByStatus(lectures)
-    // if(status === 'Published')
-    //   lectures = lectures.filter(lec=>lec.fields['Status']==='Published')
-    // else if(status === 'Published' || status === 'Preview')
-    //   lectures = lectures.filter(lec=>(lec.fields['Status']==='Published' || lec.fields['Status']==='Preview'))
-    // else
-    //   lectures = []
 
 
     filteredLectures.map(lec => {

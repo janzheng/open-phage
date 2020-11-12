@@ -26,13 +26,13 @@ export const nodecache = new NodeCache({useClones: false})
 // let cacheList = [] // deprecate cacheList / can't remember why this was implementet
 
 
-export const cacheGet = (key, loud=true) => {
+export const cacheGet = (key, loud=false) => {
 	if(loud)
 		console.log('cacheGet',key, typeof nodecache.get(key))
 	return nodecache.get(key)
 }
 
-export const cacheSet = (key, data, ttl=60*60, loud=true) => {
+export const cacheSet = (key, data, ttl=60*60, loud=false) => {
 	if(loud)
 		console.log('cacheSet',key,ttl)
 	// cacheList.push({key, ttl})

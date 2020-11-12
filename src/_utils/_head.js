@@ -1,11 +1,11 @@
 export const site_ga = ''; // 
-export const site_url = 'https://open-phage.yawnxyz.vercel.app/';
-export const site_name = 'Open Phage';
-export const site_title = 'Open Phage';
-export const site_twitter = '@phagedirectory';
+export const site_url = 'https://online.phagesforglobalhealth.org/';
+export const site_name = 'PGH: Online';
+export const site_title = 'PGH: Online';
+export const site_twitter = '';
 export const site_twitter_creator = '@yawnxyz';
 export const site_color = '#71EFF5';
-export const site_description = 'Open Phage'; 
+export const site_description = 'PGH: Online'; 
 
 // const site_ico = '/ico_dull.png'; // site icon
 export const site_ico = '/icon_pd.png';

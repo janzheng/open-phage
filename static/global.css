@@ -16148,6 +16148,7 @@ input.__action, button.__action, a.__action {
 input.__action:hover, input.__action:active, button.__action:hover, button.__action:active, a.__action:hover, a.__action:active {
   background-color: #1a7cfe;
   border-color: #1a7cfe;
+  color: #FAFAFA !important;
 }
 input.__action:focus, button.__action:focus, a.__action:focus {
   background-color: #0149a7;

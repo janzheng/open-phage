@@ -1,8 +1,13 @@
 
+
+// update 11/5/2020 — nodemailer won't work over Vercel anymore
+
 /*
 
     notify.js
 
+    - this is used by the auth templates for signup; acts as an alternative to _mailer which is more for templates
+      - probably should unite them at some point
     - based on the old mailer.js, this is a templatized way of sending transactional emails
     - use notify-templates.js to build templates
     - SMTP_USER and SMTP_PASS are both created in Mailgun as SMTP users
@@ -22,21 +27,20 @@
 
 */
 
-
-import nodemailer from 'nodemailer'
+import mailgun from 'mailgun.js'; // insecure, uses private API, but works better w/ Vercel
 import { config } from "dotenv";
 
 config() // https://github.com/sveltejs/sapper/issues/122
 // import uuid from 'uuid-by-string';
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.mailgun.org",
-  secure: true,
-  auth: {
-    user: process.env.SMTP_USER, // app.get('smtp').user,
-    pass: process.env.SMTP_PASS, // app.get('smtp').pass
-  }
-});
+let mg
+
+if(process.env.MG_API && process.env.MG_DOMAIN && process.env.MG_SENDER) {
+	mg = mailgun.client({
+		username: 'api',
+	  key: process.env.MG_API, // app.get('smtp').user,
+	})
+}
 
 
 let preset = {
@@ -62,7 +66,7 @@ export const notifySetup = (data) => {
   preset['text'] = data['text']
 }
 
-export const notify = (data) => {
+export const notify = async (data) => {
   try {
     const fromName = data['fromName'] || preset['fromName']
     const fromEmail = data['fromEmail'] || preset['fromEmail']
@@ -82,16 +86,29 @@ export const notify = (data) => {
       text: text,
     }
 
-    return new Promise((resolve) => {
-      transporter.sendMail(mailData, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response, mailData);
-          resolve(info.response)
-        }
-      });
-    })
+    // MG_SEND_ON used to deactivate sending from env as a breaker
+    if(process.env.MG_SEND_ON !== 'true') {
+      console.error('[notify] MG_SEND is turned off')
+      // throw new Error('[sendMail] MG_SEND is turned off')
+      return
+    }
+    
+    console.log('[notify] Sending using Mailgun to', emailAddr)
+    const _msg = await mg.messages.create(process.env.MG_DOMAIN, mailData)
+    console.log('[notify] --- Email sent:', _msg, emailAddr);
+
+    return _msg
+    
+    // return new Promise((resolve) => {
+    //   transporter.sendMail(mailData, function(error, info){
+    //     if (error) {
+    //       console.log(error);
+    //     } else {
+    //       console.log('Email sent: ' + info.response, mailData);
+    //       resolve(info.response)
+    //     }
+    //   });
+    // })
 
   } catch (e) {
     console.error(e)

@@ -28,8 +28,6 @@ import { cacheGet, cacheSet, cacheClear } from "../../_utils/cache"
 
 import { config } from "dotenv";
 
-import { notifyAdmins, notifySubscribe, notifyEventSignup } from '../../_utils/_mailer.js'
-
 import cytosis from "../../../static/data/cytosis.json"
 
 

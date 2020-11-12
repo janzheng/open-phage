@@ -1,9 +1,9 @@
 {
 	"background_color": "#ffffff",
 	"theme_color": "#333333",
-	"name": "Open Phage",
+	"name": "PGH: Online",
 	"description": "Phage research teaching tool",
-	"short_name": "Open Phage",
+	"short_name": "PGH online",
 	"display": "minimal-ui",
 	"start_url": "/",
 	"icons": [

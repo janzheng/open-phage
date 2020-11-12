@@ -59,10 +59,12 @@
           <h2  id="articles" class="_padding-top-none">Readings & Articles</h2>
         </div>
         <div>
-          {#if readings}
-            {#each readings as item}
+          {#if filteredReadings}
+            {#each filteredReadings as item}
               <LinkCard {item} />
-            {/each}
+            {:else}
+              <div class="_card _padding">No readings added yet</div>
+	        	{/each}
           {/if}
         </div>
       </div>
@@ -72,9 +74,11 @@
         	<h2 id="references" class="_padding-top-none">Handy References</h2>
         </div>
         <div>
-        	{#if references}
-	        	{#each references as item}
+        	{#if filteredReferences}
+	        	{#each filteredReferences as item}
               <LinkCard {item} />
+            {:else}
+              <div class="_card _padding">No references added yet</div>
 	        	{/each}
 	        {/if}
         </div>
@@ -85,9 +89,11 @@
         	<h2 id="protocols" class="_padding-top-none">Protocols</h2>
         </div>
         <div>
-        	{#if protocols}
-	        	{#each protocols as item}
+        	{#if filteredProtocols}
+	        	{#each filteredProtocols as item}
               <ProtocolCard protocol={item} />
+            {:else}
+              <div class="_card _padding">No protocols added yet</div>
 	        	{/each}
 	        {/if}
         </div>
@@ -105,6 +111,8 @@
 	import Cytosis from 'cytosis';
   import marked from 'marked';
   import { onMount, getContext, setContext } from 'svelte';
+  import { filterByStatus } from '@/_utils/app-helpers'
+
 
   import ProtocolCard from '../components/ProtocolCard.svelte'
   import LinkCard from '../components/LinkCard.svelte'
@@ -131,6 +139,13 @@
 
   let protocols
   $: if(data) protocols = [...data['Protocol']]
+
+  let filteredReadings, filteredReferences, filteredProtocols
+	$: {
+    filteredReadings = filterByStatus(readings)
+    filteredReferences = filterByStatus(references)
+    filteredProtocols = filterByStatus(protocols)
+	}
 
 
   // prevents Sapper from hijacking anchor links
