@@ -4,7 +4,7 @@
 
 /*
 
-    notify.js
+    mailer.js
 
     - this is used by the auth templates for signup; acts as an alternative to _mailer which is more for templates
       - probably should unite them at some point

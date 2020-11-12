@@ -12,7 +12,7 @@
 import { getToken, getShortToken, hashPassword, comparePasswords } from './auth-helpers.js'
 import { findUserByEmail, createUserToken } from './auth-users.js'
 
-import { notify } from '../notify.js'
+import { notify } from '../mailer.js'
 
 const fromName = 'Phage Directory'
 

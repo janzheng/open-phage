@@ -14,13 +14,15 @@ export async function post(req, res, next) {
 		const {email} = req.body
 	  const user = await findUserByEmail(email)
 
+		// console.log('[forgot] finding user:', user, email)
 	  // note: this causes a slight delay when users are detected, which can 
 	  // cause users to "sniff" real vs. fake addresses
 	  // leaving it outside the user check means wasted cycles though
     if(user) {
-			const {token, tokenExpires} = notifyReset(email, req.headers.host)
+			const {token, tokenExpires} = await notifyReset(email, req.headers.host)
     }
 
+		// console.log('[forgot] returning blank!')
 	  // show this message even on users that don't exist, for security
 	  // bad ux, good security
 	  return sendData({

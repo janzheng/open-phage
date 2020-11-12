@@ -5,7 +5,7 @@
 */
 
 
-import { mailto } from "../_utils/_mailer.js"
+import { mailto } from "../_utils/mailer.js"
 import { getTemplate } from "../_utils/_email-templates.js"
 
 

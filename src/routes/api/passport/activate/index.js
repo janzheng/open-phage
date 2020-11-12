@@ -11,7 +11,7 @@
 // import redirect from '@polka/redirect'
 
 import { sanitizeUserForClient, hashPassword, getToken, getShortToken } from '../../../../_utils/auth/auth-helpers'
-import { notify } from '../../../../_utils/notify.js'
+import { notify } from '../../../../_utils/mailer.js'
 import { addUser, findUserByToken, findUserByEmail } from '../../../../_utils/auth/auth-users'
 import { sendData } from '../../../../_utils/sapper-helpers'
 import { notifyActivate } from '../../../../_utils/auth/auth-templates'
