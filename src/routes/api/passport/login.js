@@ -4,7 +4,7 @@
 import passport from 'passport'
 // import send from '@polka/send';
 
-import { users } from '../../../_utils/auth/auth-users'
+// import { users } from '../../../_utils/auth/auth-users'
 import { sanitizeUserForClient, hashPassword, comparePasswords, getToken, getShortToken } from '../../../_utils/auth/auth-helpers'
 import { getSetting } from "../../../_utils/settings"
 import { sendData } from '../../../_utils/sapper-helpers'

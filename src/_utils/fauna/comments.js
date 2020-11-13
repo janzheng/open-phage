@@ -2,6 +2,8 @@
 import { query as q } from 'faunadb'
 import faunadb from 'faunadb'
 
+import { findUserById } from '../auth/auth-users'
+
 import { cacheGet, cacheSet, cacheClear } from "../cache"
 import { getSetting } from "../settings"
 
@@ -50,19 +52,27 @@ export const getComments = async (locId) => {
 		// const data = await response.json();
 
     // whitelist
-    const clean = {data: comments.data.reduce((acc,val) => {
+    let newComments = []
+    let _newComments = comments.data.map(async (val) => {
       // console.log('messages::::', val)
-      if(!val || !val.data) {
-        return acc
-      } else {
-        return [...acc, {
-          comment: val.data.comment,
-          _phid: val.data._phid,
-          locId: val.data.locId,
-          ts: val.ts,
-        }]
-      }
-    },[])}
+      let _user = await findUserById(val.data._phid)
+      // console.log('----cleaning----', val.data._phid, val.data.comment)
+
+      if(!_user['Authorizations'] || !_user['Authorizations'].includes('Allow::Comments'))
+        return
+
+      newComments.push({
+        comment: val.data.comment,
+        _phid: val.data._phid,
+        locId: val.data.locId,
+        ts: val.ts,
+      })
+    })
+
+    await Promise.all(_newComments)
+    newComments.sort((a,b) => (a['ts'] - b['ts']))
+    // console.log('messages::::', newComments)
+    let clean = {data: newComments}
 
     return clean
   } catch (error) {

@@ -14,13 +14,13 @@
 
 			{#if comments && comments.data.length > 0}
 				{#each comments.data as item}
-					<div class="_card _padding">
-						<div class="_grid-2 _align-vertically">
-							<div class="">
-								{#await getProfileByPhid(item._phid) then profile}
+					{#await getProfileByPhid(item._phid) then profile}
+						<div class="_card _padding">
+							<div class="_grid-2 _align-vertically">
+								<div class="">
 									{#if profile && profile.data}
 										<div class={`FaveThumb-profile`}>
-											<a href={`/user/${profile.data.fields['userName']}`}>
+											<a href={`/user/${profile.data.fields['Slug']}`}>
 												{#if profile.data.fields['ProfileImage'] && profile.data.fields['ProfileImage'].length > 0 }
 													<img class="FaveThumb-profile-img" alt={`profile for ${profile.data.fields['userName']}`} src={ profile.data.fields['ProfileImage'][0]['thumbnails']['small']['url'] }>
 												{/if}
@@ -28,12 +28,12 @@
 											</a>
 										</div>
 									{/if}
-								{/await}
+								</div>
+								<div class="_font-small _right">{ getPrettyDate(item.ts) }</div>
 							</div>
-							<div class="_font-small _right">{ getPrettyDate(item.ts) }</div>
+							<p class="_padding-top">{item.comment}</p>
 						</div>
-						<p class="_padding-top">{item.comment}</p>
-					</div>
+					{/await}
 				{/each}
 			{:else}
 				{#if User && $User['Profile']}
