@@ -24,6 +24,7 @@ let transporter, mg
 
 // SETUP
 
+
 export const mailFrom = `${process.env.MG_NAME || 'Phage Directory'} <${process.env.MG_SENDER || process.env.SMTP_USER}>`
 export const mailReplyTo = `\"${process.env.MG_NAME}\" <${process.env.MG_REPLYTO || 'hello@phage.directory'}>`
 // need to create a new transporter for every call!
@@ -200,6 +201,7 @@ export const mailto = async (data) => {
 
 // another way to send emails; used by auth
 export const notify = async (data) => {
+
   try {
     const fromName = data['fromName'] || preset['fromName']
     const fromEmail = data['fromEmail'] || preset['fromEmail']

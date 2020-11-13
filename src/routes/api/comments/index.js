@@ -32,7 +32,7 @@ export async function post(req, res, next) {
   const { locId, comment } = req.body
 	const user = req.user
 
-	if(!user || !user['Authorizations'] || !user['Authorizations'].includes('Allow::Comments')) {
+	if(!user || !user['Authorizations'] || !user['Authorizations'].includes('Allow::AddComments')) {
 		console.error('[api/comments] no user / not logged in / not allowed to post')
 		return sendData({}, res, 400)
 	}

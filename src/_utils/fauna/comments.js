@@ -58,7 +58,7 @@ export const getComments = async (locId) => {
       let _user = await findUserById(val.data._phid)
       // console.log('----cleaning----', val.data._phid, val.data.comment)
 
-      if(!_user['Authorizations'] || !_user['Authorizations'].includes('Allow::Comments'))
+      if(!_user['Authorizations'] || !_user['Authorizations'].includes('Allow::ShowComments'))
         return
 
       newComments.push({

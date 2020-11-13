@@ -14,7 +14,7 @@ import { findUserByEmail, createUserToken } from './auth-users.js'
 
 import { notify } from '../mailer.js'
 
-const fromName = 'Phage Directory'
+const fromName = process.env.MG_NAME || 'Phage Directory'
 
 
 

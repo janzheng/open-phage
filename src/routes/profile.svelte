@@ -48,6 +48,10 @@
           <ProfileFaves profile={$User.Profile} />
         </div>
  -->
+      {:else}
+        <div class="_card _padding">
+          No profile exists for this URL. Please <a href="/login">log in</a> or <a href="/signup">sign up</a> to create a new account!
+        </div>
       {/if}
     </div>
   </div>

@@ -32,7 +32,7 @@ export async function get(req, res, next) {
     }, res)
 
 	} catch(error) {
-    console.error('[api/auth/reset]', error)
+    console.error('[api/auth/reset/get]', error)
     // // next(error)
   }
 }
@@ -54,7 +54,7 @@ export async function post(req, res, next) {
       }, res)
 	  }
 
-    await notifyResetConfirmation(email, host)
+    await notifyResetConfirmation(user.email)
 
     return sendData({
       status: true,
@@ -62,7 +62,7 @@ export async function post(req, res, next) {
     }, res)
 
   } catch (error) {
-  	console.error('[api/auth/reset]', error)
+  	console.error('[api/auth/reset/post]', error)
     // next(error)
   }
 

@@ -345,7 +345,6 @@
         _res = await response.json()
 
         if(_res.status == false) {
-          console.error('boopadoop', _res)
           return
         }
 
