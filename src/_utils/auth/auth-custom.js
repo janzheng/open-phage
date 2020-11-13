@@ -18,6 +18,7 @@ export const addProfileForNewUser = async (_user, userData) => {
     	Accounts: [_user.id],
     	// Name: _user['fullName'] || "",
       userName: userData['userName'] || '',
+      ProfileImage: userData['ProfileImage'] || '',
     },
     insertOptions: ['typecast'],
     baseKey: {

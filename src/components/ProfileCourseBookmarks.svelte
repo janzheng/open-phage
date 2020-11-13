@@ -24,7 +24,7 @@
   
 {:else}
   <div class="_section-article _margin-center">
-    <div class="_card _padding ">No protocols added yet!</div>
+    <div class="_card _padding _margin-bottom-none">No items bookmarked yet!</div>
   </div>
 {/if}
 
@@ -71,7 +71,11 @@
   $: {
     // console.log('----BBBookmarks?!', $Bookmarks)
 
-    let bkdata = $Bookmarks.data
+    let bkdata
+    
+    if($Bookmarks && $Bookmarks.data)
+      bkdata = $Bookmarks.data
+
     bkTypes = {}
 
     if(bkdata) {

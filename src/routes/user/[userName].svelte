@@ -5,13 +5,13 @@
     // this file is called [slug].svelte
     // const res = await this.fetch(`api/profile?slug=${params.slug}`)
 
-    console.log('PRELOAD grabbing user ', params.userName)
+    // console.log('PRELOAD grabbing user ', params.userName)
     // const _result = await this.fetch(`api/profile?userName=${params.userName}`).then(r => r.json())
 
     const _result = await this.fetch(`api/profile?slug=${params.userName}`).then(r => r.json())
 
 
-    console.log('PRELOAD result:', _result)
+    // console.log('PRELOAD result:', _result)
     return {profile: _result.data, userName: params.userName }
   }
 </script>

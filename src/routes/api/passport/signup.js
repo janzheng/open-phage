@@ -54,7 +54,10 @@ export async function post(req, res, next) {
 		    if (err) next(err);
 		    else {
 		    	// create a new record in Profiles that's linked to the Account
-		    	const record = await addProfileForNewUser(_user, {userName})
+		    	const record = await addProfileForNewUser(_user, {
+						userName,
+						ProfileImage: 'https://dl.airtable.com/.attachments/ac170984f57c813a0057b5818d99d6af/6a9e52b6/icon.png'
+					})
 
 			    // console.log('new profile record: USER PROFILE::::', record)
 			    _user['Profile'] = record
