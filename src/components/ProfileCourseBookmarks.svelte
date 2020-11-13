@@ -5,19 +5,23 @@
 {#if $Bookmarks && $Bookmarks.data}
 
   <h6>🌟 Bookmarked Lectures 🌟</h6>
-  {#each courseBks as item}
+  {#each filteredCourseBks as item}
     <div class="Bookmark-item">
       <a href={item.fields['URL']}>{item.fields['Name']}</a>
     </div>
+  {:else}
+    No items bookmarked
   {/each}
 
   <h6 class="_margin-top-2">🧪 Bookmarked Protocols 🧪</h6>
-  {#each protocolBks as item}
+  {#each filteredProtocolBks as item}
     <div class="Bookmark-item">
       <a href={item.fields['URL']}>{item.fields['Name']}</a>
     </div>
+  {:else}
+    No items bookmarked
   {/each}
-
+  
 {:else}
   <div class="_section-article _margin-center">
     <div class="_card _padding ">No protocols added yet!</div>
@@ -25,17 +29,22 @@
 {/if}
 
 
+
+
+
+
 <script>
   import { getContext, onMount } from 'svelte'
   // import Masonry from 'svelte-masonry/Masonry.svelte'
 
+  import { filterByStatus } from '../_utils/app-helpers'
   import { cachet } from '../_utils/sapper-helpers';
   import FaveThumb from './FaveThumb.svelte'
   import { User } from '../stores/stores.js';
 
-  export let Bookmarks, bkTypes={}, courseBks=[], protocolBks=[]
+  export let Bookmarks, bkTypes={}, courseBks=[], protocolBks=[], filteredCourseBks=[], filteredProtocolBks=[]
 
-
+  
   $: if(User && $User) {
     let profile = $User.Profile
 
@@ -60,35 +69,40 @@
 
 
   $: {
-    console.log('----BBBookmarks?!', $Bookmarks)
+    // console.log('----BBBookmarks?!', $Bookmarks)
 
     let bkdata = $Bookmarks.data
     bkTypes = {}
 
-    // separates bookmark by content types like "Protocols"
-    Object.keys(bkdata).map(b=>{
-      console.log('111111 =====', bkdata[b][0])
-      let bk = bkdata[b][0]
-      if (bk.fields['Content Types'] && bk.fields['Content Types'].length>0) {
-        if(!bkTypes[bk.fields['Content Types']])
-          bkTypes[bk.fields['Content Types']] = []
-
-        bkTypes[bk.fields['Content Types']].push(bk)
-
-        // add all course bookmarks for ease
-        if (bk.fields['Content Types'] == 'Lab Experiment' || 
-          bk.fields['Content Types'] == 'Lecture' || 
-          bk.fields['Content Types'] == 'Lecture Series' || 
-          bk.fields['Content Types'] == 'Lab Videos') {
-          courseBks.push(bk)
+    if(bkdata) {
+      // separates bookmark by content types like "Protocols"
+      protocolBks=[]
+      courseBks=[]
+      Object.keys(bkdata).map(b=>{
+        let bk = bkdata[b][0]
+        if (bk.fields['Content Types'] && bk.fields['Content Types'].length>0) {
+          if(!bkTypes[bk.fields['Content Types']])
+            bkTypes[bk.fields['Content Types']] = []
+  
+          bkTypes[bk.fields['Content Types']].push(bk)
+  
+          // add all course bookmarks for ease
+          if (bk.fields['Content Types'] == 'Lab Experiment' || 
+            bk.fields['Content Types'] == 'Lecture' || 
+            bk.fields['Content Types'] == 'Lecture Series' || 
+            bk.fields['Content Types'] == 'Lab Videos') {
+            courseBks.push(bk)
+          }
+  
+          if (bk.fields['Content Types'] == 'Protocol')
+            protocolBks.push(bk)
         }
+      })
 
-        if (bk.fields['Content Types'] == 'Protocol')
-          protocolBks.push(bk)
-      }
-    })
+      filteredCourseBks = filterByStatus(courseBks)
+      filteredProtocolBks = filterByStatus(protocolBks)
+    }
 
-    console.log('----bkTypes?!', bkTypes)
   }
 
   // $: if(Faves && $Faves['data']) {

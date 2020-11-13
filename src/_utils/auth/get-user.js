@@ -20,7 +20,7 @@ export const getUser = async (setStore=true) => {
     // const response = await fetch(`api/passport/login`)
 
     const response = await fetch(`api/passport/login`, {
-      headers: { 'x-skip-swr': true }
+      headers: { 'X-Skip-SWR': true }
     })
 
     if(response.status == 200) {

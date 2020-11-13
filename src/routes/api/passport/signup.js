@@ -6,12 +6,20 @@ import passport from 'passport'
 
 import { sanitizeUserForClient, hashPassword } from '../../../_utils/auth/auth-helpers'
 import { addUser, users, findUserByEmail } from '../../../_utils/auth/auth-users'
+import { getSetting } from "../../../_utils/settings"
 import { sendData } from '../../../_utils/sapper-helpers'
 import { addProfileForNewUser } from '../../../_utils/auth/auth-custom'
 
 import { getProfileByUsername } from '../profile/index'
 
 export async function post(req, res, next) {
+
+	if(await getSetting('account') == false)
+		return sendData({
+			status: false,
+			message: 'Accounts currently turned off', 
+		}, res, 200) // error code depends on front-end strategy
+	
   try {
 
 		const {email, password, userName} = req.body

@@ -3,7 +3,7 @@
   "description": "PGH: Online",
   "version": "0.0.1",
   "scripts": {
-    "dev": "sapper dev --port 2024",
+    "dev": "CYTOSIS_LIVE=true sapper dev --port 2024",
     "devprod": "STATUS=Published sapper dev --port 2024",
     "zeit-notes": "zeit has problems building on their end, but 'zeit prod' does it locally. Requires build to use export, but old sapper build is: sapper build --legacy",
     "build": "npm run loader; ls && sapper build --legacy",

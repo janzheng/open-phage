@@ -104,13 +104,13 @@ export const cacheClear = (key) => {
 		nodecache.del(key)
 		// const itemIndex = cacheList.findIndex(c => c.str === key)
 		// cacheList.splice(itemIndex,1)
-		console.warn('[nodecache] Cache key wiped:', key)
+		console.warn('[cacheClear] Cache key wiped:', key)
 		return true
 	}
 
 	let keys = nodecache.keys()
 	let numItems = nodecache.del(keys) // returns number of deleted items
-	console.warn('[nodecache] Entire cache wiped: ', numItems)
+	console.warn('[cacheClear] Entire cache wiped: ', numItems)
 
 	// cacheList.map(cache => {
 	// 	nodecache.del(cache.key)

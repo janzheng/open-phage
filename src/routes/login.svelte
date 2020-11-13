@@ -11,7 +11,7 @@
 
     <!-- helpful for forms: https://www.nielsvandermolen.com/signup-form-html5-validation-svelte/ -->
 
-    <div class="login _divider-bottom">
+    <div class="login">
       <form class="_form-control" on:submit|preventDefault={async (e)=>{
         if(!isLoading) {
           isLoading = true
@@ -42,14 +42,13 @@
         </label>
 
         {#if !isLoading}
-          <button class="_button __action __width-full _margin-right-none-i" type="submit">Log in</button>
+          <button class="_button __action _margin-right-none-i" type="submit">Log in</button>
         {:else}
-          <button class="_button __action __width-full _margin-right-none-i">Logging in...</button>
+          <button class="_button __action _margin-right-none-i">Logging in...</button>
         {/if}
 
         {#if _res && _res.status == false}
         	<p class="_message __error">{_res.message}</p>
-          <p class="_message __success"><a href="/account/forgot-password">Reset your password</a></p>
         {/if}
 
       </form>
@@ -57,8 +56,14 @@
 
       <div class="_margin-top">
         <form class="_form-control" on:submit|preventDefault={(evt)=>handleOauth(evt,'twitter')}>
-          <button class="_button __width-full __cta" type="submit">Log in with Twitter</button>
+          <button class="_button __cta" type="submit">Log in with Twitter</button>
         </form>
+      </div>
+
+      <div class="_margin-top">
+        <!-- {#if _res && _res.status == false} -->
+          <p class=""><a class="_button __cta" href="/account/forgot-password">Reset your password</a></p>
+        <!-- {/if} -->
       </div>
 
     </div>

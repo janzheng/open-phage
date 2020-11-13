@@ -21,7 +21,7 @@
           isLoading = false
         }
       }}>
-        <label class="_form-label _margin-bottom-2" htmlFor="username">User name
+        <label class="_form-label _margin-bottom-2" htmlFor="username">Display name
           <p class="_font-small">Please use your full name, e.g. "Jessica Sacher"</p>
           <input
             class="_width-full _margin-top-half"

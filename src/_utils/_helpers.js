@@ -140,7 +140,7 @@ export const sluggerate = (str) => {
   str = str.replace(/ï/g, "i")
   str = str.replace(/ì/g, "i")
   str = str.replace(/ñ/g, "n")
-  console.log('sluggerating:', str)
+  // console.log('sluggerating:', str)
   str = str.replace(/ô/g, "o")
   str = str.replace(/ö/g, "o")
   str = str.replace(/ò/g, "o")
@@ -192,10 +192,10 @@ export const sluggerate = (str) => {
   str = str.replace(/----/g, "-")
   str = str.replace(/---/g, "-")
   str = str.replace(/--/g, "-")
-  console.log('sluggerating final:', str)
+  // console.log('sluggerating final:', str)
   str = encodeURI(str)
 
-  console.log('sluggerating final:', str)
+  // console.log('sluggerating final:', str)
   return str
 }
 

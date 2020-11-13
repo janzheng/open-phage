@@ -6,14 +6,23 @@ import passport from 'passport'
 
 import { users } from '../../../_utils/auth/auth-users'
 import { sanitizeUserForClient, hashPassword, comparePasswords, getToken, getShortToken } from '../../../_utils/auth/auth-helpers'
+import { getSetting } from "../../../_utils/settings"
 import { sendData } from '../../../_utils/sapper-helpers'
 import { getProfileById } from '../profile/index'
+
 
 
 // this quickly checks if the user is logged in / server session contains the user
 export async function get(req, res, next) {
 	// passportjs uses session to perform a login on this endpoint
 	const user = req.user
+
+	if(await getSetting('account') == false)
+	  return sendData({
+	    status: false,
+	    message: 'Accounts currently turned off', 
+	  }, res, 200) // error code depends on front-end strategy
+	
 
 	// console.log('get login current user:', user)
 	// console.log('users:', users)
@@ -63,8 +72,16 @@ export async function get(req, res, next) {
 
 
 // logs in based on req (req is automatically added by Passport middleware)
-export function post(req, res, next) {
+export async function post(req, res, next) {
   try {
+
+		if(await getSetting('account') == false) {
+			return sendData({
+				status: false,
+				message: 'Accounts currently turned off', 
+			}, res, 200) // error code depends on front-end strategy
+		}
+			
 		passport.authenticate('local', function(err, user, info) {
 		  if (err) { 
 		  	console.error('[api/auth/passport:local] error:', err)

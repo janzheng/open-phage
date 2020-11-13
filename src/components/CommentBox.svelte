@@ -6,83 +6,88 @@
 
  -->
 
-<div class="CommentBox">
+{#if getSettingClient('comments', Content)}
+	<div class="CommentBox {classes}">
 
-	<div class="Comments">
-		<h4 class="_padding-top-none-i _margin-bottom">Comments</h4>
+		<div class="Comments">
+			<h4 class="_margin-bottom">Comments</h4>
 
-    {#if comments && comments.data.length > 0}
-			{#each comments.data as item}
-				<div class="_card _padding">
-					<div class="_grid-2 _align-vertically">
-						<div class="">
-							{#if $profiles[item._phid] && $profiles[item._phid].data}
-								<div class={`CommentBox-profile`}>
-									<a href={`/user/${$profiles[item._phid].data.fields['userName']}`}>
-										{#if $profiles[item._phid].data.fields['ProfileImage'] && $profiles[item._phid].data.fields['ProfileImage'].length > 0 }
-											<img class="CommentBox-profile-img" alt={`profile for ${$profiles[item._phid].data.fields['userName']}`} src={ $profiles[item._phid].data.fields['ProfileImage'][0]['thumbnails']['small']['url'] }>
-										{/if}
-										<span class="CommentBox-profile-username">{$profiles[item._phid].data.fields['userName'] }</span>
-									</a>
-								</div>
-							{/if}
+			{#if comments && comments.data.length > 0}
+				{#each comments.data as item}
+					<div class="_card _padding">
+						<div class="_grid-2 _align-vertically">
+							<div class="">
+								{#await getProfileByPhid(item._phid) then profile}
+									{#if profile && profile.data}
+										<div class={`FaveThumb-profile`}>
+											<a href={`/user/${profile.data.fields['userName']}`}>
+												{#if profile.data.fields['ProfileImage'] && profile.data.fields['ProfileImage'].length > 0 }
+													<img class="FaveThumb-profile-img" alt={`profile for ${profile.data.fields['userName']}`} src={ profile.data.fields['ProfileImage'][0]['thumbnails']['small']['url'] }>
+												{/if}
+												<span class="FaveThumb-profile-username">{ profile.data.fields['userName'] }</span>
+											</a>
+										</div>
+									{/if}
+								{/await}
+							</div>
+							<div class="_font-small _right">{ getPrettyDate(item.ts) }</div>
 						</div>
-						<div class="_font-small _right">{ getPrettyDate(item.ts) }</div>
+						<p class="_padding-top">{item.comment}</p>
 					</div>
-					<p class="_padding-top">{item.comment}</p>
+				{/each}
+			{:else}
+				{#if User && $User['Profile']}
+					<div class="_card _padding">
+						Be the first to leave a comment below!
+					</div>
+				{:else}
+					<div class="_card _padding">
+						Be the first to leave a comment! <a href="/login">Log in</a> or <a href="/signup">sign up</a> to leave a comment!
+					</div>
+				{/if}
+			{/if}
+		</div>
+
+
+
+		{#if User && $User['Profile']}
+			<form class="Formlet _padding-top-2" on:submit|preventDefault={async ()=> {
+				isPosting=true
+				await postComment()
+				isPosting=false
+			}}>
+				<div class="Formlet Formlet-textarea _form-control">
+					<label for="sigMessage" class="_form-label">Leave a comment
+					<textarea id="sigMessage"
+										ref="textarea"
+										name="sigMessage"
+										rows="2"
+										class="_form-input _block" 
+										type="text"
+										bind:value={comment}
+					/>
 				</div>
-			{/each}
+
+				<div>
+					<button type="submit" class="_button __width-full __action _margin-bottom-none">Say something nice!</button>
+				</div>
+
+				{#if message}
+					<div class="_message __success _card _padding __flat _margin-top">
+						{ message }
+					</div>
+				{/if}
+			</form>
+
 		{:else}
-			<div class="_card __flat _padding _padding-top-2 _padding-bottom-2">
-				Be the first to leave a comment!
+			<div class="_card __flat _padding">
+				<a href="/login">Log in</a> to leave a comment
 			</div>
 		{/if}
-  </div>
 
+	</div>
 
-
-
-  {#if User && $User['Profile']}
-	  <form class="Formlet _padding-top-2" on:submit|preventDefault={async ()=> {
-	  	isPosting=true
-	  	await postComment()
-	  	isPosting=false
-	  }}>
-		  <div class="Formlet Formlet-textarea _form-control">
-		    <label for="sigMessage" class="_form-label">Leave a comment
-		    <textarea id="sigMessage"
-		              ref="textarea"
-		              name="sigMessage"
-		              rows="2"
-		              class="_form-input _block" 
-		              type="text"
-		              bind:value={comment}
-		    />
-			</div>
-
-			<div>
-				<button type="submit" class="_button __width-full __action _margin-bottom-none">Say something nice!</button>
-			</div>
-
-			{#if message}
-				<div class="_message __success _margin-top">
-					{ message }
-				</div>
-			{/if}
-		</form>
-
-	{:else}
-		<div class="_card __flat _padding _margin-bottom-none">
-			<a href="/login">Log in</a> to leave a comment
-		</div>
-	{/if}
-
-</div>
-
-
-
-
-
+{/if}
 
 
 
@@ -102,9 +107,10 @@
 
 <script>
 
-  import { onMount, onDestroy } from 'svelte';
+  import { goto, stores } from '@sapper/app';
+  import { onMount, getContext } from 'svelte';
 	import { User } from '../stores/stores.js';
-	import { writable } from 'svelte/store';
+	import { getSettingClient } from "../_utils/settings"
 
   import { getProfile } from '../_utils/auth/get-profile';
   import { fetchPost } from '../_utils/fetch-helpers';
@@ -113,26 +119,17 @@
 
   // can be url, id slug, to tie these messages to a permalink, thread, etc.
   // if none provided, this is just a "general" message thread
-  export let locationId
+  export let locationId, classes
 	let comments, comment, message, isPosting=false
 	let user, userData // userData used to id user on Fauna using _phid
-	let profile 
-	let profileStores=[] // stores a bunch of profile swr subscriptions, will need to be unsubbed
-	let profiles = writable({})
+	let profile
+
+  const Content = getContext('Content')
+	
 
   onMount(async () => {
   	await loadComments()
   })
-
-  onDestroy(() => {
-  	profileStores.map(unsub=>{
-  		unsub() // unsubscribe all the profiles
-  	})
-  })
-
-
-
-
 
 	$: if(User && !$User['__isLoading']) {
   	userData = {
@@ -141,6 +138,7 @@
   		userName: $User.userName
   	}
 	}
+	
 
 
 	const getPrettyDate = (ts) => {
@@ -149,30 +147,25 @@
 	}
 
 	const loadComments = async () => {
-    comments = await fetch(`api/comments?locId=${locationId}`).then(r => r.json())
+		if(!locationId)
+			return
+
+		// console.log('...loading comments from', locationId)
+    comments = await fetch(`api/comments?locId=${locationId}`, {
+			headers: {'X-Skip-SWR': true},
+		}).then(r => r.json())
+		// console.log('...loading comments:', comments)
 	} 
 
- 	$: if (comments && comments.data.length > 0) {
-		let _profiles = comments.data.map((item) => {
-
-			// habe to subscribe to each profile object and assign it to a reactive store
-			let profile = getProfile(item._phid, fetch, false, true)
-			
-			let unsub = profile.subscribe(v=>{
-				profiles.update(state=>{
-					state[item._phid] = v
-					return state
-				})
-			})
-			profileStores.push(unsub)
-
-
-		})
-	}
-
-
+	const getProfileByPhid = async (_phid) => {
+		profile = await getProfile(_phid, fetch)
+		return $profile
+	} 
 
 	const postComment = async () => {
+		if(!locationId)
+			return
+
 		const data = {
 			comment,
 			locId: locationId
@@ -226,7 +219,7 @@
 
 
 
-	.CommentBox-profile {
+	.FaveThumb-profile {
 		// margin-top: 0.5rem;
 
 		a {
@@ -234,7 +227,7 @@
 		}
 	}
 
-	.CommentBox-profile-img {
+	.FaveThumb-profile-img {
 		object-fit: cover;
 		border-radius: 100%;
 		width: 48px;

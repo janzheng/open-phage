@@ -25,15 +25,22 @@ import send from '@polka/send';
 import Cytosis from 'cytosis';
 import * as sapper from '@sapper/server';
 import { cacheGet, cacheSet, cacheClear } from "../../_utils/cache"
+import { getCytosis } from "../../_utils/get-cytosis"
+import { sendData } from "../../_utils/sapper-helpers" 
 
 import { config } from "dotenv";
 
-import cytosis from "../../../static/data/cytosis.json"
+let cytosis
+try {
+	cytosis = require('../../../static/data/cytosis.json')
+} catch(e) {
+	// do nothing if file doesn't exist
+}
 
 
 
 config(); // https://github.com/sveltejs/sapper/issues/122
-let json;
+let useContentCache = !process.env.CYTOSIS_LIVE
 
 // const view = process.env.STATUS=='Preview' ? "Preview" : "Published"
 // const apiEditorKey = process.env.OPENPHAGE_AIRTABLE_PUBLIC_API
@@ -41,27 +48,32 @@ let json;
 
 export async function get(req, res) {
 
-	try {
+	let content = {}
 
-		const _cacheStr = `cytosis`
-		let _cache = cacheGet(_cacheStr)
-		if(_cache) {
-			send(res, 200, _cache, {
-				'Content-Type': 'application/json'
-			})
-			return
-		}
+
+	try {
+		// const _cacheStr = `cytosis`
+		// let _cache = cacheGet(_cacheStr)
+		// if(_cache) {
+		// 	send(res, 200, _cache, {
+		// 		'Content-Type': 'application/json'
+		// 	})
+		// 	return
+		// }
 
 		// cytosis content grabbed at compile time from loader
-		if(cytosis && cytosis.results['Content']) {
-			let content = JSON.stringify(cytosis.results['Content'])
-			cacheSet(_cacheStr, content)
-			send(res, 200, content, {
-				'Content-Type': 'application/json'
-			})
-			return
+		if(useContentCache && cytosis && cytosis.results['Content']) {
+			content = cytosis.results['Content']
+		} else {
+			let _cytosis = await getCytosis({})
+			content = _cytosis.results['Content']
 		}
 
+		// console.log('[content]:', content)
+		// cacheSet(_cacheStr, content)
+		return sendData(content, res, 200)
+		
+		
 	} catch(err) {
 		throw new Error('[content/get] Error', err)
 	}

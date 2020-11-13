@@ -148,7 +148,7 @@ export async function post(req, res) {
     user['Profile'] = userProfile
     req.login(user, async (err) => {
 
-      console.log('XXXXXX Cleanup:', getCacheKeys())
+      // console.log('XXXXXX Cleanup:', getCacheKeys())
       return sendData({
         status: true,
         data: userProfile,

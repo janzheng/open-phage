@@ -50,7 +50,7 @@ self.addEventListener('fetch', event => {
 	if (event.request.method !== 'GET' || event.request.headers.has('range')) return;
 
 	// custom header for skipping SWR, for logins etc.
-	if (event.request.headers.has('x-skip-swr')) {
+	if (event.request.headers.has('X-Skip-SWR')) {
 		// console.log('**-----** [GET] Skipping SWR', event.request.headers)
 		return
 	}

@@ -3,11 +3,15 @@ import { query as q } from 'faunadb'
 import faunadb from 'faunadb'
 
 import { cacheGet, cacheSet, cacheClear } from "../cache"
-
+import { getSetting } from "../settings"
 
 
 
 export const getComments = async (locId) => {
+
+  // console.log('getComments getSetting???', await getSetting('comments'))
+  if(await getSetting('comments') == false)
+    return []
 
   try {
 
@@ -44,17 +48,20 @@ export const getComments = async (locId) => {
     }
 
 		// const data = await response.json();
-    // console.log('comments:', comments)
 
     // whitelist
     const clean = {data: comments.data.reduce((acc,val) => {
       // console.log('messages::::', val)
-      return [...acc, {
-        comment: val.data.comment,
-        _phid: val.data._phid,
-        locId: val.data.locId,
-        ts: val.ts,
-      }]
+      if(!val || !val.data) {
+        return acc
+      } else {
+        return [...acc, {
+          comment: val.data.comment,
+          _phid: val.data._phid,
+          locId: val.data.locId,
+          ts: val.ts,
+        }]
+      }
     },[])}
 
     return clean
@@ -71,6 +78,10 @@ export const getComments = async (locId) => {
 // user: user info; use _phid to track back to the user
 // post: post data (usually a message) 
 export const postComment = async (locId, user, comment) => {
+
+  // console.log('getComments getSetting???', await getSetting('comments'))
+  if(await getSetting('comments') == false)
+    return []
 
   if(!process.env.FAUNA_COMMENTS_KEY) {
     console.error('[postComment] No access to Fauna')
@@ -103,6 +114,10 @@ export const postComment = async (locId, user, comment) => {
 
 export const getCommentCount = async (locId) => {
 
+  // console.log('getComments getSetting???', await getSetting('comments'))
+  if(await getSetting('comments') == false)
+    return []
+
   if(!process.env.FAUNA_COMMENTS_KEY) {
     console.error('[getCommentCount] No access to Fauna')
     return undefined
@@ -130,6 +145,10 @@ export const getCommentCount = async (locId) => {
 
 
 export const getCommentCounts = async (locIds) => {
+
+  // console.log('getComments getSetting???', await getSetting('comments'))
+  if(await getSetting('comments'))
+    return []
 
   if(!process.env.FAUNA_COMMENTS_KEY) {
     console.error('[getCommentCounts] No access to Fauna')

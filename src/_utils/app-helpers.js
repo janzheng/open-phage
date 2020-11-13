@@ -258,7 +258,7 @@ export const filterByStatus = (arr) => {
     else if (status == 'Preview' && (d.fields['Status']=='Preview' || d.fields['Status']=='Published'))
       return d
   })
-  // console.log('filterByStatus Status:', status, _arr)
+  // console.log('filterByStatus Status:', status, arr.length, _arr.length)
   return _arr
 }
 

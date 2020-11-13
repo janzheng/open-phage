@@ -4,17 +4,17 @@
   import Cytosis from 'cytosis'
   import marked from 'marked'
 
+	import { getSettingClient } from "../_utils/settings"
 	import { handleLogout } from '../_utils/auth/sapper-auth-helpers';
 
   export let segment
 
-  const Content$ = getContext('Content')
-  $: Content = $Content$
+  const Content = getContext('Content')
 
   // $: if(Content) {
   // console.log('Content:', Content)
   let content
-  $: content = Cytosis.findOne('header', Content ).fields['Markdown']
+  $: content = Cytosis.findOne('header', $Content ).fields['Markdown']
   // }
 
   const User = getContext('User')
@@ -59,16 +59,21 @@
     		<div class="_flex _flex-right">
     			<a rel=prefetch href="/lectures" class={`__underline-none ${segment==='lectures'?'_active':''}`}>Lectures</a>
     			<a rel=prefetch href="/library" class={`__underline-none ${segment==='library'?'_active':''}`}>Library</a>
-    			<!-- <a href="/about">About</a> -->
-    			<div>
-						{#if !$User || !$User.Profile}
-	  					<a rel=prefetch href="/login" class={`__underline-none ${segment==='login'?'_active':''}`}>Log in</a>
-	  					<a rel=prefetch href="/signup" class={`__underline-none ${segment==='signup'?'_active':''}`}>Sign up</a>
-						{:else}
-							<a rel=prefetch class={`__underline-none ${segment === "profile" ? "selected" : ""}`} href='profile'>{$User.Profile.fields.userName}</a>
-							<a href="/" class="__underline-none _item logout __text _margin-bottom-none-i" on:click={handleLogout} >logout</a>
-						{/if}
-  				</div>
+					<!-- <a href="/about">About</a> -->
+					
+					{#if getSettingClient('account', Content)}
+						<div>
+							{#if !$User || !$User.Profile}
+								<a rel=prefetch href="/login" class={`__underline-none ${segment==='login'?'_active':''}`}>Log in</a>
+								{#if getSettingClient('signup', Content)}
+									<a rel=prefetch href="/signup" class={`__underline-none ${segment==='signup'?'_active':''}`}>Sign up</a>
+								{/if}
+							{:else}
+								<a rel=prefetch class={`__underline-none ${segment === "profile" ? "selected" : ""}`} href='profile'>{$User.Profile.fields.userName}</a>
+								<a href="/" class="__underline-none _item logout __text _margin-bottom-none-i" on:click={handleLogout} >Log out</a>
+							{/if}
+						</div>
+					{/if}
     		</div>
     	</div>
     </div>
