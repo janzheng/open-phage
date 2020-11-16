@@ -1,111 +1,52 @@
-# Open Phage Training Program
+# Phages for Global Health: Online
 
-The default [Sapper](https://github.com/sveltejs/sapper) template, available for Rollup and webpack.
+Thanks for checking out the repository for Phages for Global Health: Online! This is the code behind the phage and lab skills course site at online.phagesforglobalhealth.org. We strive to make freely available content for students and researchers interested in getting into bacteriophage research. These instructionals are videos are meant for instructional purposes — please follow all local and state laws when running your experiments.
 
-
-## Getting started
-
-
-### Using `degit`
-
-[`degit`](https://github.com/Rich-Harris/degit) is a scaffolding tool that lets you create a directory from a branch in a repository. Use either the `rollup` or `webpack` branch in `sapper-template`:
-
-```bash
-# for Rollup
-npx degit "sveltejs/sapper-template#rollup" my-app
-# for webpack
-npx degit "sveltejs/sapper-template#webpack" my-app
-```
+If you would like us to come teach a course in person, please visit phagesforglobalhealth.org and reach out to Tobi at tobi@phagesforglobalhealth.org
 
 
-### Using GitHub templates
+## How this MVP is put together
 
-Alternatively, you can use GitHub's template feature with the [sapper-template-rollup](https://github.com/sveltejs/sapper-template-rollup) or [sapper-template-webpack](https://github.com/sveltejs/sapper-template-webpack) repositories.
-
-
-### Running the project
-
-However you get the code, you can install dependencies and run the project in development mode with:
-
-```bash
-cd my-app
-npm install # or yarn
-npm run dev
-```
-
-Open up [localhost:3000](http://localhost:3000) and start clicking around.
-
-Consult [sapper.svelte.dev](https://sapper.svelte.dev) for help getting started.
+The project is put-together as a minimal-viable project. We wanted to keep the project 100% free for users, so we needed as many low-cost technologies as we could find to make this possible. The entire project was devised, designed, and developed over the span of 1-2 months. 
 
 
-## Structure
+### Initial Requirements
 
-Sapper expects to find two directories in the root of your project —  `src` and `static`.
-
-
-### src
-
-The [src](src) directory contains the entry points for your app — `client.js`, `server.js` and (optionally) a `service-worker.js` — along with a `template.html` file and a `routes` directory.
+"Free and fast" guided our initial project design goals, as the site had to be devised and completed in about 2 months. Additionally, most of Phages for Global Health's work happens in developing nations like Nigeria, where internet connections can be expensive and slow. We decided to optimize for faster load times and reduced bandwidth as much as we could. The reason we decided on videos of lab skills is because they are faster to create, and because lectures and lab techniques are easier to learn as a video.
 
 
-#### src/routes
+### Core Technologies
 
-This is the heart of your Sapper app. There are two kinds of routes — *pages*, and *server routes*.
+Here are the core technologies and services that help keep PGH:Online as free and accessible as possible:
+- Front-end app built on [Svelte/Sapper](https://svelte.dev) and Rollup
+- Deployed on vercel.com as a serverless micro-site
+- Accounts and site content is managed by [Airtable](https://airtable.com) (passwords and tokens are hashed with bcrypt)
+- Lecture content is managed by Notion [Notion](https://notion.so)
+- Transactional emails are handled by Mailgun
+- Comments handled by FaunaDB
 
-**Pages** are Svelte components written in `.svelte` files. When a user first visits the application, they will be served a server-rendered version of the route in question, plus some JavaScript that 'hydrates' the page and initialises a client-side router. From that point forward, navigating to other pages is handled entirely on the client for a fast, app-like feel. (Sapper will preload and cache the code for these subsequent pages, so that navigation is instantaneous.)
-
-**Server routes** are modules written in `.js` files, that export functions corresponding to HTTP methods. Each function receives Express `request` and `response` objects as arguments, plus a `next` function. This is useful for creating a JSON API, for example.
-
-There are three simple rules for naming the files that define your routes:
-
-* A file called `src/routes/about.svelte` corresponds to the `/about` route. A file called `src/routes/blog/[slug].svelte` corresponds to the `/blog/:slug` route, in which case `params.slug` is available to the route
-* The file `src/routes/index.svelte` (or `src/routes/index.js`) corresponds to the root of your app. `src/routes/about/index.svelte` is treated the same as `src/routes/about.svelte`.
-* Files and directories with a leading underscore do *not* create routes. This allows you to colocate helper modules and components with the routes that depend on them — for example you could have a file called `src/routes/_utils/datetime.js` and it would *not* create a `/_utils/datetime` route
+The main reason we are using services like Notion and Airtable (instead of say, Netlify CMS or MongoDB Atlas) is so content and accounts can fit into tools and workflows that our collaborators are already used to using. Because we lack technical users, sticking with the most familiar tools was emphasized throughout the project. We recognize that Airtable has weak API rates and lacks security mechanisms for accounts (as compared to MongoDB or FaunaDB), we opted to store as little PID as possible while using Airtable as a way to reduce development time.
 
 
-### static
 
-The [static](static) directory contains any static assets that should be available. These are served using [sirv](https://github.com/lukeed/sirv).
+## Thanks & Credits
 
-In your [service-worker.js](src/service-worker.js) file, you can import these as `files` from the generated manifest...
+This project wouldn't be possible without funding from Mozilla Foundation's. Thanks for helping fund audacious projects in open science and open source, and making experiments like this possible!
 
-```js
-import { files } from '@sapper/service-worker';
-```
-
-...so that you can cache them (though you can choose not to, for example if you don't want to cache very large files).
-
-
-## Bundler config
-
-Sapper uses Rollup or webpack to provide code-splitting and dynamic imports, as well as compiling your Svelte components. With webpack, it also provides hot module reloading. As long as you don't do anything daft, you can edit the configuration files to add whatever plugins you'd like.
-
-
-## Production mode and deployment
-
-To start a production version of your app, run `npm run build && npm start`. This will disable live reloading, and activate the appropriate bundler plugins.
-
-You can deploy your application to any environment that supports Node 10 or above. As an example, to deploy to [ZEIT Now](https://zeit.co/now) when using `sapper export`, run these commands:
-
-```bash
-npm install -g now
-now
-```
-
-If your app can't be exported to a static site, you can use the [now-sapper](https://github.com/thgh/now-sapper) builder. You can find instructions on how to do so in its [README](https://github.com/thgh/now-sapper#basic-usage).
-
-
-## Using external components
-
-When using Svelte components installed from npm, such as [@sveltejs/svelte-virtual-list](https://github.com/sveltejs/svelte-virtual-list), Svelte needs the original component source (rather than any precompiled JavaScript that ships with the component). This allows the component to be rendered server-side, and also keeps your client-side app smaller.
-
-Because of that, it's essential that the bundler doesn't treat the package as an *external dependency*. You can either modify the `external` option under `server` in [rollup.config.js](rollup.config.js) or the `externals` option in [webpack.config.js](webpack.config.js), or simply install the package to `devDependencies` rather than `dependencies`, which will cause it to get bundled (and therefore compiled) with your app:
-
-```bash
-npm install -D @sveltejs/svelte-virtual-list
-```
+This project is coordinated by the non-profit organization, [Phages for Global Health](phagesforglobalhealth.org) and is built by [Phage Directory](https://phage.directory)
 
 
 ## Bugs and feedback
 
-Sapper is in early development, and may have the odd rough edge here and there. Please be vocal over on the [Sapper issue tracker](https://github.com/sveltejs/sapper/issues).
+PGH:Online is constantly receiving updates and improvements. Please let us know if you encounter bugs, security issues, or want feature improvements. Please create an issue or reach out to Jan at jan@phage.directory.
+
+
+## Setting this up for yourself
+
+- Clone this repository
+- (Write up TODO)
+  - (TODO) Set up your Notion environment (for main course content)
+  - (TODO) Set up your Airtable environment (for accounts and site content)
+  - (TODO) Set up your Mailgun environment (if you need account emails)
+  - (TODO) Set up your FaunaDB environment (if you need comments) 
+  - Set up .env file
