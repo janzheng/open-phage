@@ -1,0 +1,105 @@
+
+
+
+
+// lectures.svelte
+
+.Lectures-sidebar img {
+  display: none;
+}
+
+
+
+// [lecture].svelte
+.Lecture-link-card {
+	border: 2px solid usetheme(brand-lightest);
+	box-shadow: inherit;
+	color: usetheme(brand-copy);
+	@extend %ease;
+
+	&, * {
+		text-decoration: none;
+	}
+
+  &:hover {
+		color: usetheme(brand-active) !important;
+		border-color: usetheme(brand-active) !important;
+		text-decoration: none;
+		// @extend %ease;
+  }
+  &:focus {
+  	color: usetheme(brand-dark);
+		// color: usetheme(brand-copy) !important;
+		border-color: usetheme(brand-dark) !important;
+		text-decoration: none;
+		// @extend %ease;
+  }
+}
+.Lecture-link {
+	// color: rgba(0, 0, 0, 0.87) !important;
+	text-decoration: none;
+
+
+	&.__active {
+		.Lecture-link-card {
+			border-color: usetheme(brand-dark);
+		}
+  	&, * {
+  		color: usetheme(brand-dark) !important;
+  	}
+	}
+}
+.Lecture-classes {
+	counter-reset: classes;
+
+	.Lecture-classes-title::before {
+		counter-increment: classes;
+  	content: counter(classes) ". "; 
+  	display: inline;
+	}
+	.Lecture-classes-title p {
+		// display: inline-block;
+		display: inline;
+	}
+}
+
+
+ 
+
+/*  Lecture Card  */
+
+	.LectureCard-series-container {
+		h6 {
+			font-weight: normal !important;
+		}
+		.LectureCard-series * {
+			font-size: 0.9rem;
+			line-height: 1.3rem;
+		}
+		p {
+			margin-bottom: 0.75rem;
+		}
+	}
+
+	.LectureCard-cover {
+		width: 100%;
+		max-height: 320px;
+		object-fit: cover;
+		border-radius: 4px;
+
+		img {
+			max-width: 100%;
+		}
+
+	}
+
+	.LectureCard.__hero {
+		.list-card {
+			padding-top: 2rem !important;
+			padding-bottom: 2rem !important;
+			border-color: usetheme(brand-light);
+		}
+	}
+
+
+	

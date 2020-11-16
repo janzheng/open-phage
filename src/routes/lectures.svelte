@@ -2,7 +2,8 @@
   export async function preload(page, session) {
     // const data = await this.fetch(`/api/notion?collections=Protocols,Videos,Library`).then(r => r.json())
 
-    const data = await this.fetch(`/api/notion?collections=Lecture Series, Lecture&contents=Welcome, Protocol, Reference, Reading, Lecture&getField=Content IDs|Welcome`).then(r => r.json())
+    const data = await this.fetch(`/api/notion?collections=Lecture Series, Lecture Content, Lab Experiments, Lab Videos&contents=Welcome, Protocol, Reference, Reading, Lecture&getField=Content IDs|Welcome`).then(r => r.json())
+    // const status = await this.fetch(`/api/status`).then(r => r.json())
 
     return { data };
   }
@@ -13,15 +14,33 @@
 
 <div class="Lectures">
 
+  <Breadcrumbs links={[
+    {href:'/', name:'Home'},
+    {href:'/lectures', name:'Lectures'},
+    ]} 
+  />
+
 
   <div class="Lectures _section-page _padding-top-2 _margin-center ">
 
+    <div class="Lectures-container _margin-center _margin-top-2 ">
+ 
+      <!-- <LectureCard isHero={true} lecture={heroLecture} /> -->
 
-    <div class="Lectures-container _margin-center _divider-top _divider-bottom">
+      <div class="Lectures-body _section _divider-bottom">
+        <div class="Lectures-main">
+          {#if lectures}
+            {#each filteredLectures as item, i}
+              <LectureCard isHero={i==0} lecture={item} showSeries={i>0 ? true:false} showMaterial={true} />
+            {/each}
+          {/if}
+        </div>
+      </div>
 
-      <LectureCard lecture={heroLecture} />
 
 
+<!-- This shows a sidebar of library and protocol items -->
+<!-- 
       <div class="Lectures-body _section _grid-2-1 _grid-gap-large _divider-top _divider-bottom">
         <div class="Lectures-main">
           {#if lectures}
@@ -50,7 +69,7 @@
           </div>
         </div>
       </div>
-
+ -->
 
 
     </div>
@@ -69,36 +88,58 @@
   import LectureCard from '../components/LectureCard.svelte'
   import ProtocolCard from '../components/ProtocolCard.svelte'
   import LinkCard from '../components/LinkCard.svelte'
+  import Breadcrumbs from '../components/Breadcrumbs.svelte'
+
+  import { filterByStatus } from '@/_utils/app-helpers'
+
 
   // Content passed down from layout
   const Content$ = getContext('Content')
   $: Content = $Content$
 
-  let intro
+  let intro, filteredLectures
 	$: intro = Cytosis.findField('intro', Content, 'Content')
 
 
   export let data
-  $: console.log('yotion!!!!!:', data)
+  // $: console.log('yotion!!!!!:', data)
 
   let heroLecture
   $: if(data) heroLecture = data['Lecture Series'][0]
 
   let lectures
   $: if(data) {
-  	lectures = [...data['Lecture Series']]
-  	lectures = lectures.slice(1) // remove first one since it's a "hero"
 
-    lectures.map(lec => {
+  	lectures = [...data['Lecture Series']]
+  	// lectures = lectures.slice(1) // remove first one since it's a "hero"
+
+    // filter out unpublished lectures
+    // not that safe but mostly this is to clean up the UI
+
+    filteredLectures = filterByStatus(lectures)
+
+
+    filteredLectures.map(lec => {
+
       lec['series'] = []
       const contentName = lec.fields['Content ID']
-      data['Lecture'].map(lecItem => {
+      data['Lecture Content'].map(lecItem => {
+        if(lecItem.fields['Content ID'] == contentName)
+          lec['series'].push(lecItem)
+      })
+
+      data['Lab Experiments'].map(lecItem => {
+        if(lecItem.fields['Content ID'] == contentName)
+          lec['series'].push(lecItem)
+      })
+
+      data['Lab Videos'].map(lecItem => {
         if(lecItem.fields['Content ID'] == contentName)
           lec['series'].push(lecItem)
       })
     })
 
-    console.log('lectures ::::', lectures)
+    console.log('[lectures]', filteredLectures)
   }
 
   let library
@@ -116,11 +157,3 @@
 
   
 </script>
-
-<style type="text/scss">
-
-  :global(.Lectures-sidebar img) {
-    display: none;
-  }
-
-</style>

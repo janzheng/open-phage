@@ -21,10 +21,11 @@
 // 	}
 // }
 
-import send from '@polka/send';
 import Cytosis from 'cytosis';
 import * as sapper from '@sapper/server';
-import base from "../../../../static/notion.json"
+
+import { sendData } from "../../../_utils/sapper-helpers" 
+import base from "../../../../static/data/notion.json"
 import { cacheGet, cacheSet, cacheClear } from "../../../_utils/cache"
 
 import { config } from "dotenv";
@@ -38,6 +39,7 @@ let json;
 
 // gets a yotion 'id' object
 // large objects will time out
+// mainly used for testing + verification
 export const getId = async (id) => {
 	// const _cacheStr = `yotion-${id}`
 	// if(cacheGet(_cacheStr))
@@ -151,7 +153,7 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 
 
 		if(getClass) {
-			let classObj
+			let classObj, author
 
 			// get class item
 			Object.keys(_base.content).map(baseKey => {
@@ -191,10 +193,24 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 				}
 			})
 
+			// return the first author result
+			// each class only has one author (for now)
+			if(classObj.fields['Author']) {
+
+				Object.keys(_base.content).map(baseKey => {
+					_base.content[baseKey].map(item => {
+						if(item.fields['Slug'] == classObj.fields['Author']) {
+							author = item
+						}
+					})
+				})
+			}
+
 			return {
 				lecture,
 				class: classObj,
 				classes: items,
+				author
 			}
 		}
 
@@ -208,9 +224,14 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 
 
 
+
+
+
+
+
 export async function get(req, res) {
 
-	const {id, collection, collections, content, contents, getField, fields, getLecture, getClass} = req.query
+	const {id, collection, collections, content, contents, getField, fields, getLecture, getClass, getUser, getAuthorItems} = req.query
   let json, base = {}
 
   try {
@@ -236,13 +257,14 @@ export async function get(req, res) {
 				let data =  getBase({collection: c})
 				base[c] = data
 			})
+
 		}
 
 		// grab by content type
 		if(contents) { 
 			let arr = contents.split(', ')
 			arr.map((c) => {
-				let data =  getBase({content: c})
+				let data = getBase({content: c})
 				base[c] = data
 			})
 		}
@@ -269,16 +291,55 @@ export async function get(req, res) {
 			base = {...base, ...getBase({getClass}) }
 		}
 
+		// get user/team/personnel via slug
+		// returns an []
+		if(getUser) { 
+			let users = []
+			let data = getBase({collection: 'Personnel'})
+			let dataKeys = Object.keys(data)
+			let arr = getUser.split(', ')
+			arr.map((c) => {
+				dataKeys.map(d => {
+					if(data[d].fields['Slug'] === c)
+						users.push(data[d])
+				})
+			})
+
+			base = {...base, users: users }
+		}
+
+		// get user/team/personnel's courses/classes / anything labeled w/ that slug under "Author"
+		// returns an object
+		// getAuthorItems looks like tobi-nagel,shawna-mccallin, etc...
+		if(getAuthorItems) { 
+			let slugs = getAuthorItems.split(', ')
+			let collections = ['Lecture Content','Lab Experiments','Lab Videos','Protocols']
+			// let collections = ['Lecture Content']
+			let res = {}
+			slugs.map(slug => {
+				let data = {}
+				collections.map((c) => {
+					let collection = getBase({collection: c})
+					collection.map(co => {
+						if(co.fields['Author'] === slug) {
+							if(!data[c]) // create this key if doesn't exist
+								data[c] = []
+							data[c].push(co)
+						}
+					})
+				})
+				res[slug] = data
+			})
+
+			base = res
+		}
 
 		// if we don't specify anything, return everything
 		if(Object.keys(base).length == 0) {
 			base = getBase({})
 		}
 
-		json = JSON.stringify(base)
-		send(res, 200, json, {
-			'Content-Type': 'application/json'
-		});
+	  return sendData(base, res, 200)
 	} catch(err) {
 		throw new Error('[notion/get] Error', err)
 	}

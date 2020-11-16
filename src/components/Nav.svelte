@@ -4,14 +4,24 @@
   import Cytosis from 'cytosis'
   import marked from 'marked'
 
-  const Content$ = getContext('Content')
-  $: Content = $Content$
+	import { getSettingClient } from "../_utils/settings"
+	import { handleLogout } from '../_utils/auth/sapper-auth-helpers';
+
+  export let segment
+
+  const Content = getContext('Content')
 
   // $: if(Content) {
   // console.log('Content:', Content)
   let content
-  $: content = Cytosis.findOne('header', Content ).fields['Markdown']
+  $: content = Cytosis.findOne('header', $Content ).fields['Markdown']
   // }
+
+  const User = getContext('User')
+  $: if($User) {
+  	console.log('[Nav] User / Profile:', $User, $User.Profile)
+  }
+
 
 </script>
 <!--
@@ -38,20 +48,32 @@
 <nav class="Header __antialiased __content-header">
 	<div class="skip"><a href="#main">Skip to main content</a></div>
   <div class="Nav Home-content _section-page _padding-top-2 _padding-bottom-2 _margin-center">
+
+  	<!-- segment: { segment } -->
     <!-- {@html marked(content)} -->
   	<div class="_grid-1-5-sm _align-vertically">
     	<div>
-    		<a rel=prefetch href="/"><img width="50px" src="logo.png" alt="logo for home"></a>
+    		<a rel=prefetch href="/"><img width="50px" src="icon_pd.png" alt="logo for home"></a>
     	</div>
     	<div class="_padding-top-2-xs _padding-left-2-sm _md-pfix">
     		<div class="_flex _flex-right">
-    			<a rel=prefetch href="/lectures">Lectures</a>
-    			<a rel=prefetch href="/library">Library</a>
-    			<!-- <a href="/about">About</a> -->
-    			<div>
-  					<a rel=prefetch href="/login">Login</a>
-  					<a rel=prefetch class="" href="/login#signup">Signup</a>
-  				</div>
+    			<a rel=prefetch href="/lectures" class={`__underline-none ${segment==='lectures'?'_active':''}`}>Lectures</a>
+    			<a rel=prefetch href="/library" class={`__underline-none ${segment==='library'?'_active':''}`}>Library</a>
+					<!-- <a href="/about">About</a> -->
+					
+					{#if getSettingClient('account', Content)}
+						<div>
+							{#if !$User || !$User.Profile}
+								<a rel=prefetch href="/login" class={`__underline-none ${segment==='login'?'_active':''}`}>Log in</a>
+								{#if getSettingClient('signup', Content)}
+									<a rel=prefetch href="/signup" class={`__underline-none ${segment==='signup'?'_active':''}`}>Sign up</a>
+								{/if}
+							{:else}
+								<a rel=prefetch class={`__underline-none ${segment === "profile" ? "selected" : ""}`} href='profile'>{$User.Profile.fields.userName}</a>
+								<a href="/" class="__underline-none _item logout __text _margin-bottom-none-i" on:click={handleLogout} >Log out</a>
+							{/if}
+						</div>
+					{/if}
     		</div>
     	</div>
     </div>
@@ -59,8 +81,7 @@
 </nav>
 
 
-
-<style>
+<style type="text/scss">
 	:global(.Header) {
 		background-color: white;
 		position: relative;
@@ -79,7 +100,15 @@
 
 	a { 
 		padding-right: 1rem;
+		font-size: 1.1rem;
 
+		&:last-child {
+			padding-right: 0;
+		}
+
+		&._active {
+			font-weight: bold;
+		}
 	}
 
 	@media (max-width: 768px) {
@@ -98,57 +127,3 @@
 
 
 
-
-
-
-
-
-
-<!-- 
-
-<style>
-	nav {
-		border-bottom: 1px solid rgba(255,62,0,0.1);
-		font-weight: 300;
-		padding: 0 1em;
-	}
-
-	ul {
-		margin: 0;
-		padding: 0;
-	}
-
-	 clearfix 
-	ul::after {
-		content: '';
-		display: block;
-		clear: both;
-	}
-
-	li {
-		display: block;
-		float: left;
-	}
-
-	[aria-current] {
-		position: relative;
-		display: inline-block;
-	}
-
-	[aria-current]::after {
-		position: absolute;
-		content: '';
-		width: calc(100% - 1em);
-		height: 2px;
-		background-color: rgb(255,62,0);
-		display: block;
-		bottom: -1px;
-	}
-
-	a {
-		text-decoration: none;
-		padding: 1em 0.5em;
-		display: block;
-	}
-</style>
- -->

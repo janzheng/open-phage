@@ -33,6 +33,7 @@
               <p><a href="/lectures#top">Lectures</a></p>
               <p><a href="/library#top">Library</a></p>
               <p><a href="/team#top">Team Members</a></p>
+              <p><a href="/community#top">Community Rules</a></p>
               <p><a href="/terms#top">Terms & Conditions</a></p>
               <p><a href="/privacy#top">Privacy Policy</a></p>
               <p><a href="https://github.com/janzheng/open-phage">Github</a></p>

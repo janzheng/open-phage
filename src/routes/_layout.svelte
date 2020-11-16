@@ -1,22 +1,31 @@
 
 <script context="module">
   export async function preload(page, session) {
-    const cytosis = await this.fetch(`/api/content`).then(r => r.json())
-    const Content = cytosis.results['Content']
-    // console.log('_layout cytosis:', cytosis.results)
-    return { Content };
+    const Content = await this.fetch(`/api/content`).then(r => r.json())
+    // const Content = cytosis.results['Content']
+    // console.log('_layout Content:', Content)
+    return { Content, Status: process.env.STATUS };
   }
 </script>
 
 
 <script>
+  import { getContext, onMount, tick } from 'svelte';
+	import { goto, stores } from '@sapper/app';
+
 	import Nav from '../components/Nav.svelte';
 	import Footer from '../components/Footer.svelte';
 	import { head, site_url } from '../_utils/_head.js';
+	import * as Stores from '../stores/stores.js';
+
+
+  import { derived } from 'svelte/store';
+  const { preloading } = stores();
+
 	// This trick passes down preloaded data to all modules
 	// https://stackoverflow.com/questions/60911171/how-to-pass-data-from-a-layout-to-a-page-in-sapper
 	export let segment
-	export let Content
+	export let Content, Status
 
   import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
@@ -28,7 +37,31 @@
   $: $Content$ = Content
   // $: $Schedule$ = Schedule
   // $: $Profiles$ = Profiles
-  setContext('Content', Content$)
+	setContext('Content', Content$)
+	
+	$: {
+		Stores.Content.set($Content$)
+		Stores.Status.set(Status)
+	}
+
+
+
+
+	// check user existence and persist in store?
+	// TODO: not sure if this is secure, but it skips a server check
+	import { User } from '../stores/stores.js';
+	import { getUser } from '../_utils/auth/get-user';
+	let user = User
+	setContext('User', User) // Context tied to store, which will update accordingly
+	// $: console.log('_layout User:::', $User)
+
+	// load and set user object whenever it's loaded
+	onMount(() => {
+		getUser() // this will set the store reactively
+	})
+
+
+
 </script>
 
 
@@ -55,8 +88,25 @@
 </svelte:head>
 
 
+
+
 <div id="top" class="ContentFrame Layout">
+
+
+
+	<!-- {#if $preloading} -->
+	  <!-- Show Loading spinner -->
+	  <!-- LOADING LOADING -->
+		<div class="__loadingbar">
+		  <div class="line"></div>
+		  <div class="subline inc"></div>
+		  <div class="subline dec"></div>
+		</div>
+	<!-- {/if} -->
+
+
 	<Nav {segment}/>
+	
 
 	<main id="main" class="ContentFrame-body __content-frame">
 		<slot ></slot>
@@ -69,9 +119,9 @@
 
 
 
-<!-- 
+
 <style type="text/scss">
-  // // @import '../styles/core';
-</style> -->
+
+</style>
 
 

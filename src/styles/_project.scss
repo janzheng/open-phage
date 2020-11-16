@@ -1,0 +1,528 @@
+
+
+
+@import 'lecture';
+
+
+.Home, .ContentFrame-body {
+	background-color: usetheme(background-white);
+}
+	.Home {
+
+		.logo {
+		  max-height: 48px;
+		  max-width: 100%;
+		  margin-bottom: 0.5rem;
+		}
+
+		.org-desc-pd {
+		  margin-top: 2rem;
+		}
+
+	}
+
+	.Home-content {
+		// padding-bottom: 90px;
+		position: relative;
+		z-index: 30;
+	}
+
+	// for homepage hero welcome video
+	.homepage-list {
+		.list-block-cover {
+			float: inherit;
+			width: 100%;
+			margin-bottom: 1rem;
+		}
+		[data-field="Name"] {
+			font-size: 1.32rem;		
+			line-height: 1.32rem * 1.4;
+		}
+	}
+
+
+.Form-body {
+	// awful override :)
+	padding: 0;
+}
+
+
+
+
+
+.Header {
+	background-color: white; // usetheme(white);
+}
+
+
+body {
+	background-color: usetheme(body-bg);
+	color: usetheme(brand-copy);
+}
+
+// footer feature 
+.__content-frame {
+	min-height: 80vh;
+	// background-color: blue;
+	position: relative;
+	z-index: 10; // main content z
+	background-color: usetheme(background-white);
+}
+
+.__content-footer {
+	position: relative;
+	// position: sticky;
+	min-height: 20vh;
+	// background-color: red;
+	z-index: 20; // footer z
+	bottom: 0;
+	left: 0;
+	width: 100%;
+
+  display: grid;
+  place-items: center; // whoa
+}
+
+
+.__content-body {
+	position: relative;
+	z-index: 30;
+}
+
+
+.Formlet-input-cta {
+	._form-input {
+		width: 100%;
+	}
+}
+
+
+// homepage
+
+.Home {
+	width: 100%;
+	overflow: hidden;
+  background-color: usetheme(background-white);
+}
+
+
+
+.Footer {
+  .Footer-content {
+    // padding-top: $size-9;
+    position: relative;
+    z-index: 10;
+  }
+
+  // text-align: center;
+  // color: white;
+  background-color: usetheme(brand-footer);
+
+  // a, a:visited {
+  // 	color: white !important;
+  // }
+  // a:focus {
+  // 	color: usetheme(brand-hover) !important;
+  // }
+  // a:hover {
+  // 	color: white !important;
+  // 	text-decoration: underline;
+  // }
+
+  a {
+  	text-decoration: none
+  }
+}
+
+
+
+
+.ScheduleItem {
+
+	.date {
+		font-weight: bold;
+		font-size: $size;
+		padding-bottom: $size;
+	}
+
+	._tag.open {
+		background-color: usetheme(brand-active);
+		color: white;
+	}
+}
+
+
+
+input.__action, button.__action, a.__action {
+	border: 2px solid usetheme(brand-active);
+	background-color: usetheme(brand-active);
+	color: usetheme(brand-white);
+
+	&:hover, &:active {
+		background-color: usetheme(brand-light);
+		border-color: usetheme(brand-light);
+		color: usetheme(brand-white) !important;
+	}
+	&:focus {
+		background-color: usetheme(brand-dark);
+		border-color: usetheme(brand-dark);
+	}
+}
+
+input.__largebtn, button.__largebtn, a.__largebtn {
+	width: 100%;
+	padding: $size-4;
+	text-align: center;
+}
+
+
+input.__cta, button.__cta, a.__cta {
+	border: 2px solid usetheme(brand-active);
+	background-color: usetheme(brand-white);
+	color: usetheme(brand-active);
+
+	&:hover, &:active {
+		background-color: usetheme(brand-active) !important;
+		border-color: usetheme(brand-active) !important;
+		color: usetheme(brand-white) !important;
+	}
+	&:focus {
+		background-color: usetheme(brand-dark);
+		border-color: usetheme(brand-dark);
+		color: usetheme(brand-white);
+	}
+}
+
+
+input.__quiet, button.__quiet, a.__quiet {
+	border: 2px solid usetheme(brand-lighter);
+	background-color: usetheme(brand-white);
+	color: usetheme(brand-active);
+
+	&:hover, &:active {
+		background-color: usetheme(brand-active) !important;
+		border-color: usetheme(brand-active) !important;
+		color: usetheme(brand-white) !important;
+	}
+	&:focus {
+		background-color: usetheme(brand-dark);
+		border-color: usetheme(brand-dark);
+		color: usetheme(brand-white);
+	}
+}
+
+
+
+
+
+
+.list-block-item-container, .list-card {
+  overflow: auto;
+
+  p:last-child {
+  	margin-bottom: 0 !important;
+  }
+
+}
+
+.list-block-cover {
+  max-width: 100%;
+  float: left;
+  width: 150px;
+  margin-right: 1rem;
+	border-radius: 4px;
+}
+	.list-block-cover--page {
+		max-width: 100%;
+		width: 100%;
+		max-height: 400px;
+		object-fit: cover;
+		margin-bottom: 2rem;
+	}
+
+	.list-block-link { 
+		text-decoration: none;
+
+		.list-card {
+			border: 2px solid usetheme(brand-lightest);
+			@extend %ease;
+		}
+
+		&, &:visited {
+			color: usetheme(brand-copy);
+		}
+
+	  &:hover {
+	  	.list-card {
+		  	// color: usetheme(brand-active);
+				color: usetheme(brand-copy) !important;
+				border-color: usetheme(brand-active) !important;
+				text-decoration: none;
+				// @extend %ease;
+	  	}
+	  }
+	  &:focus {
+	  	.list-card {
+		  	// color: usetheme(brand-active);
+				color: usetheme(brand-copy) !important;
+				border-color: usetheme(brand-dark) !important;
+				text-decoration: none;
+				// @extend %ease;
+			}
+	  }
+	}
+
+
+
+
+
+
+[data-field="Name"] {
+  font-size: 1.16rem;
+  line-height: 1.65rem;
+  margin-bottom: 0.45rem;
+}
+
+[data-field="Author"] {
+  margin-top: 0.39rem;
+  margin-bottom: 0.39rem;
+}
+
+
+
+	.list-block-item-container.__main {
+		[data-field="Name"] {
+  		margin-bottom: 2rem;
+
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+input.__action, button.__action, a.__action {
+	border: 2px solid usetheme(brand-active);
+	background-color: usetheme(brand-active);
+	color: usetheme(brand-white);
+
+	&:hover, &:active {
+		background-color: usetheme(brand-light) !important;
+		border-color: usetheme(brand-light) !important;
+	}
+	&:focus {
+		background-color: usetheme(brand-dark) !important;
+		border-color: usetheme(brand-dark) !important;
+	}
+}
+
+input.__danger.__text, button.__text.__danger, a.__text.__danger {
+	color: usetheme(danger);
+	&:hover, &:active, &:focus {
+		color: darken(usetheme(danger), 12%) !important;
+	}
+	&:focus {
+		color: lighten(usetheme(danger), 12%) !important;
+	}
+}
+
+
+input.__cta, button.__cta, a.__cta {
+	border: 2px solid usetheme(brand-active);
+	background-color: usetheme(brand-white);
+	color: usetheme(brand-active);
+
+	&:hover, &:active {
+		background-color: usetheme(brand-active) !important;
+		border-color: usetheme(brand-active) !important;
+		color: usetheme(brand-white) !important;
+	}
+	&:focus {
+		background-color: usetheme(brand-dark) !important;
+		border-color: usetheme(brand-dark) !important;
+		color: usetheme(brand-white) !important;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+
+	[Class] pages
+
+ */
+
+
+	.Class-sidebar {
+    min-width: 270px;
+		line-height: 24px;
+
+    a { &, p {
+  		font-size: 17px;
+			line-height: 24px;
+    }}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+
+	Footer
+
+ */
+
+
+
+
+.FooterSignups-capsid {
+  background: #f1fbff;
+  border-top: 2px solid;
+  border-bottom: 1px solid;
+  border-right: 2px solid;
+  border-left: solid 6px;
+  border-color: #50cde0;
+  // @extend ._shadow-1;
+
+  input._form-input {
+    background-color: #fbfdff;
+
+    border-style: solid;
+    border-width: 2px;
+    border-color: #0084FF;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+
+    &:hover, &:active, &:focus {
+      border-style: solid;
+      border-width: 2px;
+      border-color: #0084FF;
+      background-color: #fbfdff
+    };
+  }
+  ._button {
+    // font-weight: 700;
+    margin: 0;
+    background: transparent; //usetheme(capsid-cta-bg-color, $footer);
+    border-color: #0084FF;
+    color: #0084FF;
+    &:hover {
+      background: #0084FF;
+      border-color: #0084FF;
+      color: #fbfdff;
+    };
+
+    @media (max-width: 640px) {
+      margin-top: 0.5rem;
+      width: 100%;
+    }
+  }
+}
+
+
+
+
+
+/* 
+
+	Tiny components
+
+ */
+
+
+video {
+	max-width: 100%;
+}
+
+
+.Breadcrumbs {
+	background-color: usetheme(brand-lightest);
+	a {
+		text-decoration: none !important;
+	}
+	span {
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+    position: relative;
+    bottom: 1px;
+	}
+}
+
+
+
+.TeamCard {
+	.__simple {
+	  .profile-img {
+	  	vertical-align: text-top;
+	    width: 100%;
+	    max-width: 32px;
+	    border-radius: 100%;
+	  }
+	}
+
+  .__wide {
+    .profile-img {
+      width: 100%;
+      max-width: 150px;
+      border-radius: 100%;
+    }
+  }
+}
+
+.TeamCard-link {
+	.__inline {
+	  .profile-img {
+	  	vertical-align: middle;
+	    width: 100%;
+	    max-width: 65px;
+	    border-radius: 100%;
+	  }
+	}
+
+
+
+	text-decoration: none;
+
+	&, &:visited {
+  	color: usetheme(brand-copy) !important;
+	}
+
+  &:hover, &:active {
+  	color: usetheme(brand-active) !important;
+  }
+  &:focus {
+  	color: usetheme(brand-dark) !important;
+  }
+}
+

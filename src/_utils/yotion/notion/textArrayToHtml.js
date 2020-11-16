@@ -1,6 +1,6 @@
 /* Turns an array of text, returned by Notion's API, into HTML */
 
-const katex = require("katex")
+// const katex = require("katex")
 
 const escapeText = require("../helpers/escape")
 
@@ -35,7 +35,7 @@ module.exports = (source, options={ br: true, escape: true }) => {
         } else if(modCode === "c") {
           text = `<code>${text}</code>`
         } else if(modCode === "e") {
-          text = `<span class="equation">${katex.renderToString(mod[1], { throwOnError: false })}</span>`
+          // text = `<span class="equation">${katex.renderToString(mod[1], { throwOnError: false })}</span>`
         } else {
           console.error("Unhandled modification in textArrayToHtml()", mod)
         }

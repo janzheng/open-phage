@@ -11,13 +11,16 @@
 
 const fetch = require("node-fetch")
 const fs = require('fs')
-const notionPath = process.argv[3] || './static/notion.json'
-const cytosisPath = process.argv[3] || './static/cytosis.json'
+const notionPath = process.argv[3] || './static/data/notion.json'
+const cytosisPath = process.argv[3] || './static/data/cytosis.json'
 const notionId = process.argv[2] || process.env.NOTION
 const getContentFromId = require("../_utils/yotion/notion/getContentFromId")
 
 const Cytosis = require("cytosis").default
 
+if (!fs.existsSync('./static/data')){
+   fs.mkdirSync('./static/data');
+}
 
 
 

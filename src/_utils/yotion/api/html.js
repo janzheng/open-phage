@@ -1,15 +1,15 @@
 /* Returns reconstructed HTML for a given Notion doc */
 
-const katex = require("katex")
-const prism = require("prismjs")
-require("prismjs/components/prism-markup-templating")
-require("prismjs/components/prism-php")
-require("prismjs/components/prism-python")
-require("prismjs/components/prism-ruby")
-require("prismjs/components/prism-json")
-require("prismjs/components/prism-java")
-require("prismjs/components/prism-yaml")
-require("prismjs/components/prism-bash")
+// const katex = require("katex")
+// const prism = require("prismjs")
+// require("prismjs/components/prism-markup-templating")
+// require("prismjs/components/prism-php")
+// require("prismjs/components/prism-python")
+// require("prismjs/components/prism-ruby")
+// require("prismjs/components/prism-json")
+// require("prismjs/components/prism-java")
+// require("prismjs/components/prism-yaml")
+// require("prismjs/components/prism-bash")
 
 const call = require("../notion/call")
 const normalizeId = require("../notion/normalizeId")
@@ -112,7 +112,7 @@ module.exports = async (req, res) => {
         let highlighted = code
         try {
           // try/catch because this fails when prism doesn't know the language
-          highlighted = prism.highlight(code, prism.languages[language], language)
+          // highlighted = prism.highlight(code, prism.languages[language], language)
         } catch{}
         html.push(`<pre><code class="language-${language}">${highlighted}</code></pre>`)
       }
@@ -136,7 +136,7 @@ module.exports = async (req, res) => {
         return 
       }
       const equation = block.properties.title[0][0]
-      const equationHtml = katex.renderToString(equation, { throwOnError: false })
+      // const equationHtml = katex.renderToString(equation, { throwOnError: false })
       html.push(`<div class="equation">${equationHtml}</div>`)
     } else if(["embed"].includes(type)) {
       html.push(`<iframe src="${block.properties.source[0][0]}"></iframe>`)

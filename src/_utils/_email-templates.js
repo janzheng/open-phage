@@ -3,13 +3,10 @@
 import marked from 'marked';
 import Cytosis from 'cytosis';
 
-import NodeCache from 'node-cache'
 import { mdReplace } from "./_helpers.js"
+import { cacheSet, cacheGet } from './cache.js';
 
 
-
-
-const nodecache = new NodeCache();
 const view = process.env.STATUS=='Preview' ? 'Preview' : 'Published'
 
 const apiReadKey = process.env.P2050_AIRTABLE_PUBLIC_API

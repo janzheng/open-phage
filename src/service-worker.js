@@ -45,8 +45,15 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+	// console.log('**-----** [GET] Headers', event.request.headers)
 	// console.log('[SW] Fetch event:', event.request.url, event.request.method, event.request.headers.has('range'), event.request.cache)
 	if (event.request.method !== 'GET' || event.request.headers.has('range')) return;
+
+	// custom header for skipping SWR, for logins etc.
+	if (event.request.headers.has('X-Skip-SWR')) {
+		// console.log('**-----** [GET] Skipping SWR', event.request.headers)
+		return
+	}
 
 	const url = new URL(event.request.url);
 
@@ -159,6 +166,37 @@ self.addEventListener('fetch', event => {
 workbox.loadModule('workbox-cacheable-response');
 workbox.loadModule('workbox-range-requests');
 
+
+// notion-derived assets
+
+workbox.routing.registerRoute(
+  new RegExp('^http://localhost:2024/api/notion/asset/'),
+  new workbox.strategies.CacheFirst({
+    cacheName: 'media-cache',
+    plugins: [
+      new workbox.cacheableResponse.CacheableResponsePlugin({
+        statuses: [0, 200],
+      })
+    ]
+  })
+);
+
+workbox.routing.registerRoute(
+  new RegExp('^https://online.phagesforglobalhealth.org/api/notion/asset/'),
+  new workbox.strategies.CacheFirst({
+    cacheName: 'media-cache',
+    plugins: [
+      new workbox.cacheableResponse.CacheableResponsePlugin({
+        statuses: [0, 200],
+      })
+    ]
+  })
+);
+
+
+
+
+
 workbox.routing.registerRoute(
   new RegExp('^https://s3.us-west-2.amazonaws.com/'),
   new workbox.strategies.CacheFirst({
@@ -196,7 +234,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
   // new RegExp('^https://dl.airtable.com'),
-  /\.(?:png|jpg|jpeg|svg|mp4|webm)$/,
+  /\.(?:png|jpg|jpeg|svg|mp4|webm|srt)$/,
   new workbox.strategies.CacheFirst({
     cacheName: 'media-cache',
     plugins: [
@@ -205,11 +243,27 @@ workbox.routing.registerRoute(
       }),
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 50,
-        maxAgeSeconds: 7 * 24 * 60 * 60,  // 7 days
+        maxAgeSeconds: 7 * 24 * 60 * 60 * 4,  // 4 * 7 days
       }),
     ]
   })
 );
 
 
+workbox.routing.registerRoute(
+  // new RegExp('^https://dl.airtable.com'),
+  /\.(?:css)$/,
+  new workbox.strategies.CacheFirst({
+    cacheName: 'css-cache',
+    plugins: [
+      new workbox.cacheableResponse.CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new workbox.expiration.ExpirationPlugin({
+        maxEntries: 50,
+        maxAgeSeconds: 7 * 24 * 60 * 60 * 4,  // 4 * 7 days
+      }),
+    ]
+  })
+);
 
