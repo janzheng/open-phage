@@ -1,31 +1,36 @@
 
 {#if video}
-	<!-- <video class="Video" width="640" controls preload="metadata" bind:this={videoElem}> -->
-	<video class="Video {classes}" {width} controls preload="none" poster={coverImg} bind:this={videoElem} crossorigin="anonymous">
-	  <source src={video} controls="true" type="video/mp4">
-		<track default
-					 id="captions"
-           kind="captions"
-           srclang="en"
-           src={captionSrc} />
-	  Your browser does not support the video tag.
-	</video>
+	{#key video}
+		...video: {video}
+		<!-- <video class="Video" width="640" controls preload="metadata" bind:this={videoElem}> -->
+		<video class="Video {classes}" {width} controls preload="none" poster={coverImg} bind:this={videoElem} crossorigin="anonymous">
+			<source src={video} controls="true" type="video/mp4">
+			<track default
+						id="captions"
+						kind="captions"
+						srclang="en"
+						src={captionSrc} />
+			Your browser does not support the video tag.
+		</video>
 
-	<div class="caption-container _font-large _padding _padding-top _padding-bottom-2">
-		{#if cue}
-				{cue ? cue.text : ''}
-		{/if}
-	</div>
-
-	<div class="_font-small">
-		{#if download}
-			<a href={video}>Download video file</a>
-		{/if}
-		{#if filesize} ({filesize}) {/if}
 		{#if captionSrc}
-			— <a href={captionSrc}>Subtitle file</a>
+			<div class="caption-container _font-large _padding _padding-top _padding-bottom-2">
+				{#if cue}
+						{cue ? cue.text : ''}
+				{/if}
+			</div>
 		{/if}
-	</div>
+
+		<div class="_font-small">
+			{#if download}
+				<a href={video}>Download video file</a>
+			{/if}
+			{#if filesize} ({filesize}) {/if}
+			{#if captionSrc}
+				— <a href={captionSrc}>Subtitle file</a>
+			{/if}
+		</div>
+	{/key}
 {/if}
 
 
@@ -54,28 +59,22 @@
 	// 	// 	videoElem.onloadedmetadata = (event) => {
 	// 	// 	  console.log('The duration and dimensions of the media and tracks are now known. ', event);
 	// 	// 	};
-	// 	tracks = videoElem.textTracks
-	// 	track = tracks[0]
-	// 	activeCues = track.activeCues
-	// 	console.log('activeCues.....?!?!!??!?:', track)
 
-	// 	if(videoElem.textTracks[0]['activeCues']) {
-	// 		// videoElem.textTracks[0]['activeCues'].text = "banana!!"
-	// 		console.log('----***', videoElem.textTracks[0]['activeCues'])
-	// 	}
 		track = document.getElementById('captions').track;  // returns TextTrack
 		track.mode = 'hidden' // hide from video
+
+		// console.log('track?', track)
 		track.oncuechange = function () {
-			console.log('tracktracktracktracktrack:', track['activeCues'])
+			// console.log('tracktracktracktracktrack:', track['activeCues'])
 			activeCues = track.activeCues
 			cue = activeCues[0]; // array of current cues
 		}
 	}
 
-	$: if(process.browser && track) {
-		// activeCues = track.activeCues
-		// text = track.activeCues && track.activeCues[0] ? track.activeCues[0].text : ''
-	}
+	// $: if(process.browser && track) {
+	// 	// activeCues = track.activeCues
+	// 	// text = track.activeCues && track.activeCues[0] ? track.activeCues[0].text : ''
+	// }
 
 </script>
 

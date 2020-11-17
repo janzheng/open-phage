@@ -17,7 +17,7 @@ export async function get(req, res, next) {
 		const comments = await getAllComments()
 		cacheSet(_cacheStr, comments, 500, false) // short cache to save fauna pings, long enough to be useful for server
 
-    console.log('?!!??!', comments)
+    // console.log('?!!??!', comments)
 		sendData(comments, res)
 	} catch(e) {
 		console.error('[api/comments/all/get] error:', e)
