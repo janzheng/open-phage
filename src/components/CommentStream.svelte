@@ -31,20 +31,12 @@
 								</div>
 								<div class="_font-small _right">{ getPrettyDate(item.ts) }</div>
 							</div>
-							<p class="_padding-top">{item.comment}</p>
+              <p class="_padding-top">{item.comment}</p>
+              <p class="_padding-top _font-small">{item.locId} | {item.ref['@ref'].id}</p>
+              
 						</div>
 					{/await}
 				{/each}
-			{:else}
-				{#if User && $User['Profile']}
-					<div class="_card _padding">
-						Be the first to leave a comment below!
-					</div>
-				{:else}
-					<div class="_card _padding">
-						Be the first to leave a comment! <a href="/login">Log in</a> or <a href="/signup">sign up</a> to leave a comment!
-					</div>
-				{/if}
 			{/if}
 		</div>
 
@@ -80,9 +72,9 @@
 			</form>
 
 		{:else}
-			<div class="_card __flat _padding">
+			<!-- <div class="_card __flat _padding">
 				<a href="/login">Log in</a> to leave a comment
-			</div>
+			</div> -->
 		{/if}
 
 	</div>

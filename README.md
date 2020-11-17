@@ -18,12 +18,13 @@ The project is put-together as a minimal-viable project. We wanted to keep the p
 ### Core Technologies
 
 Here are the core technologies and services that help keep PGH:Online as free and accessible as possible:
-- Front-end app built on [Svelte/Sapper](https://svelte.dev) and Rollup
+- Front-end app built on [Svelte/Sapper](https://svelte.dev) and packaged by Rollup
+- The serverless server-side runs on [Polka](https://github.com/lukeed/polka) (a simple variant of Express)
 - Deployed on vercel.com as a serverless micro-site
 - Accounts and site content is managed by [Airtable](https://airtable.com) (passwords and tokens are hashed with bcrypt)
-- Lecture content is managed by Notion [Notion](https://notion.so)
-- Transactional emails are handled by Mailgun
-- Comments handled by FaunaDB
+- Lecture content is managed by Notion [Notion](https://notion.so) and uses https://github.com/benborgers/potion to connect to Notion as a CMS
+- Transactional emails are handled by [Mailgun](https://mailgun.com)
+- Comments handled by [FaunaDB](https://fauna.com)
 
 The main reason we are using services like Notion and Airtable (instead of say, Netlify CMS or MongoDB Atlas) is so content and accounts can fit into tools and workflows that our collaborators are already used to using. Because we lack technical users, sticking with the most familiar tools was emphasized throughout the project. We recognize that Airtable has weak API rates and lacks security mechanisms for accounts (as compared to MongoDB or FaunaDB), we opted to store as little PID as possible while using Airtable as a way to reduce development time.
 
@@ -44,6 +45,7 @@ PGH:Online is constantly receiving updates and improvements. Please let us know 
 ## Setting this up for yourself
 
 - Clone this repository
+- Run `yarn install`
 - (Write up TODO)
   - (TODO) Set up your Notion environment (for main course content)
   - (TODO) Set up your Airtable environment (for accounts and site content)

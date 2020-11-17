@@ -203,6 +203,61 @@ export const getCommentCounts = async (locIds) => {
 }
 
 
+// lastItemId is the... id of the last item of the page, used for next page
+export const getAllComments = async (size=100, lastItemId) => {
+
+  try {
+
+    if(!process.env.FAUNA_COMMENTS_KEY) {
+      console.error('[getComments] No access to Fauna')
+      return undefined
+    } 
+
+    const client = new faunadb.Client({ secret: process.env.FAUNA_COMMENTS_KEY })
+    let comments
+
+    comments = await client.query(
+      q.Map( // array of comments
+        q.Paginate(
+          q.Match(q.Index(`${process.env.FAUNA_COLLECTION}-all-comments`)),
+          { size: 100,
+            after: lastItemId ? q.Ref(q.Collection(process.env.FAUNA_COLLECTION), lastItemId) : undefined
+          }
+        ),
+        q.Lambda('X',q.Get(q.Var('X')))
+      )
+    )
+
+    // whitelist
+    let newComments = []
+    let _newComments = comments.data.map(async (val) => {
+      // console.log('messages::::', val)
+      // let _user = await findUserById(val.data._phid)
+      // // console.log('----cleaning----', val.data._phid, val.data.comment)
+
+      // if(!_user['Authorizations'] || !_user['Authorizations'].includes('Allow::ShowComments'))
+      //   return
+
+      
+      newComments.push({
+        comment: val.data.comment,
+        _phid: val.data._phid,
+        locId: val.data.locId,
+        ts: val.ts,
+        ref: val.ref,
+      })
+    })
+
+    await Promise.all(_newComments)
+    newComments.sort((a,b) => (b['ts'] - a['ts']))
+    let clean = {data: newComments}
+
+    return clean
+  } catch (error) {
+    console.error('[getAllComments] error', error)
+  }
+
+}
 
 
 
