@@ -15,6 +15,7 @@
       <form class="_form-control" on:submit|preventDefault={async (e)=>{
         if(!isLoading) {
           isLoading = true
+				  _gatrack('login')
           _res = await handleLogin(e,{email, password})
           isLoading = false
         }
@@ -79,6 +80,7 @@
   import { onMount } from 'svelte';
   import { getUser } from '../_utils/auth/get-user';
   import { goto } from '@sapper/app';
+	import { _gatrack } from '../_utils/gtag.js';
 
   let email = '', password = ''
   let isLoading = false, _res

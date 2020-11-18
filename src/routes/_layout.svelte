@@ -4,7 +4,11 @@
     const Content = await this.fetch(`/api/content`).then(r => r.json())
     // const Content = cytosis.results['Content']
     // console.log('_layout Content:', Content)
-    return { Content, Status: process.env.STATUS };
+		return { Content, Status: process.env.STATUS,
+			gaOn: (process.env.GA4_ON === 'true'),
+			gaId: process.env.GA4_ID, 
+			gaDebug: (process.env.GA4_DEBUG === 'true'), 
+		};
   }
 </script>
 
@@ -18,6 +22,7 @@
 	import { head, site_url } from '../_utils/_head.js';
 	import * as Stores from '../stores/stores.js';
 
+	export let gaOn, gaId, gaDebug
 
   import { derived } from 'svelte/store';
   const { preloading } = stores();
@@ -62,6 +67,16 @@
 
 
 
+	// don't forget to setup script in template.html
+	// ex: script async src="https://www.googletagmanager.com/gtag/js?id=G-07MW60TJNJ" 
+	import { _set, _gatrack } from '../_utils/gtag.js';
+	if (process.browser && gaOn && gaId) {
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', gaId, {'debug_mode':gaDebug});
+		_set(gtag)
+	}
 </script>
 
 

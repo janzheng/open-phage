@@ -17,6 +17,7 @@
       <form class="_form-control" on:submit|preventDefault={async (e)=>{
         if(!isLoading) {
           isLoading = true
+				  _gatrack('signup')
           _res = await handleSignup(e, {userName, email, password})
           isLoading = false
         }
@@ -92,6 +93,7 @@
 <script>
   import marked from 'marked';
 
+	import { _gatrack } from '../_utils/gtag.js';
   import { handleOauth, handleSignup } from '../_utils/auth/sapper-auth-helpers';
   import { onMount } from 'svelte';
   import { getUser } from '../_utils/auth/get-user';

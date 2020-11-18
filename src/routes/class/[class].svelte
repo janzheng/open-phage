@@ -63,7 +63,7 @@
 								<div class="list-block-item-container list-card _card _padding">
 									{#if classObj.fields['Video'] && classObj.fields['Video'][0]}
 										<div class=" _margin-bottom-2">
-											<Video classes="Class-video" cover={classObj.fields['Video Cover']} video={classObj.fields['Video'][0]} filesize={classObj.fields['Video Size']} captions={classObj.fields['Video Captions']} />
+											<Video classes="Class-video" cover={classObj.fields['Video Cover']} video={classObj.fields['Video'][0]} filesize={classObj.fields['Video Size']} captions={classObj.fields['Video Captions']} slug={classObj.fields['Slug']} />
 										</div>
 									{:else}
 										{#if classObj.fields['Cover Image']}
@@ -204,7 +204,7 @@
 	})
 
 
-	function getNextClass() {
+	function getNextClass() { 
 		const classId = classObj.id
 		let nextClass
 		classes.map((c, i) => {
@@ -230,6 +230,8 @@
 		classObj.content.markdown.map(line => {
 			mdLines += line.trim() + '\n\n'
 		})
+
+		// console.log('md lines:', mdLines)
 	}
 
 
@@ -242,6 +244,14 @@
 	// 	color: rgba(0, 0, 0, 0.87) !important;
 	// }
 	
+	:global(details) {
+		margin-bottom: 1rem;
+	}
+	:global(summary) {
+		cursor: pointer;
+	}
+	
+
 	:global(.Class-video) {
 		// :global(video) {
 			width: 100%

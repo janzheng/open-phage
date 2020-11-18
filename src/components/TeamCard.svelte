@@ -63,7 +63,7 @@
 
       </div>
     	{#if profile.fields['Video'] && profile.fields['Video'][0]}
-        <Video cover={profile.fields['Video Cover']} download={false} filesize={profile.fields['Video Size']} video={profile.fields['Video'][0]} />
+        <Video cover={profile.fields['Video Cover']} download={false} filesize={profile.fields['Video Size']} video={profile.fields['Video'][0]} slug={profile.fields['Slug']} />
         <div class="_margin-top-2">{@html marked(profile.fields['Long'] || '') }</div>
     	{/if}
 
@@ -124,7 +124,7 @@
       return []
       
     let arr = filterByStatus(item)
-    console.log('filter?!?!?!', item, arr)
+    // console.log('filter?!?!?!', item, arr)
     return arr
   }
 </script>
