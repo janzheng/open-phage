@@ -1,4 +1,5 @@
 
+import { _tr, _err, _msg } from '@/_utils/sentry'
 import { hashPassword,  } from '../../../../_utils/auth/auth-helpers'
 import { findUserByToken, resetPasswordFromToken } from '../../../../_utils/auth/auth-users'
 import { notify } from '../../../../_utils/mailer.js'
@@ -31,9 +32,10 @@ export async function get(req, res, next) {
       message: `Reset token is still valid.`, 
     }, res)
 
-	} catch(error) {
-    console.error('[api/auth/reset/get]', error)
+	} catch(err) {
+    console.error('[passport/reset/get]', err)
     // // next(error)
+    _err(err)
   }
 }
 
@@ -56,14 +58,17 @@ export async function post(req, res, next) {
 
     await notifyResetConfirmation(user.email)
 
+    _msg(`[passport/reset] [${user.id}] password reset`)
+
     return sendData({
       status: true,
       message: `The password for your account "${user.email}" has just been changed. Please log in using your new password.`, 
     }, res)
 
-  } catch (error) {
-  	console.error('[api/auth/reset/post]', error)
+  } catch (err) {
+  	console.error('[passport/reset/post]', err)
     // next(error)
+    _err(err)
   }
 
 }

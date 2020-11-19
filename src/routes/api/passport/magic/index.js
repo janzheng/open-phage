@@ -2,6 +2,7 @@
 
 // magic login link
 
+import { _tr, _err, _msg } from '@/_utils/sentry'
 import { sanitizeUserForClient, hashPassword, getToken, getShortToken } from '../../../../_utils/auth/auth-helpers'
 import { findUserByToken, findUserByEmail } from '../../../../_utils/auth/auth-users'
 import { notifyMagic } from '../../../../_utils/auth/auth-templates'
@@ -28,7 +29,8 @@ export async function get(req, res, next) {
 
 	  req.login(user, async function(err) {
 	    if (err) { 
-		  	console.error('[api/auth/login] error:', err)
+				_err(err)
+		  	console.error('[passport/magic] error:', err)
 		  	return next(err)
 		  }
 
@@ -44,9 +46,10 @@ export async function get(req, res, next) {
       }, res)
 	  });
 
-	} catch(error) {
-    console.error('[api/auth/magic]', error)
-    // next(error)
+	} catch(err) {
+    console.error('[passport/magic]', err)
+		// next(error)
+		_err(err)
   }
 }
 
@@ -55,29 +58,34 @@ export async function get(req, res, next) {
 // this actually sends out the reset link
 export async function post(req, res, next) {
   try {
+		let _sentry = _tr(`[passport/magic]`, 'magic link request')
 
 		const {email} = req.body
 	  const user = await findUserByEmail(email)
 
 	  // note: this causes a slight delay when users are detected, which can 
-	  // cause users to "sniff" real vs. fake addresses
+		// cause users to "sniff" real vs. fake addresses
+		// BUT not awaiting might cause Vercel to time out before an email is sent
     if(user) {
-			notifyMagic(email, req.headers.host)
+			await notifyMagic(email, req.headers.host)
+			_msg(`[passport/magic] [${_user.id}] requested link`)
     } else {
     	console.error('Magic link not sent; no account found for ', email)
     }
 
 	  // show this message even on users that don't exist, for security
-	  // bad ux, good security
+		// bad ux, good security
+		_sentry.finish()
 	  return sendData({
 	    status: true,
 	    message: `An e-mail containing the log in link has been sent to ${email}`, 
 	  }, res)
 
 
-  } catch (error) {
-  	console.error('[api/auth/magic]', error)
+  } catch (err) {
+  	console.error('[passport/magic]', err)
     // next(error)
+		_err(err)
 
 	  return sendData({
 	    status: false,

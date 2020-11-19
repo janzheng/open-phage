@@ -21,20 +21,25 @@
 // 	}
 // }
 
+import * as Sentry from '@sentry/node';
+
+
 import send from '@polka/send';
 import Cytosis from 'cytosis';
 import * as sapper from '@sapper/server';
 import { cacheGet, cacheSet, cacheClear } from "../../_utils/cache"
 import { getCytosis } from "../../_utils/get-cytosis"
 import { sendData } from "../../_utils/sapper-helpers" 
+import { _tr, _err, _msg } from '@/_utils/sentry'
 
 import { config } from "dotenv";
 
 let cytosis
 try {
 	cytosis = require('../../../static/data/cytosis.json')
-} catch(e) {
+} catch(err) {
 	// do nothing if file doesn't exist
+	_err(err)
 }
 
 
@@ -61,6 +66,16 @@ export async function get(req, res) {
 		// 	return
 		// }
 
+		// Sentry.init({
+		// 	dsn: "https://e047cf154736481e91bb7616bdfcf36a@o460110.ingest.sentry.io/5522792",
+
+		// 	// We recommend adjusting this value in production, or using tracesSampler
+		// 	// for finer control
+		// 	tracesSampleRate: 1.0,
+		// });
+	  // Sentry.captureMessage('????')
+
+	
 		// cytosis content grabbed at compile time from loader
 		if(useContentCache && cytosis && cytosis.results['Content']) {
 			content = cytosis.results['Content']
@@ -75,7 +90,9 @@ export async function get(req, res) {
 		
 		
 	} catch(err) {
-		throw new Error('[content/get] Error', err)
+		// throw new Error('[content/get] Error', err)
+		_err(err)
+		return sendData({error: err.message}, res, 500)
 	}
 }
 

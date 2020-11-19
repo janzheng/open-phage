@@ -22,7 +22,7 @@
 // }
 
 import { sendData } from "../../_utils/sapper-helpers" 
-import { config } from "dotenv";
+import { config } from "dotenv"
 
 const fetch = require("node-fetch")	
 config(); // https://github.com/sveltejs/sapper/issues/122

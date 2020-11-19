@@ -11,6 +11,7 @@
 import passport from 'passport'
 // import send from '@polka/send'
 
+import { _tr, _err, _msg } from '@/_utils/sentry'
 import { comparePasswords } from '../../../_utils/auth/auth-helpers'
 import { findUserByEmail } from '../../../_utils/auth/auth-users'
 import { sendData } from '../../../_utils/sapper-helpers'
@@ -25,7 +26,7 @@ export async function post(req, res, next) {
     	const compare = comparePasswords(password, user.password)
 
       return sendData({
-        status: false,
+        status: true,
         message: 'The details provided are valid'
       }, res)
 
@@ -36,9 +37,10 @@ export async function post(req, res, next) {
       message: 'The details provided are not valid'
     }, res)
 
-  } catch (error) {
-    console.error('[api/auth/verify-password] error:', error)
+  } catch (err) {
+    console.error('[passport/verify-password] error:', err)
     // next(error)
+    _err(err)
   }
 
 }

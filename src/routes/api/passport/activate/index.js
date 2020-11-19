@@ -10,6 +10,7 @@
 // import send from '@polka/send';
 // import redirect from '@polka/redirect'
 
+import { _tr, _err, _msg } from '@/_utils/sentry'
 import { sanitizeUserForClient, hashPassword, getToken, getShortToken } from '../../../../_utils/auth/auth-helpers'
 import { notify } from '../../../../_utils/mailer.js'
 import { addUser, findUserByToken, findUserByEmail } from '../../../../_utils/auth/auth-users'
@@ -22,6 +23,7 @@ import { addProfileForNewUser } from '../../../../_utils/auth/auth-custom'
 // this logs a user in and deletes the token
 export async function get(req, res, next) {
   try {
+  	let _sentry = _tr(`[passport/activate]`, 'profile activate')
 
     const { token } = req.params
     const user = await findUserByToken(token, {activateUser: true, deleteTokens: true})
@@ -35,7 +37,7 @@ export async function get(req, res, next) {
 
     req.login(user, async function(err) {
       if (err) { 
-        console.error('[api/auth/login] error:', err)
+        console.error('[passport/activate] error:', err)
         return next(err)
       }
 
@@ -47,6 +49,9 @@ export async function get(req, res, next) {
         user['Profile'] = await getProfileById(user.Profile[0]) 
       }
 
+      _msg(`[passport/activate] [${user.id}] activated profile`)
+      _sentry.finish()
+          
       return sendData({
         status: true,
         message: `Account activated!`, 
@@ -56,9 +61,10 @@ export async function get(req, res, next) {
     });
 
 
-  } catch(error) {
-    console.error('[api/auth/activate] error:', error)
+  } catch(err) {
+    console.error('[passport/activate] error:', err)
     // next(error)
+    _err(err)
   }
 }
 
@@ -100,9 +106,10 @@ export async function post(req, res, next) {
       message: `An activation e-mail has been sent to ${email}`, 
     }, res)
 
-  } catch (error) {
-    console.error('[api/auth/activate] error:', error)
+  } catch (err) {
+    console.error('[passport/activate] error:', err)
     // next(error)
+    _err(err)
     return sendData({
       status: false,
       message: `Provide a valid email`, 

@@ -1,5 +1,5 @@
 
-
+import { _tr, _err, _msg } from '@/_utils/sentry'
 import { getCommentCounts } from '../../../_utils/fauna/comments'
 import { sendData } from "../../../_utils/sapper-helpers" 
 import { cacheGet, cacheSet, cacheClear } from "../../../_utils/cache"
@@ -22,6 +22,7 @@ export async function get(req, res, next) {
 
 	const { locId, locIds, } = req.query
 	try {
+		let _sentry = _tr('[comments/count]', 'get comment counts')
 
 		let count
 		if(locId) {

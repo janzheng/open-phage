@@ -32,6 +32,8 @@
     "@babel/runtime": "^7.9.2",
     "@polka/redirect": "^1.0.0-next.0",
     "@polka/send": "^0.4.0",
+    "@sentry/node": "^5.27.4",
+    "@sentry/tracing": "^5.27.4",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cookie-session": "^1.4.0",

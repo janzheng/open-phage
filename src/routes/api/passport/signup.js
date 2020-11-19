@@ -4,6 +4,7 @@
 import passport from 'passport'
 // import send from '@polka/send';
 
+import { _tr, _err, _msg } from '@/_utils/sentry'
 import { sanitizeUserForClient, hashPassword } from '../../../_utils/auth/auth-helpers'
 import { addUser, users, findUserByEmail } from '../../../_utils/auth/auth-users'
 import { getSetting } from "../../../_utils/settings"
@@ -13,6 +14,7 @@ import { addProfileForNewUser } from '../../../_utils/auth/auth-custom'
 import { getProfileByUsername } from '../profile/index'
 
 export async function post(req, res, next) {
+	let _sentry = _tr(`[passport/signup]`, 'profile signup')
 
 	if(await getSetting('account') == false)
 		return sendData({
@@ -24,13 +26,14 @@ export async function post(req, res, next) {
 
 		const {email, password, userName} = req.body
 
-		console.log('[api/auth/signup]:', email, password, userName)
+		console.log('[passport/signup]:', email, password, userName)
 
     const existingUser = await findUserByEmail(email)
 
     // this should already have been caught on front-end
     let usernameCheck = await getProfileByUsername(userName)
     if(usernameCheck) {
+			_sentry.finish()
 	  	return sendData({
 	  		status: false,
 	  		message: 'Please try using another user name'
@@ -51,8 +54,10 @@ export async function post(req, res, next) {
 		  })
 
 		  return req.login(_user, async (err) => {
-		    if (err) next(err);
-		    else {
+		    if (err) {
+					_err(err)
+					next(err)
+				} else {
 		    	// create a new record in Profiles that's linked to the Account
 		    	const record = await addProfileForNewUser(_user, {
 						userName,
@@ -63,7 +68,10 @@ export async function post(req, res, next) {
 			    _user['Profile'] = record
 			    _user['userName'] = [record.fields['userName']] 
 			    // this is normally calculated, but needs to be manually attached to a new user 
-		    	return sendData({
+					
+					_msg(`[passport/signup] [${_user.id}] new profile`)
+					_sentry.finish()
+					return sendData({
 			  		status: true,
 			  		message: 'Signed up!',
 		    		user: sanitizeUserForClient(_user)
@@ -72,15 +80,17 @@ export async function post(req, res, next) {
 		  });
     }
 
+		_sentry.finish()
     // should this trigger an email reminder?
   	return sendData({
   		status: false,
   		message: 'Please try using another email address'
   	}, res)
 
-  } catch (error) {
-  	console.error('[api/auth/signup] error:', error)
-    // next(error)
+  } catch (err) {
+  	console.error('[passport/signup] error:', err)
+		// next(error)
+		_err(err)
   }
 
 }
