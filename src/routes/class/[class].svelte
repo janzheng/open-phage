@@ -27,7 +27,13 @@
 
 
 
+<svelte:head>
+	<title>{classObj.title[0][0]}</title>
+</svelte:head>
+
 {#key slug}
+
+
 	<div class="Class">
 
 		{#if classObj}

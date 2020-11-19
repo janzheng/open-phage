@@ -463,8 +463,13 @@ input.__cta, button.__cta, a.__cta {
 
 video {
 	max-width: 100%;
-}
+	
+	.caption-container {
+		background: #eee;
+		min-height: 110px;
+	}
 
+}
 
 .Breadcrumbs {
 	background-color: usetheme(brand-lightest);

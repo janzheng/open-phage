@@ -35,6 +35,10 @@
 
 
 
+<svelte:head>
+  <title>{lecture.title[0][0]}</title>
+</svelte:head>
+
 <div class="Lecture ">
 
   <Breadcrumbs links={[

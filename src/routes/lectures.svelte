@@ -1,3 +1,5 @@
+
+
 <script context="module">
   export async function preload(page, session) {
     // const data = await this.fetch(`/api/notion?collections=Protocols,Videos,Library`).then(r => r.json())
@@ -10,6 +12,10 @@
 </script>
 
 
+
+<svelte:head>
+  <title>Lectures</title>
+</svelte:head>
 
 
 <div class="Lectures">

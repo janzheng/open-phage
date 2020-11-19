@@ -109,8 +109,4 @@
     max-width: 100%
   }
 
-	.caption-container {
-		background: #eee;
-		min-height: 110px;
-	}
 </style>

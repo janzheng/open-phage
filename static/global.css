@@ -16359,6 +16359,10 @@ input.__cta:focus, button.__cta:focus, a.__cta:focus {
 video {
   max-width: 100%;
 }
+video .caption-container {
+  background: #eee;
+  min-height: 110px;
+}
 
 .Breadcrumbs {
   background-color: #eaf3ff;
