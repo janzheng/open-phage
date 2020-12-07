@@ -1,14 +1,52 @@
 <script context="module">
   export async function preload(page, session) {
-    const yotion = await this.fetch(`/api/notion?getField=Slug|hero-intro, Slug|contact-home, Slug|org-desc, Slug|pgh-live, Slug|joint-project, Slug|test-block`).then(r => r.json())
+    const yotion = await this.fetch(`/api/notion?collections=Lecture Series, Lecture Content, Lab Videos&getField=Slug|hero-intro, Slug|contact-home, Slug|org-desc, Slug|pgh-live, Slug|joint-project, Slug|test-block`).then(r => r.json())
     // const yotion = await this.fetch(`/api/notion?content=Block`).then(r => r.json())
 
     return { yotion };
   }
 </script>
 
+
+
+<svelte:head>
+	<title>PGH: Online</title>
+</svelte:head>
+
 <div class="Home"> 
 
+  <div class="Home-hero _section-page _padding-top-2 _margin-center ">
+
+    <!-- top-bottom -->
+    <div class="Home-text _divider-top">
+      {#if yotion}
+        <div>{@html marked(yotion['Slug|hero-intro'][0].content.markdown.join('') || '')}</div>
+      {/if}
+
+      <!-- <div class="_margin-top-2 _margin-bottom-2">
+        <button class="__action __short">Browse lectures</button>
+        <a href="/lectures" class="_button __action __largebtn _font-large">Explore our Phage Course Library</a>
+      </div> -->
+
+      <div class="Lectures-body _section _divider-bottom">
+        <div class="Lectures-main">
+          {#if lectures}
+            {#each [...filteredLectures.splice(1)] as item, i}
+              <LectureCard lecture={item} showSeries={true} showMaterial={true} />
+            {/each}
+          {/if}
+        </div>
+      </div>
+
+    </div>
+    
+  </div>
+
+  <div class="Home-capsid _section-page _padding-top-2 _margin-center ">
+    <div class="">
+      <CapsidSignup />
+    </div>
+  </div>
 
   <div class="Home-content _section-page _padding-top-2 _margin-center ">
 
@@ -33,21 +71,6 @@
 
     <div class="Home-body _section-article _margin-center _margin-top-2 _divider-bottom">
 
-      <!-- top-bottom -->
-      <div class="Home-text">
-        {#if yotion}
-          <div>{@html marked(yotion['Slug|hero-intro'][0].content.markdown.join('') || '')}</div>
-        {/if}
-
-        <div class="_margin-top-2 _margin-bottom-2">
-          <!-- <button class="__action __short">Browse lectures</button> -->
-          <a href="/lectures" class="_button __action __largebtn">Explore our Phage Library</a>
-        </div>
-      </div>
-      
-      <div class="_divider-top">
-        <CapsidSignup />
-      </div>
 <!-- 
       <div class="_divider-top">
         {#if yotion && yotion['Slug|test-block']}
@@ -100,6 +123,9 @@
   import { swr } from '@/swr.js';
   import { onMount, getContext, setContext } from 'svelte';
 
+  import { filterByStatus } from '@/_utils/app-helpers'
+  import LectureCard from '../components/LectureCard.svelte'
+
   import CapsidSignup from '../components/CapsidSignup.svelte'
   // import { getUser } from '../_utils/auth/get-user';
 
@@ -107,7 +133,7 @@
   const Content$ = getContext('Content')
   $: Content = $Content$
 
-  let intro
+  let intro, filteredLectures
 	$: intro = Cytosis.findField('intro', Content, 'Content')
 
   export let yotion
@@ -116,10 +142,48 @@
   $: swr(yotion)
 
 
+
+
+
+  let lectures
+  $: if(yotion) {
+
+  	lectures = [...yotion['Lecture Series']]
+  	// lectures = lectures.slice(1) // remove first one since it's a "hero"
+
+    // filter out unpublished lectures
+    // not that safe but mostly this is to clean up the UI
+
+    filteredLectures = filterByStatus(lectures)
+
+
+    filteredLectures.map(lec => {
+
+      lec['series'] = []
+      const contentName = lec.fields['Content ID']
+      yotion['Lecture Content'].map(lecItem => {
+        if(lecItem.fields['Content ID'] == contentName)
+          lec['series'].push(lecItem)
+      })
+
+      // yotion['Lab Experiments'].map(lecItem => {
+      //   if(lecItem.fields['Content ID'] == contentName)
+      //     lec['series'].push(lecItem)
+      // })
+
+      yotion['Lab Videos'].map(lecItem => {
+        if(lecItem.fields['Content ID'] == contentName)
+          lec['series'].push(lecItem)
+      })
+    })
+
+    // console.log('[lectures]', filteredLectures)
+  }
 </script>
 
 
 
 <style type="text/scss">
+
 
 </style>

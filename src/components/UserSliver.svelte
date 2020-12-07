@@ -12,10 +12,10 @@
 	import { User } from '../stores/stores.js';
   import {isBookmark, handleAddLectureBookmark, handleRemoveLectureBookmark} from '../_utils/app-helpers'
 
-  export let classObj, url, classes, showText=true
+  export let classObj=null, url, classes=null, showText=true
   let isBkmk
 
-	$: if($User && !$User.__isLoading) {
+	$: if($User && !$User.__isLoading && classObj) {
 		isBkmk = isBookmark(url || classObj.fields['URL'])
 	}
 

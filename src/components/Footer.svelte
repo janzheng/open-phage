@@ -20,22 +20,22 @@
         <div class="">
           <div class=" _grid-2-xs">
             <div>
-              <p><a href="#top">Scroll back to top</a></p>
+              <p><a href="#top" on:click={(e)=>{e.preventDefault(); scrollToAnchor('top')}}>Scroll back to top</a></p>
             </div>
             <div>
-              <p><a href="https://github.com/janzheng/open-phage">Login</a></p>
-              <p><a href="https://github.com/janzheng/open-phage">Sign Up </a></p>
+              <p><a href="/login">Login</a></p>
+              <p><a href="/signup">Sign Up </a></p>
             </div>
           </div>
           <div class="_grid-2-xs">
             <div>
-              <p><a href="/#top">Home</a></p>
-              <p><a href="/lectures#top">Lectures</a></p>
-              <p><a href="/library#top">Library</a></p>
-              <p><a href="/team#top">Team Members</a></p>
-              <p><a href="/community#top">Community Rules</a></p>
-              <p><a href="/terms#top">Terms & Conditions</a></p>
-              <p><a href="/privacy#top">Privacy Policy</a></p>
+              <p><a href="/">Home</a></p>
+              <p><a href="/lectures">Lectures</a></p>
+              <p><a href="/library">Library</a></p>
+              <p><a href="/team">Team Members</a></p>
+              <p><a href="/community">Community Rules</a></p>
+              <p><a href="/terms">Terms & Conditions</a></p>
+              <p><a href="/privacy">Privacy Policy</a></p>
               <p><a href="https://github.com/janzheng/open-phage">Github</a></p>
             </div>
             <div>
@@ -58,6 +58,8 @@
 <script>
   import Cytosis from 'cytosis'
   import marked from 'marked'
+
+  import { scrollToAnchor } from '@/_utils/scrollto'
 
   // export let segment
   export let Content

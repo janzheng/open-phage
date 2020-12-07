@@ -1,7 +1,9 @@
 
 
-// requires server to read form data using 
 /*
+
+  upload avatars by processing them w/ sharp and uploading
+  requires server to read form data using 
 
 */
 
@@ -11,6 +13,7 @@ import send from '@polka/send';
 
 import Cytosis from 'cytosis';
 import { config } from "dotenv";
+import { _tr, _err, _msg } from '@/_utils/sentry'
 import { cacheGet, cacheSet, cacheClear } from "../../../../_utils/cache"
 import { sendData } from "../../../../_utils/sapper-helpers" 
 import { saveSetup, save } from '../../../../_utils/save.js'
@@ -26,6 +29,7 @@ import formidable from 'formidable'
 
 const async_readFile = util.promisify(fs.readFile);
 
+// temporarily uploaded to vercel before sent to Airtable or wherever
 const upload_dir = '/tmp/' // for local, use './tmp/public'
 
 
@@ -34,7 +38,7 @@ const upload_dir = '/tmp/' // for local, use './tmp/public'
 // save avatar back to airtable
 export const saveAvatar = async (recordId, url) => {
 
-	console.log('saving avatar:', recordId, url)
+	// console.log('saving avatar:', recordId, url)
 
   try {
     const record = await save({
@@ -69,21 +73,22 @@ export async function get(req, res) {
   try {
     let path = upload_dir + filename
 
-  	// console.log('[Avatar] Loading image ...', path)
+  	// console.log('[avatar] Loading image ...', path)
 
     // check for existence first
     if (fs.existsSync(path)) {
       let data = await async_readFile(path)
       res.writeHead(200, {'Content-Type': 'image/png'});
-      // console.log('[Avatar] Image loaded!')
+      // console.log('[avatar] Image loaded!')
       res.end(data); // Send the file data to the browser.
       // res.download(data)
     } else {
-      console.error('[Avatar] No file found')
+      console.error('[avatar] No file found')
     }
 
   } catch(err) {
-    console.error('[Avatar] File could not be downloaded :', err)
+    console.error('[avatar] File could not be downloaded:', err)
+    _err(err)
     next()
   }
 }
@@ -100,105 +105,116 @@ export async function post(req, res) {
   // const avatar = req.body.avatar
   // console.log('LOL WHAT', avatar, req.body )
 
-  new formidable.IncomingForm({
-  	uploadDir: upload_dir,
-  }).parse(req, (err, fields, files) => {
-    if (err) {
-      console.error('Error', err)
-      throw err
-    }
+	let _sentry = _tr(`[avatar/post]`, 'add avatar')
 
-    // console.log('Fields', fields)
-    // console.log('Files', files)
-    // for (const file of Object.entries(files)) {
-    //   console.log(file)
-    // }
+  try {
 
+    new formidable.IncomingForm({
+      uploadDir: upload_dir,
+    }).parse(req, (err, fields, files) => {
+      if (err) {
+        console.error('Error', err)
+        throw err
+      }
 
-    const avatarStream = files.avatar._writeStream
-    const avatar = files.avatar
-    // const avatarUrl = `${req.headers.origin}/${avatar.path}`
-    const avatarUrl = `${avatar.path}`
-    const avatarName = avatar.name
-    const avatarType = avatar.type
+      // console.log('Fields', fields)
+      // console.log('Files', files)
+      // for (const file of Object.entries(files)) {
+      //   console.log(file)
+      // }
 
 
-    // console.log(avatarUrl, avatar)
+      const avatarStream = files.avatar._writeStream
+      const avatar = files.avatar
+      // const avatarUrl = `${req.headers.origin}/${avatar.path}`
+      const avatarUrl = `${avatar.path}`
+      const avatarName = avatar.name
+      const avatarType = avatar.type
 
-    // let image, newimage
-    try {
-      const image = sharp(avatarUrl)
-      const new_file_name = `${avatarUrl}_.png`
-      image.metadata().then(metadata => {
 
-        // if(timeline.postImage == "square") {
-        //   let length = metadata.width < metadata.height ? metadata.width : metadata.height
-        //   if (length > 900)
-        //     length = 900
+      // console.log(avatarUrl, avatar)
 
-        //   console.log(`[Profile] Resizing image to ${length}x${length}`)
-        //   return pipeline.resize({
-        //     width: length,
-        //     // height: length, // actually square is pretty ugly; can use object-fit
-        //     withoutEnlargement: true,
-        //     fit: sharp.fit.inside,
-        //     // position: sharp.strategy.entropy
-        //   })
-        //   .png()
-        //   .toBuffer();
-        // } else {
-        let width = metadata.width
-        let density = 120
+      // let image, newimage
+      try {
+        const image = sharp(avatarUrl)
+        const new_file_name = `${avatarUrl}_.png`
+        image.metadata().then(metadata => {
 
-        if(width > 500)
-          width = 500
+          // if(timeline.postImage == "square") {
+          //   let length = metadata.width < metadata.height ? metadata.width : metadata.height
+          //   if (length > 900)
+          //     length = 900
 
-        if(metadata.format == 'svg') {
-          // improve density for svg // https://github.com/lovell/sharp/issues/729
-          // density = 72*width/16
-          return image; // do nothing for svg
-        }
+          //   console.log(`[Profile] Resizing image to ${length}x${length}`)
+          //   return pipeline.resize({
+          //     width: length,
+          //     // height: length, // actually square is pretty ugly; can use object-fit
+          //     withoutEnlargement: true,
+          //     fit: sharp.fit.inside,
+          //     // position: sharp.strategy.entropy
+          //   })
+          //   .png()
+          //   .toBuffer();
+          // } else {
+          let width = metadata.width
+          let density = 120
 
-        // console.log('[Avatar] metadata:', metadata)
-        return image.resize({
-          width: width,
-          // height: length, // actually square is pretty ugly; can use object-fit
-          withoutEnlargement: true,
-          // density: density
-          // fit: sharp.fit.inside,
-          // position: sharp.strategy.entropy
-        })
-        // .png()
-		    .png({ progressive: true, compressionLevel: 7, quality: 40})
-        .toFile(new_file_name, async (err, info) => {  
-          if(err) {
-            console.error('[Avatar] Could not write image to file', err, info)
-            return
+          if(width > 500)
+            width = 500
+
+          if(metadata.format == 'svg') {
+            // improve density for svg // https://github.com/lovell/sharp/issues/729
+            // density = 72*width/16
+            return image; // do nothing for svg
           }
-          console.error('[Avatar] Wrote image to file', `${new_file_name}`, ' errors:' , err, 'info:',  info)
-	        
-	        // save to airtable, need to get the URL
-	        // tmp/public/upload_78dfc2a567b477f845303b949cb0fae2
-	        const file_url = req.headers.origin +'/api/profile/avatar/'+ new_file_name.split('/')[2]
-	        const profile = await saveAvatar(fields.recordId, file_url)
-	    		return sendData({
-            status: true,
-            data: profile
-          }, res)
+
+          // console.log('[avatar] metadata:', metadata)
+          return image.resize({
+            width: width,
+            // height: length, // actually square is pretty ugly; can use object-fit
+            withoutEnlargement: true,
+            // density: density
+            // fit: sharp.fit.inside,
+            // position: sharp.strategy.entropy
+          })
+          // .png()
+          .png({ progressive: true, compressionLevel: 7, quality: 40})
+          .toFile(new_file_name, async (err, info) => {  
+            if(err) {
+              console.error('[avatar] Could not write image to file', err, info)
+              // return
+              throw err
+            }
+            console.log('[avatar] Wrote image to file', `${new_file_name}`, ' errors:' , err, 'info:',  info)
+            
+            // save to airtable, need to get the URL
+            // tmp/public/upload_78dfc2a567b477f845303b949cb0fae2
+            const file_url = req.headers.origin +'/api/profile/avatar/'+ new_file_name.split('/')[2]
+            const profile = await saveAvatar(fields.recordId, file_url)
+
+            _msg(`[avatar/post] [${fields.recordId}] @ ${file_url}`)
+		        _sentry.finish()
+            return sendData({
+              status: true,
+              data: profile
+            }, res)
+          });
+        }).then(function(data) {
         });
-      }).then(function(data) {
-      });
 
-      // avatarStream.pipe(pipeline)
-    } catch(err) {
-      console.error('[Timeline] Error processing the image:', err)
-      // next(err)
-    }
+        // avatarStream.pipe(pipeline)
+      } catch(err) {
+        console.error('[avatar] Error processing the image:', err)
+        throw err
+        // next(err)
+      }
 
-  })
-
-
-
+    })
+  
+  } catch(err) {
+    console.error('[avatar] Error processing profile:', err)
+    _err(err)
+  }
 
 	// const uploadCb = upload.single('file')
 	// uploadCb(req, res, function (err) {
@@ -213,11 +229,10 @@ export async function post(req, res) {
 	// 	res.end(JSON.stringify(req.file));
 	// })
 
-
-  try {
-    // const profile = await saveProfile(req.body)
-    // return sendData(profile, res)
-  } catch(err) {
-    console.error('[api/profile/post]', err)
-  }
+  // try {
+  //   // const profile = await saveProfile(req.body)
+  //   // return sendData(profile, res)
+  // } catch(err) {
+  //   console.error('[api/profile/post]', err)
+  // }
 }

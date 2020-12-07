@@ -4,6 +4,7 @@
 import passport from 'passport'
 // import send from '@polka/send';
 
+import { _tr, _err, _msg } from '@/_utils/sentry'
 // import { users } from '../../../_utils/auth/auth-users'
 import { sanitizeUserForClient, hashPassword, comparePasswords, getToken, getShortToken } from '../../../_utils/auth/auth-helpers'
 import { getSetting } from "../../../_utils/settings"
@@ -17,55 +18,61 @@ export async function get(req, res, next) {
 	// passportjs uses session to perform a login on this endpoint
 	const user = req.user
 
-	if(await getSetting('account') == false)
-	  return sendData({
-	    status: false,
-	    message: 'Accounts currently turned off', 
-	  }, res, 200) // error code depends on front-end strategy
-	
+	try {
 
-	// console.log('get login current user:', user)
-	// console.log('users:', users)
-	// console.log('get login users:', users)
+		if(await getSetting('account') == false)
+			return sendData({
+				status: false,
+				message: 'Accounts currently turned off', 
+			}, res, 200) // error code depends on front-end strategy
+		
 
-	// testing password hashing here
-	// const testpassword = await hashPassword('banana man!')
-	// const testresult = await comparePasswords('banana man!', testpassword)
-	// console.log('testpass:', testpassword, testresult)
+		// console.log('get login current user:', user)
+		// console.log('users:', users)
+		// console.log('get login users:', users)
 
-	// testing tokens
-	// const shortToken = await getShortToken(5, false)
-	// const token = await getToken(10)
-	// console.log('tokens:', shortToken, token)
+		// testing password hashing here
+		// const testpassword = await hashPassword('banana man!')
+		// const testresult = await comparePasswords('banana man!', testpassword)
+		// console.log('testpass:', testpassword, testresult)
 
-  if (!user) { 
-  	// redirect(res, '/login')
-	  return sendData({
-	    status: false,
-	    message: 'Please check your email and password combination.', 
-	  }, res, 200) // error code depends on front-end strategy
+		// testing tokens
+		// const shortToken = await getShortToken(5, false)
+		// const token = await getToken(10)
+		// console.log('tokens:', shortToken, token)
+
+		if (!user) { 
+			// redirect(res, '/login')
+			return sendData({
+				status: false,
+				message: 'Please check your email and password combination.', 
+			}, res, 200) // error code depends on front-end strategy
+		}
+
+		// specific to sc-profiles
+		// this is required b/c we replace user[Profile] = a linked record
+		// with the actual Profile fields, but sometimes we need to refresh the Profile
+		// so we have to get record in two different ways
+		let profileId 
+		if(user.Profile && (user.Profile.length > 0)) {
+			profileId = user['Profile'][0] 
+		} else if (user['Profile']['id']) {
+			profileId = user['Profile']['id']
+		}
+
+		if(profileId) {
+			user['Profile'] = await getProfileById(profileId, false)
+		}
+
+		return sendData({
+			status: true,
+			message: 'Logged in!', 
+			user: sanitizeUserForClient(user),
+		}, res)
+	} catch(err) {
+		_err(err)
 	}
 
-	// specific to sc-profiles
-	// this is required b/c we replace user[Profile] = a linked record
-	// with the actual Profile fields, but sometimes we need to refresh the Profile
-	// so we have to get record in two different ways
-	let profileId 
-	if(user.Profile && (user.Profile.length > 0)) {
-		profileId = user['Profile'][0] 
-	} else if (user['Profile']['id']) {
-		profileId = user['Profile']['id']
-	}
-
-	if(profileId) {
-		user['Profile'] = await getProfileById(profileId, false)
-	}
-
-  return sendData({
-    status: true,
-    message: 'Logged in!', 
-    user: sanitizeUserForClient(user),
-  }, res)
 }
 
 
@@ -84,7 +91,8 @@ export async function post(req, res, next) {
 			
 		passport.authenticate('local', function(err, user, info) {
 		  if (err) { 
-		  	console.error('[api/auth/passport:local] error:', err)
+				console.error('[passport/login/passport:local] error:', err)
+				_err(err)
 		  	return next(err);
 		  }
 		  if (!user) { 
@@ -95,7 +103,8 @@ export async function post(req, res, next) {
 		  }
 		  req.logIn(user, async function(err) { // built-in passportjs middleware
 		    if (err) { 
-			  	console.error('[api/auth/login] error:', err)
+					console.error('[passport/login] error:', err)
+					_err(err)
 			  	return next(err)
 			  }
 		    // return res.redirect('/users/' + user.username);
@@ -125,9 +134,10 @@ export async function post(req, res, next) {
 		//   });
 		// })(req, res, next);
 		
-  } catch (error) {
-  	console.error('[api/auth/login] error', error)
-    // next(error)
+  } catch (err) {
+  	console.error('[passport/login] error', err)
+		// next(error)
+		_err(err)
   }
 }
 

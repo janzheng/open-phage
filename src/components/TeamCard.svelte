@@ -7,13 +7,13 @@
 
     <a class="TeamCard-link" href={`/team#${profile.fields['Slug']}`}>
       <div id={profile.fields['Slug']} class="TeamCard-container __inline ">
-        <div class="_grid-1-7 _align-vertically">
-          <div>
+        <div class="_flex _align-vertically">
+          <div class="">
             {#if profile.fields['Profile Image']}
               <div><img class="profile-img" src={profile.fields['Profile Image Source'] || profile.fields['Profile Image'][0]} alt={`${profile.fields['Name']} profile image`}></div>
             {/if}
           </div>
-          <div>
+          <div class="_flex-1">
             <div>{profile.fields['Name']}</div>
             <p class="_font-small"><em>{profile.fields['Content Types'].join(',')}</em></p>
           </div>
@@ -63,24 +63,26 @@
 
       </div>
     	{#if profile.fields['Video'] && profile.fields['Video'][0]}
-        <Video cover={profile.fields['Video Cover']} download={false} filesize={profile.fields['Video Size']} video={profile.fields['Video'][0]} />
+        <Video cover={profile.fields['Video Cover']} download={false} filesize={profile.fields['Video Size']} video={profile.fields['Video'][0]} slug={profile.fields['Slug']} />
         <div class="_margin-top-2">{@html marked(profile.fields['Long'] || '') }</div>
     	{/if}
 
       {#if teachingsKeys.length > 0}
         <div class="TeamCard-teachings">
           {#each teachingsKeys as tkey}
-            <h6 class="_padding-bottom-half">{teachingLabels[tkey]}</h6>
-            <div class="TeamCard-teachings-item-container _margin-bottom-2">
-              {#each getTeachingItems(teachings[tkey]) as item}
-                <div class="TeamCard-teachings-item">
-                  <!-- {JSON.stringify(item)} -->
-                  <a href={`/${item.fields['URL']}`}>{item.fields['Name']}</a>
-                </div>
-              {:else}
-                No <span class="__lower">{teachingLabels[tkey]}</span> yet
-              {/each}
-            </div>
+            {#if getTeachingItems(teachings[tkey]).length > 0}
+              <h6 class="_padding-bottom-half">{teachingLabels[tkey]}</h6>
+              <div class="TeamCard-teachings-item-container _margin-bottom-2">
+                {#each getTeachingItems(teachings[tkey]) as item}
+                  <div class="TeamCard-teachings-item">
+                    <!-- {JSON.stringify(item)} -->
+                    <a href={`/${item.fields['URL']}`}>{item.fields['Name']}</a>
+                  </div>
+                {:else}
+                  <!-- No <span class="__lower">{teachingLabels[tkey]}</span> yet -->
+                {/each}
+              </div>
+            {/if}
           {/each}
         </div>
       {/if}
@@ -124,7 +126,7 @@
       return []
       
     let arr = filterByStatus(item)
-    console.log('filter?!?!?!', item, arr)
+    // console.log('filter?!?!?!', item, arr)
     return arr
   }
 </script>

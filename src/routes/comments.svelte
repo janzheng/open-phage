@@ -1,0 +1,68 @@
+<svelte:head>
+	<title>Profile</title>
+</svelte:head>
+
+
+<!-- <div class="_section-page _padding-top-2 _margin-center"> -->
+<div class="">
+  <div class="_section-article _margin-center">
+    <div class="_margin-top-2">
+
+      <CommentStream classes="Discussion _padding _card _margin-top-2 _flex-1" loadAll={true} />
+
+    </div>
+  </div>
+
+</div>
+        
+
+
+
+<script>
+  import { goto, stores } from '@sapper/app';
+  import { setContext, onMount, tick } from 'svelte';
+  import { writable } from 'svelte/store'
+
+  import { handleLogout } from '../_utils/auth/sapper-auth-helpers';
+  import { logger, logerror } from '../_utils/logger';
+  import { getUser } from '../_utils/auth/get-user';
+
+	import CommentStream from '../components/CommentStream.svelte'
+  import ProfileCourseBookmarks from '../components/ProfileCourseBookmarks.svelte';
+
+  import { User } from '../stores/stores.js';
+
+
+  // for Profile preview
+  let isEditing = false
+  setContext('User', User)
+
+  // onMount(async () => {
+  // 	let user = await getUser()
+
+
+  // 	if(!user || user.status == false)
+  //     handleLogout()
+
+  //   User.set(user)
+  // })
+
+</script>
+
+
+
+
+
+
+
+
+<style type="text/scss">
+
+
+</style>
+
+
+
+
+
+

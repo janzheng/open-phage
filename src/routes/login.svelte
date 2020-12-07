@@ -7,7 +7,9 @@
   <div class="_section-article _margin-center">
     <h1>Log in</h1>
 
-
+    <div class="_margin-top-2 _margin-bottom-2">
+      {@html marked(intro||'')}
+    </div>
 
     <!-- helpful for forms: https://www.nielsvandermolen.com/signup-form-html5-validation-svelte/ -->
 
@@ -15,6 +17,7 @@
       <form class="_form-control" on:submit|preventDefault={async (e)=>{
         if(!isLoading) {
           isLoading = true
+				  _gatrack('login')
           _res = await handleLogin(e,{email, password})
           isLoading = false
         }
@@ -76,12 +79,23 @@
 
 <script>
   import { handleOauth, handleLogin } from '../_utils/auth/sapper-auth-helpers';
-  import { onMount } from 'svelte';
   import { getUser } from '../_utils/auth/get-user';
   import { goto } from '@sapper/app';
+	import { _gatrack } from '../_utils/gtag.js';
+  
+  import { onMount, getContext, setContext } from 'svelte';
+  import marked from 'marked';
 
   let email = '', password = ''
   let isLoading = false, _res
+
+
+  // Content passed down from layout
+	import Cytosis from 'cytosis';
+  const Content$ = getContext('Content')
+  $: Content = $Content$
+  let intro
+	$: intro = Cytosis.findField('account-intro', Content, 'Content')
 
   onMount(async () => {
     let user = await getUser()

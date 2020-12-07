@@ -50,16 +50,13 @@
 	    <div class="_grid-2 _grid-gap-large _margin-bottom-2">
 	      <label class="_width-full" htmlFor="Files">Upload new profile image
 	        <input
-	        	class="_margin-right-none _width-full"
+	        	class="ProfileEdit-upload _margin-right-none _width-full"
 	          type="file"
 	          id="Files"
 	          name="Files"
 	          bind:files
 	          on:input={triggeronChanged}
 	        />
-	        {#if files && files.length > 0}
-	          <div class="_padding _card _margin-bottom-2">{files[0].name}</div>
-	        {/if}
 	      </label>
 
 	      <label class="" htmlFor="CustomSlug">Update profile image from URL
@@ -74,6 +71,12 @@
 	        />
 	      </label>
 	    </div>
+      {#if files && files.length > 0}
+        <div class="_padding _card _margin-bottom-2">
+          Added: {files[0].name}
+          <p class="_padding-top _md-pfix">Don't forget to save your changes!</p>
+        </div>
+      {/if}
 
 
 
@@ -87,7 +90,7 @@
 	      />
 	    </label> -->
 
-	    <label class="_margin-bottom-2" htmlFor="userName">Display Name
+	    <label class="" htmlFor="userName">Display Name
         <p class="_font-small">Please use your full name, e.g. "Jessica Sacher"</p>
 	      <input
 	        class="_width-full"
@@ -101,11 +104,11 @@
 
       <!-- this should only update on save, not dynamically (as it won't check for collisions) -->
       {#if user['Profile'].fields['Slug']}
-        <p class="ProfileEdit-slug">
-          Your profile can be accessed at <a href={`/user/${user['Profile'].fields['Slug']}`} target="_blank">{`/user/${user['Profile'].fields['Slug']}`}</p>
+        <p class="ProfileEdit-slug _font-small">
+          Your profile can be accessed at <a class="_font-small" href={`/user/${user['Profile'].fields['Slug']}`} target="_blank">{`/user/${user['Profile'].fields['Slug']}`}</p>
       {/if}
 
-      <label class="_margin-bottom-2" htmlFor="email">Account Email
+      <label class="_margin-top-2 _margin-bottom-2" htmlFor="email">Account Email
         <p class="_font-small">This email is used for account management and password resets, and will not be shared publicly. If you change your email, you will need to log in again.</p>
         <input
           class="_width-full"

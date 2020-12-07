@@ -1,14 +1,17 @@
 
 // logs into fauna
-import { query as q } from 'faunadb'
-import faunadb from 'faunadb'
+// import { query as q } from 'faunadb'
+// import faunadb from 'faunadb'
 
 import Cytosis from 'cytosis';
 import NodeCache from 'node-cache';
-import { config } from "dotenv";
+// import { config } from "dotenv";
+import { sendData } from "@/_utils/sapper-helpers" 
+
+import { _tr, _err, _msg } from '@/_utils/sentry'
 
 const cache = new NodeCache();
-let json;
+let json
 
 
 
@@ -20,11 +23,11 @@ const baseId = process.env.AIRTABLE_ACCOUNTS_BASE
 
 
 
-export const profileApi = async faunaSecret => {
-	const faunaClient = new faunadb.Client({secret: faunaSecret})
-  const ref = await faunaClient.query(q.Identity())
-  return {id: ref.id}
-}
+// export const profileApi = async faunaSecret => {
+// 	const faunaClient = new faunadb.Client({secret: faunaSecret})
+//   const ref = await faunaClient.query(q.Identity())
+//   return {id: ref.id}
+// }
 
 
 // gets specific user data
@@ -79,11 +82,15 @@ const getProfiles = async (userId) => {
 // return user data from Airtable if given a Fauna user id
 export const get = async (req, res, next) => {
 
+	let _sentry = _tr('[users/get]', 'get a user + profile')
   const user = req.session.user
 
   if (!user) {
 		res.statusCode = 401
-    res.end('No access')
+		_sentry.finish()
+		_msg('No access')
+		res.end('No access')
+		return
   }
 
   try {
@@ -97,11 +104,17 @@ export const get = async (req, res, next) => {
 		result['content'] = Profiles
 	  req.session.userRecord = Profiles['id']
 
-		res.writeHead(200, { 'Content-Type': 'application/json' });
-		res.end(JSON.stringify(result))
+		_msg('get user profile')
+
+
+
+		_sentry.finish()
+		return sendData(result, res)
   } catch(err) {
 		console.error('profile.js no fauna access / something went wrong', err)
-		throw new Error(err)
+		// throw new Error(err)
+		_err(err)
+		return sendData({error: err.message}, res, 500)
   }
 }
 
@@ -117,10 +130,9 @@ export const get = async (req, res, next) => {
 
 export const post = async (req, res) => {
 
-	res.writeHead(200, { 'Content-Type': 'application/json' })
+	let _sentry = _tr('[users/post]', 'update a user profile')
 	// json = JSON.stringify(req.body)
 	json = req.body // JSON.parse(json)
-
 
 	try {
 		// validate?
@@ -155,11 +167,13 @@ export const post = async (req, res) => {
 	  // 	}
   	// }
 
-		res.end('[api/user] save complete')
+		_sentry.finish()
+		// res.end('[api/user] save complete')
+		return sendData({status: true}, res, 200)
 	} catch(err) {
-		console.error('[api/user] save failed:', err)
-		throw new Error(err)
-
+		console.error('[users/post] save failed:', err)
+		_err(err)
+		return sendData({error: err.message}, res, 500)
 	}
 
 }

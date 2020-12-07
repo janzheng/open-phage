@@ -6599,7 +6599,7 @@ blockquote, blockquote p,
   line-height: 34.5px;
 }
 
-.__large, .__large p, ._font-large, ._font-large p {
+.__large, .__large p, ._font-large, button._font-large, ._button._font-large, ._font-large p, ._button._font-large p {
   font-size: 19px;
   line-height: 28.5px;
 }
@@ -16194,7 +16194,8 @@ input.__quiet:focus, button.__quiet:focus, a.__quiet:focus {
 }
 
 .list-block-item-container, .list-card {
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .list-block-item-container p:last-child, .list-card p:last-child {
   margin-bottom: 0 !important;
@@ -16221,6 +16222,9 @@ input.__quiet:focus, button.__quiet:focus, a.__quiet:focus {
 }
 .list-block-link .list-card {
   border: 2px solid #eaf3ff;
+}
+.list-block-link .list-card.__hero {
+  border-color: #1a7cfe;
 }
 .list-block-link, .list-block-link:visited {
   color: rgba(0, 0, 0, 0.87);
@@ -16358,6 +16362,15 @@ input.__cta:focus, button.__cta:focus, a.__cta:focus {
  */
 video {
   max-width: 100%;
+}
+
+.caption-container {
+  background: #eee;
+  min-height: 110px;
+}
+
+.Class-video {
+  width: 100%;
 }
 
 .Breadcrumbs {

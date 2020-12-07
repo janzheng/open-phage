@@ -22,6 +22,7 @@ import { cacheGet, cacheSet, cacheClear, getCacheKeys} from "../../../../_utils/
 // import { getContentFromTable } from "../../../../_utils/notion"
 import { sendData } from "../../../../_utils/sapper-helpers" 
 import { saveSetup, save } from '../../../../_utils/save.js'
+import { _tr, _err, _msg } from '@/_utils/sentry'
 
 import { findUserByEmail } from '../../../../_utils/auth/auth-users'
 import { getProfileByPhid, saveProfile } from '../index.js'
@@ -116,7 +117,6 @@ export async function post(req, res) {
 
   let userProfile = await getProfileByPhid(user['_phid'], false) // get logged in user's profile
 
-  console.log('>>>>>', type)
   if(type === 'addLectureBookmark') {
     if(!userProfile.fields['PGH Bookmarks']) {
     	userProfile.fields['PGH Bookmarks'] = [url]
@@ -157,6 +157,7 @@ export async function post(req, res) {
 
   } catch(err) {
     console.error('[api/profile/fave]', err)
+		_err(err)
   }
 }
 

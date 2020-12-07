@@ -35,6 +35,10 @@
 
 
 
+<svelte:head>
+  <title>{lecture.title[0][0]}</title>
+</svelte:head>
+
 <div class="Lecture ">
 
   <Breadcrumbs links={[
@@ -48,7 +52,8 @@
 	<div class="_section-page _padding-top-2 _margin-center ">
 
 
-	  <div class=" _section-article _margin-center _margin-top-2 _divider-bottom">
+	  <!-- <div class=" _section-article _margin-center _margin-top-2 _divider-bottom"> -->
+	  <div class=" _margin-center _margin-top-2 _divider-bottom">
 
 			{#if lecture}
 
@@ -69,7 +74,7 @@
 								<!-- show video on top for single classes to replace the cover image -->
 			    			{#if item.fields['Video'] && item.fields['Video'][0]}
 			    				<div class=" _margin-bottom-2">
-			            	<Video cover={item.fields['Video Cover']} video={item.fields['Video'][0]} filesize={item.fields['Video Size']} captions={item.fields['Video Captions']} />
+			            	<Video cover={item.fields['Video Cover']} video={item.fields['Video'][0]} filesize={item.fields['Video Size']} captions={item.fields['Video Captions']} slug={item.fields['Slug']} />
 			            </div>
 			          {:else}
 									{#if lecture.fields['Cover Image']}
@@ -105,7 +110,7 @@
 								{/if} -->
 
 								<div class="" data-field="Description">
-									{@html marked(entities.decode(item.content.markdown.join('')) || '') }
+									{@html marked(entities.decode(lineClean(item.content.markdown)) || '') }
 								</div>
 
 
@@ -238,10 +243,28 @@
     filteredClasses = filterByStatus(classes)
 	}
 
+	const lineClean = (mdArr) => {
+		if(mdArr && mdArr.length > 0) {
+			let mdLines=''
+			mdArr.map(line => {
+				mdLines += line.trim() + '\n\n'
+			})
+
+			// console.log('md lines:', mdLines)
+			return mdLines
+		}
+	}
+
 </script>
 
 <style type="text/scss">
 
+	:global(details) {
+		margin-bottom: 1rem;
+	}
+	:global(summary) {
+		cursor: pointer;
+	}
 
 </style>
 

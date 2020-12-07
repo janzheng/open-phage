@@ -134,8 +134,8 @@ const loadFromServer = (promise, state, key, ttl) => {
       // console.log('OLDOLDOLDOLDOLD data size:::', JSON.stringify(cacheObj.data).length)
       // console.log('NEWNEWNEWNEWNWE data size:::', JSON.stringify(response).length)
 
-      let oldLen = JSON.stringify(cacheObj.data).length
-      let newLen = JSON.stringify(response).length
+      // let oldLen = JSON.stringify(cacheObj.data).length
+      // let newLen = JSON.stringify(response).length
 
       // let _diff = updatedDiff(cacheObj.data, response)
       // console.log('diff', oldLen, newLen)

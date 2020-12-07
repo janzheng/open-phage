@@ -14,6 +14,12 @@
 </script>
 
 
+
+<svelte:head>
+	<title>The Team</title>
+</svelte:head>
+
+
 <div class="Team">
 
   <div class="_section-page _padding-top-2 _margin-center ">

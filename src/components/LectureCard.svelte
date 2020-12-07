@@ -35,7 +35,7 @@
 					{/if}
 
 					{#if showSeries && filteredSeries && filteredSeries.length > 0}
-						<div class="LectureCard-series-container _card _padding _margin-top-2">
+						<div class="LectureCard-series-container _margin-top-2">
 							<h6 class="">Contents</h6>
 							<div class="LectureCard-series">
 								{#each filteredSeries as item}

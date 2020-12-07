@@ -30,6 +30,7 @@ import { cacheGet, cacheSet, cacheClear } from "../../../_utils/cache"
 // import { getContentFromTable } from "../../../_utils/notion"
 import { sendData } from "../../../_utils/sapper-helpers" 
 import { saveSetup, save } from '../../../_utils/save.js'
+import { _tr, _err, _msg } from '@/_utils/sentry'
 
 import { findUserByEmail } from '../../../_utils/auth/auth-users'
 
@@ -399,6 +400,7 @@ export async function get(req, res) {
 
   } catch(err) {
     console.error('[api/profile/get]', err)
+    _err(err)
   }
 }
 
@@ -408,6 +410,7 @@ export async function post(req, res) {
   // const {Name, PublicEmail, Social, Pitch, Title, CV} = req.body
 
   const { type } = req.query
+	let _sentry = _tr(`[profile/post]`, 'save profile')
 
   // not sure why it wraps req around _ctx
   let user = req.session._ctx.user
@@ -418,6 +421,7 @@ export async function post(req, res) {
   if (!user || req.session._ctx.user['Profile'].id !== req.body['recordId']) {
     console.error('[api/profile/post] no access:', user, req.session._ctx.user['Profile'].id, req.body['recordId'])
     res.statusCode = 401
+		_sentry.finish()
     res.end('No access')
     return
   }
@@ -457,7 +461,8 @@ export async function post(req, res) {
     let usernameCheck = await getProfileByUsername(req.body['profile']['userName'])
 
     // if username exists and isn't current user
-    if(usernameCheck && usernameCheck.fields['_phid'][0] !== userProfile.fields['_phid'][0]) {
+    if(usernameCheck && usernameCheck.fields['_phid'][0] !== userProfile.fields['_phid'][0]) {    
+  		_sentry.finish()
       return sendData({
         status: false,
         message: 'The user name is unavailable',
@@ -472,6 +477,8 @@ export async function post(req, res) {
 
     // need to re-log in to update server session
     req.login(user, async (err) => {
+      _msg(`[profile/post] [${user['id']}] profile updated`)
+		  _sentry.finish()
       return sendData({
         status: true,
         data: profile,
@@ -479,7 +486,8 @@ export async function post(req, res) {
     })
 
   } catch(err) {
-    console.error('[api/profile/post]', err)
+    console.error('[profile/post]', err)
+    _err(err)
   }
 }
 
