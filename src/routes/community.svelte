@@ -11,6 +11,11 @@
 
 
 
+<svelte:head>
+	<title>Community Rules</title>
+</svelte:head>
+
+
 <div class="Lectures">
 
 

@@ -11,6 +11,10 @@
 
 
 
+<svelte:head>
+	<title>Privacy</title>
+</svelte:head>
+
 <div class="Lectures">
 
 

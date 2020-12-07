@@ -8,6 +8,9 @@
   <div class="_section-article _margin-center">
     <h1>Sign Up</h1>
 
+    <div class="_margin-top-2 _margin-bottom-2">
+      {@html marked(intro||'')}
+    </div>
 
 
     <!-- helpful for forms: https://www.nielsvandermolen.com/signup-form-html5-validation-svelte/ -->
@@ -91,17 +94,24 @@
 
 
 <script>
-  import marked from 'marked';
-
 	import { _gatrack } from '../_utils/gtag.js';
   import { handleOauth, handleSignup } from '../_utils/auth/sapper-auth-helpers';
-  import { onMount } from 'svelte';
   import { getUser } from '../_utils/auth/get-user';
   import { sluggerate } from '../_utils/_helpers';
 
+  import { onMount, getContext, setContext } from 'svelte';
+  import marked from 'marked';
 
   let email = '', password = '', userName = ''
   let isLoading = false, _res
+
+  // Content passed down from layout
+	import Cytosis from 'cytosis';
+  const Content$ = getContext('Content')
+  $: Content = $Content$
+  let intro
+	$: intro = Cytosis.findField('account-intro', Content, 'Content')
+
 
   onMount(async () => {
     let user = await getUser()

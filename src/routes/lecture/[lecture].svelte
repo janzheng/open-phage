@@ -52,7 +52,8 @@
 	<div class="_section-page _padding-top-2 _margin-center ">
 
 
-	  <div class=" _section-article _margin-center _margin-top-2 _divider-bottom">
+	  <!-- <div class=" _section-article _margin-center _margin-top-2 _divider-bottom"> -->
+	  <div class=" _margin-center _margin-top-2 _divider-bottom">
 
 			{#if lecture}
 

@@ -2,7 +2,7 @@
 
 <!-- pretty much identical to ProfileFaves -->
 
-{#if $Bookmarks && $Bookmarks.data}
+{#if $Bookmarks && $Bookmarks.data && filteredCourseBks.length>0}
 
   <h6>🌟 Bookmarked Lectures 🌟</h6>
   {#each filteredCourseBks as item}
@@ -45,7 +45,7 @@
   export let Bookmarks, bkTypes={}, courseBks=[], protocolBks=[], filteredCourseBks=[], filteredProtocolBks=[]
 
   
-  $: if(User && $User) {
+  $: if(User && $User && $User.Profile) {
     let profile = $User.Profile
 
     let bookmarks = profile.fields['PGH Bookmarks'] ? profile.fields['PGH Bookmarks'].join(',') : undefined
@@ -84,7 +84,7 @@
       courseBks=[]
       Object.keys(bkdata).map(b=>{
         let bk = bkdata[b][0]
-        if (bk.fields['Content Types'] && bk.fields['Content Types'].length>0) {
+        if (bk && bk.fields['Content Types'] && bk.fields['Content Types'].length>0) {
           if(!bkTypes[bk.fields['Content Types']])
             bkTypes[bk.fields['Content Types']] = []
   
@@ -104,6 +104,8 @@
       })
 
       filteredCourseBks = filterByStatus(courseBks)
+
+      console.log('filteredCourseBks:', filteredCourseBks)
       filteredProtocolBks = filterByStatus(protocolBks)
     }
 

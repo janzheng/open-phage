@@ -104,10 +104,8 @@
 
 
 
-
-<div id="top" class="ContentFrame Layout">
-
-
+<span id="top"></span>
+<div class="ContentFrame Layout">
 
 	<!-- {#if $preloading} -->
 	  <!-- Show Loading spinner -->

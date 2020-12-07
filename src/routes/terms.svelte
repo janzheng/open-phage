@@ -10,10 +10,12 @@
 
 
 
+<svelte:head>
+	<title>Terms & Conditions</title>
+</svelte:head>
 
-<div class="Lectures">
 
-
+<div class="Terms">
   <div class=" _section-page _padding-top-2 _margin-center ">
     <div class=" _margin-center _divider-top _divider-bottom">
       {@html marked(content || '') }

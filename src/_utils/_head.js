@@ -9,7 +9,7 @@ export const site_description = 'PGH: Online';
 
 // const site_ico = '/ico_dull.png'; // site icon
 export const site_ico = '/icon_pd.png';
-export const site_image = '/share_img_pd.jpg';
+export const site_image = '/pgh_online.jpg';
 export const site_search = 'index,follow';
 export const site_author = 'Jan Zheng';
 export const page_name = ''; // placeholder for the copy+paste

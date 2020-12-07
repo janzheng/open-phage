@@ -21,6 +21,10 @@
 
 
 
+<svelte:head>
+	<title>Library</title>
+</svelte:head>
+
 
 <div class="Library">
 

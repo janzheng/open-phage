@@ -14,7 +14,7 @@
 
 		{#if captionSrc}
 			<div class="caption-container _font-large _padding _padding-top _padding-bottom-2">
-				<div class="caption-header _font-small _padding-bottom-half">Subtitles</div>
+				<!-- <div class="caption-header _font-small _padding-bottom-half">Subtitles</div> -->
 				{#if cue}
 						{cue ? cue.text : ''}
 				{/if}
@@ -66,25 +66,30 @@
 		track.mode = 'hidden' // hide from video
 
 		videoElem.onplay = () => {
-			let duration = videoElem.duration 
-			let curtime = videoElem.currentTime
-			// console.log('video update: ', curtime, duration, viewCompleted)
-			if(!viewStarted) {
-				viewStarted = true
-				_gatrack('video_started', {slug})
-				_gatrack(`video_started--${slug}`, {slug})
+			if(videoElem && videoElem.duration) {
+				let duration = videoElem.duration 
+				let curtime = videoElem.currentTime
+				// console.log('video update: ', curtime, duration, viewCompleted)
+				if(!viewStarted) {
+					viewStarted = true
+					_gatrack('video_started', {slug})
+					_gatrack(`video_started--${slug}`, {slug})
+				}
+
 			}
 		}
 
 		videoElem.ontimeupdate = () => {
-			let duration = videoElem.duration 
-			let curtime = videoElem.currentTime
-			// console.log('video update: ', curtime, duration, viewCompleted)
-			if(!viewCompleted) {
-				if(curtime > duration*0.85) {
-					viewCompleted = true
-    			_gatrack('video_watched', {slug})
-					_gatrack(`video_watched--${slug}`, {slug})
+			if(videoElem && videoElem.duration) {
+				let duration = videoElem.duration 
+				let curtime = videoElem.currentTime
+				// console.log('video update: ', curtime, duration, viewCompleted)
+				if(!viewCompleted) {
+					if(curtime > duration*0.85) {
+						viewCompleted = true
+						_gatrack('video_watched', {slug})
+						_gatrack(`video_watched--${slug}`, {slug})
+					}
 				}
 			}
 		}
@@ -106,7 +111,8 @@
 
 <style>
   video {
-    max-width: 100%
+		max-width: 100%;
+		width: 100%;
   }
 
 </style>

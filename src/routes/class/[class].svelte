@@ -59,6 +59,30 @@
 
 			<h2>{ classObj.title[0][0] }</h2>
 
+			<div class="Class-video">
+
+				{#if classObj}
+					<div class="list-block-container _flex-col"> 
+						<div class="list-block-container--body "> 
+							<div class="list-block-item-container list-card _card _padding">
+								{#if classObj.fields['Video'] && classObj.fields['Video'][0]}
+									<div class="">
+										<Video classes="Class-video" cover={classObj.fields['Video Cover']} video={classObj.fields['Video'][0]} filesize={classObj.fields['Video Size']} captions={classObj.fields['Video Captions']} slug={classObj.fields['Slug']} />
+									</div>
+								{:else}
+									{#if classObj.fields['Cover Image']}
+										<img alt="lecture cover img!!!" class="list-block-cover--page" src={ classObj.fields['Cover Image'][0] }>
+									{/if}
+								{/if}
+
+
+							</div>
+						</div>
+					</div>
+
+				{/if}
+			</div>
+
 			<div class={` _padding-top-2  ${filteredClasses.length > 1 ? '_grid-3-1 _grid-gap-large' : ''}`}>
 				
 				<div class="Class-body">
@@ -67,7 +91,7 @@
 						<div class="list-block-container _flex-col"> 
 							<div class="list-block-container--body "> 
 								<div class="list-block-item-container list-card _card _padding">
-									{#if classObj.fields['Video'] && classObj.fields['Video'][0]}
+									<!-- {#if classObj.fields['Video'] && classObj.fields['Video'][0]}
 										<div class=" _margin-bottom-2">
 											<Video classes="Class-video" cover={classObj.fields['Video Cover']} video={classObj.fields['Video'][0]} filesize={classObj.fields['Video Size']} captions={classObj.fields['Video Captions']} slug={classObj.fields['Slug']} />
 										</div>
@@ -75,7 +99,7 @@
 										{#if classObj.fields['Cover Image']}
 											<img alt="lecture cover img!!!" class="list-block-cover--page" src={ classObj.fields['Cover Image'][0] }>
 										{/if}
-									{/if}
+									{/if} -->
 
 									<!-- <p data-field="Name">{ classObj.title[0][0] }</p> -->
 
@@ -125,7 +149,7 @@
 									</div>
 								{/if}
 
-								<div class="Class-return-home _divider-bottom _margin-top">
+								<div class="Class-return-home _margin-bottom-2 _margin-top">
 									<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-bottom-none-i">
 										⟵ Return to lecture series
 									</a>
@@ -213,13 +237,16 @@
 	function getNextClass() { 
 		const classId = classObj.id
 		let nextClass
-		classes.map((c, i) => {
-			if(classId == c.id) {
-				if(classes[i+1])
-					nextClass=classes[i+1]
-			}
-			// console.log('?!', c.id)
-		})
+		if(filteredClasses && filteredClasses.length>0) {
+			filteredClasses.map((c, i) => {
+				if(classId == c.id) {
+					if(filteredClasses[i+1])
+						nextClass=filteredClasses[i+1]
+				}
+				// console.log('?!', c.id)
+			})
+
+		}
 		return nextClass
 	}
 

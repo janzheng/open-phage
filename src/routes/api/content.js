@@ -39,7 +39,7 @@ try {
 	cytosis = require('../../../static/data/cytosis.json')
 } catch(err) {
 	// do nothing if file doesn't exist
-	_err(err)
+	// _err(err)
 }
 
 

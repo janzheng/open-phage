@@ -1,49 +1,23 @@
-<script>
-  import { onMount, getContext, setContext } from 'svelte';
-
-  import Cytosis from 'cytosis'
-  import marked from 'marked'
-
-	import { getSettingClient } from "../_utils/settings"
-	import { handleLogout } from '../_utils/auth/sapper-auth-helpers';
-
-  export let segment
-
-  const Content = getContext('Content')
-
-  // $: if(Content) {
-  // console.log('Content:', Content)
-  let content
-  $: content = Cytosis.findOne('header', $Content ).fields['Markdown']
-  // }
-
-  const User = getContext('User')
-  $: if($User) {
-  	console.log('[Nav] User / Profile:', $User, $User.Profile)
-  }
-
-
-</script>
 <!--
-<nav>
-	<ul>
-		<li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>home</a></li>
-		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='about'>about</a></li>
-
-		<!~~ for the blog link, we're using rel=prefetch so that Sapper prefetches
-		     the blog data when we hover over the link or tap it on a touchscreen ~~>
-		<li><a rel=prefetch aria-current='{segment === "blog" ? "page" : undefined}' href='blog'>blog</a></li>
-	</ul>
-</nav>
-
+	<nav>
+		<ul>
+			<li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>home</a></li>
+			<li><a aria-current='{segment === "about" ? "page" : undefined}' href='about'>about</a></li>
+			
+			<!~~ for the blog link, we're using rel=prefetch so that Sapper prefetches
+			the blog data when we hover over the link or tap it on a touchscreen ~~>
+			<li><a rel=prefetch aria-current='{segment === "blog" ? "page" : undefined}' href='blog'>blog</a></li>
+		</ul>
+	</nav>
+	
 -->
 
 <!-- 
-<nav class="Header">
-	Some nav stuff
-</nav>
-
- -->
+	<nav class="Header">
+		Some nav stuff
+	</nav>
+	
+-->
 
 <nav class="Header __antialiased __content-header">
 	<div class="skip"><a href="#main">Skip to main content</a></div>
@@ -79,6 +53,48 @@
     </div>
   </div>
 </nav>
+
+
+
+
+
+
+
+
+
+<script>
+	import { onMount, getContext, setContext } from 'svelte';
+
+	import Cytosis from 'cytosis'
+	import marked from 'marked'
+
+	import { getSettingClient } from "../_utils/settings"
+	import { handleLogout } from '../_utils/auth/sapper-auth-helpers';
+
+	export let segment
+
+	const Content = getContext('Content')
+
+	// $: if(Content) {
+	// console.log('Content:', Content)
+	let content
+	$: content = Cytosis.findOne('header', $Content ).fields['Markdown']
+	// }
+
+	const User = getContext('User')
+	$: if($User) {
+		console.log('[Nav] User / Profile:', $User, $User.Profile)
+	}
+</script>
+
+
+
+
+
+
+
+
+
 
 
 <style type="text/scss">

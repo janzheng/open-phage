@@ -215,11 +215,11 @@ input.__quiet, button.__quiet, a.__quiet {
 
 
 
-
 .list-block-item-container, .list-card {
-  overflow: auto;
+	overflow-y: auto; // this causes weird card overflow
+	overflow-x: hidden;
 
-  p:last-child {
+  p:last-child {    
   	margin-bottom: 0 !important;
   }
 
@@ -246,6 +246,10 @@ input.__quiet, button.__quiet, a.__quiet {
 		.list-card {
 			border: 2px solid usetheme(brand-lightest);
 			@extend %ease;
+
+			&.__hero {
+				border-color: usetheme(brand-light);
+			}
 		}
 
 		&, &:visited {
@@ -461,15 +465,17 @@ input.__cta, button.__cta, a.__cta {
  */
 
 
+
 video {
 	max-width: 100%;
-	
+}
 	.caption-container {
 		background: #eee;
 		min-height: 110px;
 	}
-
-}
+	.Class-video {
+		width: 100%;
+	}
 
 .Breadcrumbs {
 	background-color: usetheme(brand-lightest);

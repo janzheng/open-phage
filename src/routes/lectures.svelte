@@ -145,7 +145,7 @@
       })
     })
 
-    console.log('[lectures]', filteredLectures)
+    // console.log('[lectures]', filteredLectures)
   }
 
   let library
