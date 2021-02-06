@@ -1,6 +1,6 @@
 <script context="module">
   export async function preload(page, session) {
-    const yotion = await this.fetch(`/api/notion?collections=Lecture Series, Lecture Content, Lab Videos&getField=Slug|hero-intro, Slug|contact-home, Slug|org-desc, Slug|pgh-live, Slug|joint-project, Slug|test-block`).then(r => r.json())
+    const yotion = await this.fetch(`/api/notion?collections=Personnel, Lecture Series, Lecture Content, Lab Experiments, Lab Videos&getField=Slug|hero-intro, Slug|hero-course, Slug|contact-home, Slug|org-desc, Slug|pgh-live, Slug|joint-project, Slug|test-block`).then(r => r.json())
     // const yotion = await this.fetch(`/api/notion?content=Block`).then(r => r.json())
 
     return { yotion };
@@ -10,18 +10,27 @@
 
 
 <svelte:head>
-	<title>PGH: Online</title>
+	<title>PGH|Online</title>
 </svelte:head>
 
 <div class="Home"> 
 
   <div class="Home-hero _section-page _padding-top-2 _margin-center ">
 
-    <!-- top-bottom -->
-    <div class="Home-text _divider-top">
+    <div class="Home-body _margin-center _margin-top-2 _divider-bottom _grid-2-1 _grid-gap-large _align-bottom">
       {#if yotion}
         <div>{@html marked(yotion['Slug|hero-intro'][0].content.markdown.join('') || '')}</div>
       {/if}
+      <div id="hero-img-container">
+        <img class="_margin-left-2-sm" id="hero-img" alt="Checking for plaques" src="/pgh_cover_sm_c.jpg" />
+      </div>
+    </div>
+
+    <!-- top-bottom -->
+    <div class="Home-text _divider-top">
+      <!-- {#if yotion}
+        <div>{@html marked(yotion['Slug|hero-course'][0].content.markdown.join('') || '')}</div>
+      {/if} -->
 
       <!-- <div class="_margin-top-2 _margin-bottom-2">
         <button class="__action __short">Browse lectures</button>
@@ -31,8 +40,9 @@
       <div class="Lectures-body _section _divider-bottom">
         <div class="Lectures-main">
           {#if lectures}
-            {#each [...filteredLectures.splice(1)] as item, i}
-              <LectureCard lecture={item} showSeries={true} showMaterial={true} />
+            {#each filteredLectures as item, i}
+            <!-- {#each [...filteredLectures.splice(1)] as item, i} -->
+              <LectureSummary lecture={item} authors={authors} />
             {/each}
           {/if}
         </div>
@@ -78,6 +88,8 @@
         {/if}
       </div>
  -->
+
+<!--  
       <div class="_divider-top">
         {#if yotion}
           <div>{@html marked(yotion['Slug|joint-project'][0].content.markdown.join('') || '')}</div>
@@ -100,7 +112,7 @@
         {#if yotion}
           <div>{@html marked(yotion['Slug|contact-home'][0].content.markdown.join('') || '')}</div>
         {/if}
-      </div>
+      </div> -->
 
     </div>
 
@@ -120,11 +132,11 @@
 
 	import Cytosis from 'cytosis';
   import marked from 'marked';
-  import { swr } from '@/swr.js';
+  // import { swr } from '@/swr.js';
   import { onMount, getContext, setContext } from 'svelte';
 
   import { filterByStatus } from '@/_utils/app-helpers'
-  import LectureCard from '../components/LectureCard.svelte'
+  import LectureSummary from '../components/LectureSummary.svelte'
 
   import CapsidSignup from '../components/CapsidSignup.svelte'
   // import { getUser } from '../_utils/auth/get-user';
@@ -133,13 +145,16 @@
   const Content$ = getContext('Content')
   $: Content = $Content$
 
-  let intro, filteredLectures
+  let intro, filteredLectures, authors
 	$: intro = Cytosis.findField('intro', Content, 'Content')
 
   export let yotion
   // $: console.log('Home data::', yotion)
 
-  $: swr(yotion)
+  // $: swr(yotion)
+
+
+  // $: console.log ('?!?!', yotion['Slug|hero-intro'][0].content.markdown.join(''))
 
 
 
@@ -148,6 +163,8 @@
   let lectures
   $: if(yotion) {
 
+    authors = [...yotion['Personnel']]
+    
   	lectures = [...yotion['Lecture Series']]
   	// lectures = lectures.slice(1) // remove first one since it's a "hero"
 
@@ -166,10 +183,10 @@
           lec['series'].push(lecItem)
       })
 
-      // yotion['Lab Experiments'].map(lecItem => {
-      //   if(lecItem.fields['Content ID'] == contentName)
-      //     lec['series'].push(lecItem)
-      // })
+      yotion['Lab Experiments'].map(lecItem => {
+        if(lecItem.fields['Content ID'] == contentName)
+          lec['series'].push(lecItem)
+      })
 
       yotion['Lab Videos'].map(lecItem => {
         if(lecItem.fields['Content ID'] == contentName)
@@ -184,6 +201,5 @@
 
 
 <style type="text/scss">
-
 
 </style>

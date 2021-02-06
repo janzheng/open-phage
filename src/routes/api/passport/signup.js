@@ -49,8 +49,9 @@ export async function post(req, res, next) {
 
 		  // do this explicitly to whitelist account info
 		  const _user = await addUser({
-		  	email, password,
-		    'Collections': ['Public'], // add Public collection to all new users
+				email, password,
+				'Authorizations': ['Allow::ShowComments', 'Allow::AddComments']
+		    // 'Collections': ['Public'], // add Public collection to all new users
 		  })
 
 		  return req.login(_user, async (err) => {

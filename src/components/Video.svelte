@@ -12,7 +12,7 @@
 			Your browser does not support the video tag.
 		</video>
 
-		{#if captionSrc}
+		{#if captionSrc && viewStarted}
 			<div class="caption-container _font-large _padding _padding-top _padding-bottom-2">
 				<!-- <div class="caption-header _font-small _padding-bottom-half">Subtitles</div> -->
 				{#if cue}
@@ -66,17 +66,12 @@
 		track.mode = 'hidden' // hide from video
 
 		videoElem.onplay = () => {
-			if(videoElem && videoElem.duration) {
-				let duration = videoElem.duration 
-				let curtime = videoElem.currentTime
-				// console.log('video update: ', curtime, duration, viewCompleted)
-				if(!viewStarted) {
-					viewStarted = true
-					_gatrack('video_started', {slug})
-					_gatrack(`video_started--${slug}`, {slug})
-				}
-
+			if(!viewStarted) {
+				viewStarted = true
+				_gatrack('video_started', {slug})
+				_gatrack(`video_started--${slug}`, {slug})
 			}
+
 		}
 
 		videoElem.ontimeupdate = () => {
@@ -96,7 +91,6 @@
 
 		// console.log('track?', track)
 		track.oncuechange = () => {
-			// console.log('tracktracktracktracktrack:', track['activeCues'])
 			activeCues = track.activeCues
 			cue = activeCues[0]; // array of current cues
 		}

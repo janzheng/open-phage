@@ -1,6 +1,6 @@
 {
   "name": "pghonline",
-  "description": "PGH: Online",
+  "description": "PGH|Online",
   "version": "0.0.1",
   "scripts": {
     "dev": "CYTOSIS_LIVE=true sapper dev --port 2024",

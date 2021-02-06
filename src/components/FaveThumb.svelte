@@ -212,7 +212,7 @@
 		text-decoration: none;
 		color: #333;
 		&:hover, &:focus {
-			color: #0163e4;
+			color: #4570a0;
 		}
 	}
 

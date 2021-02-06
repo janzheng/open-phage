@@ -11,7 +11,7 @@
 				</div>
 
 				<div>
-					<p data-field="Name">{ lecture.title[0][0] }</p>
+					<h2 data-field="Name">{ lecture.title[0][0] }</h2>
 
 					{#if lecture.fields['Author']}
 						<p data-field="Author">{ lecture.fields['Author'] }</p>

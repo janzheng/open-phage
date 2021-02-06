@@ -1,6 +1,6 @@
 
 
-<div class="TeamCard">
+<div class="TeamCard type-{type}">
 
   {#if inline}
     <!-- used as embeds on lecture/class pages -->
@@ -8,14 +8,14 @@
     <a class="TeamCard-link" href={`/team#${profile.fields['Slug']}`}>
       <div id={profile.fields['Slug']} class="TeamCard-container __inline ">
         <div class="_flex _align-vertically">
-          <div class="">
+          <div class="TeamCard-descriptor-profile _margin-right">
             {#if profile.fields['Profile Image']}
               <div><img class="profile-img" src={profile.fields['Profile Image Source'] || profile.fields['Profile Image'][0]} alt={`${profile.fields['Name']} profile image`}></div>
             {/if}
           </div>
-          <div class="_flex-1">
+          <div class="TeamCard-descriptor _flex-1">
             <div>{profile.fields['Name']}</div>
-            <p class="_font-small"><em>{profile.fields['Content Types'].join(',')}</em></p>
+            <p class="TeamCard-descriptor-job _font-small"><em>{profile.fields['Content Types'].join(',')}</em></p>
           </div>
         </div>
       </div>
@@ -63,12 +63,15 @@
 
       </div>
     	{#if profile.fields['Video'] && profile.fields['Video'][0]}
-        <Video cover={profile.fields['Video Cover']} download={false} filesize={profile.fields['Video Size']} video={profile.fields['Video'][0]} slug={profile.fields['Slug']} />
-        <div class="_margin-top-2">{@html marked(profile.fields['Long'] || '') }</div>
-    	{/if}
+        <Video cover={profile.fields['Video Cover']} captions={profile.fields['Video Captions']} download={false} filesize={profile.fields['Video Size']} video={profile.fields['Video'][0]} slug={profile.fields['Slug']} />
+      {/if}
+
+    	{#if profile.fields['Long']}
+        <div class="_margin-top-2 ">{@html marked(profile.fields['Long'] || '') }</div>
+      {/if}
 
       {#if teachingsKeys.length > 0}
-        <div class="TeamCard-teachings">
+        <div class="TeamCard-teachings _divider-top">
           {#each teachingsKeys as tkey}
             {#if getTeachingItems(teachings[tkey]).length > 0}
               <h6 class="_padding-bottom-half">{teachingLabels[tkey]}</h6>
@@ -104,13 +107,13 @@
   import Video from './Video.svelte'
   import { filterByStatus } from '@/_utils/app-helpers'
 
-  export let profile, inline=false, simple=false, teachings={}
+  export let profile, inline=false, simple=false, teachings={}, type
 
   let teachingsKeys = []
   let teachingLabels = {
     'Lecture Content': 'Lectures',
-    'Lab Experiments': 'Lab Experiments',
-    'Lab Videos': 'Lab Videos',
+    'Lab Experiments': 'Laboratory Practical Experiments',
+    'Lab Videos': 'Laboratory Demonstration Videos',
     'Protocols': 'Protocols',
   }
 

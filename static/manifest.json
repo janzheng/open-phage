@@ -1,19 +1,19 @@
 {
 	"background_color": "#ffffff",
 	"theme_color": "#333333",
-	"name": "PGH: Online",
+	"name": "PGH|Online",
 	"description": "Phage research teaching tool",
 	"short_name": "PGH online",
 	"display": "minimal-ui",
 	"start_url": "/",
 	"icons": [
 		{
-			"src": "flowers-192.png",
+			"src": "pgh_logo_sq.png",
 			"sizes": "192x192",
 			"type": "image/png"
 		},
 		{
-			"src": "flowers-512.png",
+			"src": "pgh_logo_sq.png",
 			"sizes": "512x512",
 			"type": "image/png"
 		}

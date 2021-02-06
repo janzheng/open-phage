@@ -39,8 +39,13 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   padding-top: $size-4;
   padding-bottom: $size-2x;
-  font-size: $size-5;
-  line-height: $size-6;
+  font-size: $size-6;
+  line-height: $size-7;
+  color: usetheme(brand-titles);
+
+  &,* {
+    text-decoration: none !important;
+  }
 }
 
 h2 {
@@ -50,10 +55,15 @@ h2 {
 
   font-size: $size-4;
   line-height: $size-5;
+  color: usetheme(brand-titles);
 
   &.--large {
     font-size: $size-4;
     padding-bottom: $size-4 * 3/2;
+  }
+
+  &,* {
+    text-decoration: none !important;
   }
 }
 
@@ -61,7 +71,12 @@ h3 {
 // used to introduce subtopics, hugs content but still needs to breathe
   padding-top: $size-2;
   // line-height: $size-2 * 1.33;
+  color: usetheme(brand-gray);
 
+  &,* {
+    text-decoration: none !important;
+  }
+  
   &.--large {
     font-size: $font-h2;
     line-height: $lineheight-h2;
@@ -90,6 +105,10 @@ h6.--tight, %tight {
   font-size: usetheme(font--2);
   line-height: usetheme(font--2-lh);
   letter-spacing: 1px;
+}
+
+h6 {
+  font-weight: bold;
 }
 
 
@@ -253,7 +272,7 @@ a, ._link {
 
   }
 
-  &.--nolink {
+  &.__nolink {
     font-weight: normal;
     text-decoration: none;
     color: usetheme(copy);

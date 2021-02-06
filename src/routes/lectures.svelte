@@ -4,7 +4,7 @@
   export async function preload(page, session) {
     // const data = await this.fetch(`/api/notion?collections=Protocols,Videos,Library`).then(r => r.json())
 
-    const data = await this.fetch(`/api/notion?collections=Lecture Series, Lecture Content, Lab Experiments, Lab Videos&contents=Welcome, Protocol, Reference, Reading, Lecture&getField=Content IDs|Welcome`).then(r => r.json())
+    const data = await this.fetch(`/api/notion?collections=Personnel, Lecture Series, Lecture Content, Lab Experiments, Lab Videos&contents=Welcome, Protocol, Reference, Reading, Lecture&getField=Content IDs|Welcome`).then(r => r.json())
     // const status = await this.fetch(`/api/status`).then(r => r.json())
 
     return { data };
@@ -22,7 +22,7 @@
 
   <Breadcrumbs links={[
     {href:'/', name:'Home'},
-    {href:'/lectures', name:'Lectures'},
+    {href:'/lectures', name:'Contents'},
     ]} 
   />
 
@@ -36,8 +36,11 @@
       <div class="Lectures-body _section _divider-bottom">
         <div class="Lectures-main">
           {#if lectures}
+            <h1>Contents</h1>
             {#each filteredLectures as item, i}
-              <LectureCard isHero={i==0} lecture={item} showSeries={i>0 ? true:false} showMaterial={true} />
+              <!-- <LectureCard isHero={i==0} lecture={item} showSeries={i>0 ? true:false} showMaterial={true} /> -->
+              <!-- <LectureCard isHero={i==0} lecture={item} showSeries={true} showMaterial={true} /> -->
+              <LectureSummary lecture={item} showSeries={true} showMaterial={true} authors={authors} />
             {/each}
           {/if}
         </div>
@@ -97,13 +100,14 @@
   import Breadcrumbs from '../components/Breadcrumbs.svelte'
 
   import { filterByStatus } from '@/_utils/app-helpers'
+  import LectureSummary from '../components/LectureSummary.svelte'
 
 
   // Content passed down from layout
   const Content$ = getContext('Content')
   $: Content = $Content$
 
-  let intro, filteredLectures
+  let intro, filteredLectures, authors
 	$: intro = Cytosis.findField('intro', Content, 'Content')
 
 
@@ -115,6 +119,9 @@
 
   let lectures
   $: if(data) {
+
+    authors = [...data['Personnel']]
+    
 
   	lectures = [...data['Lecture Series']]
   	// lectures = lectures.slice(1) // remove first one since it's a "hero"

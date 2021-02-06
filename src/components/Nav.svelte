@@ -27,12 +27,12 @@
     <!-- {@html marked(content)} -->
   	<div class="_grid-1-5-sm _align-vertically">
     	<div>
-    		<a rel=prefetch href="/"><img width="50px" src="icon_pd.png" alt="logo for home"></a>
+    		<a rel=prefetch href="/"><img class="pgh_logo" src="pgh_online_logotype_3x.png" alt="pgh online logo"></a>
     	</div>
     	<div class="_padding-top-2-xs _padding-left-2-sm _md-pfix">
     		<div class="_flex _flex-right">
-    			<a rel=prefetch href="/lectures" class={`__underline-none ${segment==='lectures'?'_active':''}`}>Lectures</a>
-    			<a rel=prefetch href="/library" class={`__underline-none ${segment==='library'?'_active':''}`}>Library</a>
+    			<a rel=prefetch href="/lectures" class={`__underline-none ${segment==='lectures'?'_active':''}`}>Contents</a>
+    			<!-- <a rel=prefetch href="/library" class={`__underline-none ${segment==='library'?'_active':''}`}>Library</a> -->
 					<!-- <a href="/about">About</a> -->
 					
 					{#if getSettingClient('account', Content)}
@@ -137,6 +137,11 @@
 		position: relative;
 		opacity: 0;
 		height: 0;
+	}
+
+	.pgh_logo {
+		vertical-align: bottom;
+		max-height: 48px;
 	}
 </style>
 

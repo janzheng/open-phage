@@ -17,6 +17,8 @@ export const getComments = async (locId) => {
 
   try {
 
+    console.log('getting comments for:', locId)
+    
     if(!process.env.FAUNA_COMMENTS_KEY) {
       console.error('[getComments] No access to Fauna')
       return undefined
@@ -56,9 +58,9 @@ export const getComments = async (locId) => {
     let _newComments = comments.data.map(async (val) => {
       // console.log('messages::::', val)
       let _user = await findUserById(val.data._phid)
-      // console.log('----cleaning----', val.data._phid, val.data.comment)
+      // console.log('----cleaning----', val.data._phid, val.data.comment, _user)
 
-      if(!_user['Authorizations'] || !_user['Authorizations'].includes('Allow::ShowComments'))
+      if(!_user || !_user['Authorizations'] || !_user['Authorizations'].includes('Allow::ShowComments'))
         return
 
       newComments.push({

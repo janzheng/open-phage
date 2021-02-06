@@ -1,4 +1,5 @@
 
+// deprecated but still used — use keyReplace instead
 export const mdReplace = (text, replacer) => {
 	/*
 		text: hello {{ name }}
@@ -25,15 +26,55 @@ export const mdReplace = (text, replacer) => {
 
 
 
-export const getNiceAddress = (stripeAddress) => {
+
+export const keyReplace = (text, replacer, cleanup=true) => {
   /*
-      gets formatted address from Stripe
+    replaces content in a source string with a string from a replacer object
+
+    text: hello {{ name }}
+    replacer: {
+      name: 'banana!'
+    }
+
+    result = "hello banana!"
+
   */
-  return `${stripeAddress.line1 ? stripeAddress.line1 : ''} <br />
-          ${stripeAddress.line2 ? stripeAddress.line2 : ''}  <br />
-          ${stripeAddress.city ? stripeAddress.city : ''} ${stripeAddress.state ? stripeAddress.state : ''} ${stripeAddress.postal_code ? stripeAddress.postal_code : ''}
-          Canada
-          `
+  try {
+    let result = text
+
+    if(!replacer) {
+      throw new Error('Did you forget to pass a replacer object into keyReplace()?')
+      return
+    }
+
+    Object.keys(replacer).map((key) => {
+      // let regex = `/\\{\\{\\s*${key}\\s*\\}\\}/g`
+      let regex = new RegExp(`\\{\\{\\s*${key}\\s*\\}\\}`, 'g')
+      if(result)
+        result = result.replace(regex, replacer[key])
+
+      // console.log('replacing result:', key, regex)
+    })
+
+    // clean up any replacers that weren't caught
+    if(cleanup) {
+      let regex = new RegExp(`\\{\\{(.*?)\\}\\}`, 'g')
+      if(result)
+        result = result.replace(regex, '')
+    }
+    // console.log('result::::', result)
+    return result
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+// super simple delayer, bc setTimeout is gross in code
+export const zzz = (fn, vars, delayMs=350) => {
+  setTimeout(()=>{
+    // console.log('zzz...', delayMs)
+    fn(vars)
+  }, delayMs);
 }
 
 
@@ -114,6 +155,7 @@ export const debug = function(nameObj,...logs) {
   const evt = new CustomEvent('debug', {detail: { name, logs: {...logs} }})
   window.dispatchEvent(evt)
 }
+
 
 
 

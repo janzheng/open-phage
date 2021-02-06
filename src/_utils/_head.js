@@ -1,15 +1,15 @@
 export const site_ga = ''; // 
 export const site_url = 'https://online.phagesforglobalhealth.org/';
-export const site_name = 'PGH: Online';
-export const site_title = 'PGH: Online';
+export const site_name = 'PGH|Online';
+export const site_title = 'PGH|Online';
 export const site_twitter = '';
 export const site_twitter_creator = '@yawnxyz';
 export const site_color = '#71EFF5';
-export const site_description = 'PGH: Online'; 
+export const site_description = 'PGH|Online'; 
 
 // const site_ico = '/ico_dull.png'; // site icon
-export const site_ico = '/icon_pd.png';
-export const site_image = '/pgh_online.jpg';
+export const site_ico = '/icon_pgh.png';
+export const site_image = '/pgh_online_share.png';
 export const site_search = 'index,follow';
 export const site_author = 'Jan Zheng';
 export const page_name = ''; // placeholder for the copy+paste
@@ -85,7 +85,8 @@ export const head = {
     { rel: 'icon', type: 'image/png', href: site_ico }, // <link rel="icon" sizes="192x192" href="/path/to/icon.png">
     { rel: 'apple-touch-icon', href: site_ico }, // default resolution is 192x192 <link rel="apple-touch-icon" href="/path/to/apple-touch-icon.png">
     { rel: 'mask-icon',  href: site_ico, color: site_color}, // <link rel="mask-icon" href="/path/to/icon.svg" color="blue"> <!-- Safari Pinned Tab Icon -->
-    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;800&display=swap' },
+    // { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;800&display=swap' },
+    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap' },
     // { rel: 'stylesheet', href: 'https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css' }
 
   ],

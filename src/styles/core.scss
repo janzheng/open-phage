@@ -1,22 +1,22 @@
-                                
+                                         
           
-              
-          
+                     
+           
 @import '../../node_modules/coeur/styles/_head-reset.scss';   
   
-          
+           
 @import 'settings.scss';  
-@import 'design.scss';
-@import 'layout'; // typography, basic design & whitespace
-
- 
+@import 'design.scss'; 
+@import 'layout'; //   typography, basic design & whitespace  
+  
+  
 // @import '../../node_modules/coeur/styles/head-typography';
   
 @import 'profile'; 
-@import 'project';  
+@import 'project';     
   
          
-// modular      
+// modular         
 // @import 'components';   
 // @import 'sections';
 // @import 'templates'; 
@@ -26,7 +26,7 @@
 	// padding-bottom: 140px; // $size-9;
   position: relative;
   z-index: 10; 
-  overflow: hidden;
+  overflow: hidden; 
 }
   
    

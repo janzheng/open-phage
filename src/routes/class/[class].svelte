@@ -19,6 +19,7 @@
 			classObj: data.class, 
 			classes: data.classes, 
 			author: data.author, 
+			authors: data.authors,
 			slug: slug, 
 			path
 		};
@@ -39,29 +40,31 @@
 		{#if classObj}
 			<Breadcrumbs links={[
 				{href:'/', name:'Home'},
-				{href:'/lectures', name:'Lectures'},
+				{href:'/lectures', name:'Contents'},
 				{href:`/lecture/${lecture.fields['Slug']}`, name: lecture.title[0][0]},
 				{href:`/class/${classObj.fields['Slug']}`, name: classObj.title[0][0] || slug},
 				]} 
 			/>
 		{/if}
 
-		<div class="_section-page _margin-center _margin-bottom-2">
+		<!-- <div class="_section-page _margin-center _margin-bottom-2">
 			<div class="Class-return-home">
 				<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-top-2 _margin-bottom-none-i">
-					⟵ Return to Series
+					← Return to Series
 				</a>
 			</div>
-		</div>
-
+		</div> -->
 
 		<div class="_section-page _margin-center _margin-top-2 _divider-bottom">
 
-			<h2>{ classObj.title[0][0] }</h2>
+			<a href="{lecture.fields['URL']}" rel=preload class="__nolink" >
+				<h6 class="_padding-top-2 _padding-bottom ">{lecture.fields['Name']}</h6>
+			</a>
+			
+			<h2 class="_padding-top-half">{ classObj.title[0][0] }</h2>
 
+			{#if classObj && (classObj.fields['Video'] || classObj.fields['Cover Image'])}
 			<div class="Class-video">
-
-				{#if classObj}
 					<div class="list-block-container _flex-col"> 
 						<div class="list-block-container--body "> 
 							<div class="list-block-item-container list-card _card _padding">
@@ -71,25 +74,24 @@
 									</div>
 								{:else}
 									{#if classObj.fields['Cover Image']}
-										<img alt="lecture cover img!!!" class="list-block-cover--page" src={ classObj.fields['Cover Image'][0] }>
+										<img alt="lecture cover img" class="list-block-cover--page" src={ classObj.fields['Cover Image'][0] }>
 									{/if}
 								{/if}
-
-
 							</div>
 						</div>
 					</div>
+				</div>
+			{/if}
 
-				{/if}
-			</div>
-
-			<div class={` _padding-top-2  ${filteredClasses.length > 1 ? '_grid-3-1 _grid-gap-large' : ''}`}>
+			<!-- <div class={` _padding-top-2  ${filteredClasses.length > 1 ? '_grid-3-1 _grid-gap-large' : ''}`}> -->
+			<div class={` _padding-top-2  `}>
 				
 				<div class="Class-body">
 
 					{#if classObj}
 						<div class="list-block-container _flex-col"> 
 							<div class="list-block-container--body "> 
+
 								<div class="list-block-item-container list-card _card _padding">
 									<!-- {#if classObj.fields['Video'] && classObj.fields['Video'][0]}
 										<div class=" _margin-bottom-2">
@@ -108,12 +110,6 @@
 										<TeamCard class="_margin-top _margin-bottom" profile={author} inline={true} />
 									{/if}
 
-									{#if $User}
-										<div class="Class-user _margin-top-2 _margin-bottom-2">
-											<UserPanel {classObj}/>
-										</div>
-									{/if}
-
 									<!-- only use descriptions on lectures index -->
 									<!-- {#if classObj.fields['Description']}
 										<div class="_margin-top-2" data-field="Description">
@@ -130,11 +126,19 @@
 
 								</div>
 
+								{#if $User}
+									<div class="Class-user ">
+										<UserPanel {classObj}/>
+									</div>
+								{/if}
+								
+
+
 								<!-- next class -->
 								{#if nextClass}
 									<div class="NextClass-container _margin-top">
 										<!-- <a rel=prefetch class="NextClass-link __underline-none " href={`/class/${nextClass.fields['Slug']}`}> -->
-										<a rel=prefetch class="_button __width-full __cta _margin-bottom-none-i __underline-none " href={`/class/${nextClass.fields['Slug']}`}>
+										<a rel=prefetch class="_button __width-full __cta _margin-bottom-none-i __underline-none _padding-left-i _padding-bottom-half-i" href={`/class/${nextClass.fields['Slug']}`}>
 											<!-- <div class="NextClass-card Lecture-link-card _padding _card"> -->
 												<div class="_margin-bottom-half">Next class</div>
 												<p class="_margin-bottom-none-i" data-field="Name">{ nextClass.title[0][0] }</p>
@@ -149,11 +153,15 @@
 									</div>
 								{/if}
 
-								<div class="Class-return-home _margin-bottom-2 _margin-top">
+								<!-- <div class="Class-return-home _margin-bottom-2 _margin-top">
 									<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-bottom-none-i">
-										⟵ Return to lecture series
+										← Return to lecture series
 									</a>
-								</div>
+								</div> -->
+							</div>
+
+							<div class="Lecture-classes _divider-top">
+								<LectureSummary lecture={lecture} series={filteredClasses} authors={authors} />
 							</div>
 
 							{#if classObj.fields['AdminTags'] && classObj.fields['AdminTags'].includes('Comments')}
@@ -167,7 +175,7 @@
 
 
 				<!-- sidebar -->
-				{#if filteredClasses.length > 1}
+				<!-- {#if filteredClasses.length > 1}
 					<div class="Class-sidebar">
 						<div class="_margin-bottom">
 							<a class="__underline-none" rel=prefetch href={`/lecture/${lecture.fields['Slug']}`}><h6 class="_padding-top-none-i">{ lecture.title[0][0] }</h6></a>
@@ -177,9 +185,6 @@
 							{#each filteredClasses as item}
 								<a rel=prefetch class={`Lecture-link __copy Class-toc--link ${ path==='/class/'+item.fields['Slug']? '__active':''}`} href={`/class/${item.fields['Slug']}`}>
 									<div class="Lecture-link-card _card _card _padding _margin-bottom">
-										<!-- {#if item.fields['Cover Image']}
-											<img alt="lecture cover img" class="Lecture-cover" src={ item.fields['Cover Image'][0] }>
-										{/if} -->
 										<span class="Lecture-classes-title">{@html marked(item.title[0][0]) }</span>
 
 										<div class="_margin-top" >
@@ -187,21 +192,14 @@
 												<TeamCard profile={item.classObj['author']} simple={true} />
 											{/if}
 										</div>
-									<!-- {#if item.fields['Author']}
-										<p data-field="Author">{ item.fields['Author'] }</p>
-									{/if} -->
-
-									<!-- 
-									{#if item.fields['Description']}
-										<p data-field="Description">{ item.fields['Description'] }</p>
-									{/if}
-									-->
 									</div>
 								</a>
 							{/each}
 						</div>
 					</div>
 				{/if}
+
+				 -->
 
 			</div>
 		</div>
@@ -222,8 +220,10 @@
 	import CommentBox from '../../components/CommentBox.svelte'
   import Breadcrumbs from '../../components/Breadcrumbs.svelte'
   import UserPanel from '../../components/UserPanel.svelte'
+	import LectureSummary from '../../components/LectureSummary.svelte'
 
-	export let lecture, classes, classObj, data, path, author, slug
+
+	export let lecture, classes, classObj, data, path, author, slug, authors
 	let filteredClasses, mdLines=''
 	
 	import { filterByStatus } from '@/_utils/app-helpers'
@@ -232,6 +232,12 @@
 		gfm: false,
 		breaks: false
 	})
+
+
+	$: if(filteredClasses) {
+		console.log('--->>>>', data)
+	}
+
 
 
 	function getNextClass() { 
