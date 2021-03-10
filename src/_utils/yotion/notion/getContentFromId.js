@@ -23,7 +23,7 @@ async function getContentFromId({id, depth=0, accumulate=true, collectionMap={},
 
     if(!recordMap) {
       pageChunk = await getPageChunkFromId(id)
-      if(pageChunk && pageChunk.recordMap.block[id]) {
+      if(pageChunk && pageChunk.recordMap && pageChunk.recordMap.block[id]) {
         recordMap = pageChunk.recordMap
       }
     }
@@ -54,14 +54,18 @@ async function getContentFromId({id, depth=0, accumulate=true, collectionMap={},
           }
         ]
       })
-      record = records.results[0]
-      console.log('----> getContentFromId API call: ', id, 'depth:', depth, record.value.type, 'content:', record.value.content)
+      if(records.results) {
+        record = records.results[0]
+        console.log('----> getContentFromId API call: ', id, 'depth:', depth, record.value.type, 'content:', record.value.content)
+      }
 
+      
       // add to recordmap as caching
-      recordMap.block[id] = record
+      if(recordMap && recordMap.block)
+        recordMap.block[id] = record
     }
 
-    if(!record.value) {
+    if(!record || !record.value) {
       // throw new Error("could not read Notion doc with this ID - make sure public access is enabled")
       return {
         'type': false,
