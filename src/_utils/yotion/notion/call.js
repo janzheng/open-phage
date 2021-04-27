@@ -8,7 +8,7 @@ module.exports = (methodName, body) => new Promise(resolve => {
     headers: {
       "content-type": "application/json"
     },
-    timeout: 900000,
+    timeout: 0, // 9000 — 0 means no timeout
     body: JSON.stringify(body)
   })
     .then(res => res.json())
