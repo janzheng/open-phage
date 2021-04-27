@@ -48,12 +48,17 @@ async function getTableFromId({id, recordMap=undefined, collectionMap={}, getCon
       collectionViewId,
       loader: {
         type: "table",
+        limit: 50,
+        searchQuery: "",
+        loadContentCover: false,
+        userTimeZone: "America/New_York"
       }
     })
 
     // console.log('[     ]-> getTableFromId API call: ', id, ' ||||||| ',  collectionId, collectionViewId, '???' ,pageData, tableData)
     // console.log('[     ]-> getTableFromId API call: ', id, ' collId:', collectionId, ' >>> ', tableData.recordMap.collection[collectionId].value)
-    console.log('[     ]-> getTableFromId API call: ', id, collectionId)
+    console.log('[     ]-> getTableFromId API call: ', id, collectionId, collectionViewId)
+    console.log('[     ]-> getTableFromId API TABLE DATA: ', tableData)
 
 
     collectionMap[id] = {pageData, tableData, collectionId, collectionViewId}
@@ -69,100 +74,107 @@ async function getTableFromId({id, recordMap=undefined, collectionMap={}, getCon
 
 
 
-  const subPages = tableData.result.blockIds
-  const schema = tableData.recordMap.collection[collectionId].value.schema
 
-  const output = []
-
-  const view = tableData.recordMap.collection_view[collectionViewId]
-  const tableProps = view.value.format ? view.value.format.table_properties : undefined
-  
-
-  const collectionData = tableData.recordMap.collection[collectionId].value
-  const collectionName = tableData.recordMap.collection[collectionId].value.name ? tableData.recordMap.collection[collectionId].value.name[0][0] : undefined
-
-  // console.log('getTableFromId:', subPages)
+  if(tableData && tableData.result && tableData.recordMap) { 
 
 
-  // subPages.forEach(id => {
-  await asyncForEach(subPages, async id => {
-    const page = tableData.recordMap.block[id]
 
-    const fields = {}
+    const subPages = tableData.result.blockIds
+    const schema = tableData.recordMap.collection[collectionId].value.schema
 
-    for(const s in schema) {
-      const schemaDefinition = schema[s]
-      const type = schemaDefinition.type
-      let value = page.value.properties && page.value.properties[s] && page.value.properties[s][0][0]
+    const output = []
 
-      if(type === "checkbox") {
-        value = value === "Yes" ? true : false
-      } else if(value && type === "date") {
-        try {
-          value = page.value.properties[s][0][1][0][1]
-        } catch {
-          // it seems the older Notion date format is [[ string ]]
-          value = page.value.properties[s][0][0]
+    const view = tableData.recordMap.collection_view[collectionViewId]
+    const tableProps = view.value.format ? view.value.format.table_properties : undefined
+    
+
+    const collectionData = tableData.recordMap.collection[collectionId].value
+    const collectionName = tableData.recordMap.collection[collectionId].value.name ? tableData.recordMap.collection[collectionId].value.name[0][0] : undefined
+
+    // console.log('getTableFromId:', subPages)
+
+
+    // subPages.forEach(id => {
+    await asyncForEach(subPages, async id => {
+      const page = tableData.recordMap.block[id]
+
+      const fields = {}
+
+      for(const s in schema) {
+        const schemaDefinition = schema[s]
+        const type = schemaDefinition.type
+        let value = page.value.properties && page.value.properties[s] && page.value.properties[s][0][0]
+
+        if(type === "checkbox") {
+          value = value === "Yes" ? true : false
+        } else if(value && type === "date") {
+          try {
+            value = page.value.properties[s][0][1][0][1]
+          } catch {
+            // it seems the older Notion date format is [[ string ]]
+            value = page.value.properties[s][0][0]
+          }
+        } else if(value && type === "text") {
+          value = textArrayToHtml(page.value.properties[s])
+        } else if(value && type === "file") {
+          const files = page.value.properties[s].filter(f => f.length > 1)
+          // some items in the files array are for some reason just [","]
+
+          const outputFiles = []
+
+          files.forEach(file => {
+            const s3Url = file[1][0][1]
+            outputFiles.push(getAssetUrl(s3Url, page.value.id))
+          })
+
+          value = outputFiles
+        } else if(value && type === "multi_select") {
+          value = value.split(",")
         }
-      } else if(value && type === "text") {
-        value = textArrayToHtml(page.value.properties[s])
-      } else if(value && type === "file") {
-        const files = page.value.properties[s].filter(f => f.length > 1)
-        // some items in the files array are for some reason just [","]
 
-        const outputFiles = []
-
-        files.forEach(file => {
-          const s3Url = file[1][0][1]
-          outputFiles.push(getAssetUrl(s3Url, page.value.id))
-        })
-
-        value = outputFiles
-      } else if(value && type === "multi_select") {
-        value = value.split(",")
+        fields[schemaDefinition.name] = value || undefined
       }
 
-      fields[schemaDefinition.name] = value || undefined
-    }
+      // create ordered fields
+      const orderedFields = []
+      if(tableProps) {
+        tableProps.forEach(field => {
+          if(field.visible && schema[field.property]) {
+            const obj = {}
+            obj[schema[field.property].name] = fields[schema[field.property].name]
+            // if(fields[schema[field.property].name]) // we do want empty object to appear — makes it easier to traverse since all arrays will be equal length
+            orderedFields.push(obj)
+          }
+        })
+      }
 
-    // create ordered fields
-    const orderedFields = []
-    if(tableProps) {
-      tableProps.forEach(field => {
-        if(field.visible && schema[field.property]) {
-          const obj = {}
-          obj[schema[field.property].name] = fields[schema[field.property].name]
-          // if(fields[schema[field.property].name]) // we do want empty object to appear — makes it easier to traverse since all arrays will be equal length
-          orderedFields.push(obj)
-        }
+      let content
+      if(getContent) {
+        content = await getContentFromId({id, recordMap, collectionMap})
+        // console.log('Getting linked content', id, page.value.type, recordMap.block[id].value.properties ? recordMap.block[id].value.properties.title[0] : ' [no title]', )
+      }
+
+      output.push({
+        fields, 
+        orderedFields,
+        title: page.value.properties && page.value.properties.title,
+        id: page.value.id,
+        emoji: page.value.format && page.value.format.page_icon,
+        created: page.value.created_time,
+        last_edited: page.value.last_edited_time,
+        // recordMap: tableData.recordMap,
+        content,
       })
-    }
-
-    let content
-    if(getContent) {
-      content = await getContentFromId({id, recordMap, collectionMap})
-      // console.log('Getting linked content', id, page.value.type, recordMap.block[id].value.properties ? recordMap.block[id].value.properties.title[0] : ' [no title]', )
-    }
-
-    output.push({
-      fields, 
-      orderedFields,
-      title: page.value.properties && page.value.properties.title,
-      id: page.value.id,
-      emoji: page.value.format && page.value.format.page_icon,
-      created: page.value.created_time,
-      last_edited: page.value.last_edited_time,
-      // recordMap: tableData.recordMap,
-      content,
     })
-  })
 
-  return { // these names are to align more closely with other notion objects
-    data: collectionData,
-    value: collectionName,
-    table: output
+    return { // these names are to align more closely with other notion objects
+      data: collectionData,
+      value: collectionName,
+      table: output
+    }
+
   }
-
+  return false
 }
 
 
