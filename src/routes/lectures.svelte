@@ -22,7 +22,7 @@
 
   <Breadcrumbs links={[
     {href:'/', name:'Home'},
-    {href:'/lectures', name:'Contents'},
+    // {href:'/lectures', name:'Contents'},
     ]} 
   />
 

@@ -233,7 +233,11 @@ a, ._link {
 
   &:hover, &:active, {
     color: usetheme(hover) !important; //$color-links;
-    text-decoration-color: usetheme(hover) !important; //$color-links;
+    // text-decoration-color: usetheme(hover) !important; //$color-links;
+
+    h1, h2, h3, h4, h5 {
+      color: usetheme(hover) !important; //$color-links;
+    }
   }
 
 

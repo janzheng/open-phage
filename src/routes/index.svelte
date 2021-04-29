@@ -19,7 +19,7 @@
 
     <div class="Home-body _margin-center _margin-top-2 _divider-bottom _grid-2-1 _grid-gap-large _align-bottom">
       {#if yotion}
-        <div>{@html marked(yotion['Slug|hero-intro'][0].content.markdown.join('') || '')}</div>
+        <div class="Home-body-copy">{@html marked(yotion['Slug|hero-intro'][0].content.markdown.join('') || '')}</div>
       {/if}
       <div id="hero-img-container">
         <img class="_margin-left-2-sm" id="hero-img" alt="Checking for plaques" src="/pgh_cover_sm_c.jpg" />
@@ -156,9 +156,9 @@
 
   // $: console.log ('?!?!', yotion['Slug|hero-intro'][0].content.markdown.join(''))
 
+ 
 
-
-
+ 
 
   let lectures
   $: if(yotion) {
@@ -173,7 +173,7 @@
 
     filteredLectures = filterByStatus(lectures)
 
-
+ 
     filteredLectures.map(lec => {
 
       lec['series'] = []

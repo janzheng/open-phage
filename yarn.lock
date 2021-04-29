@@ -3895,6 +3895,13 @@ node-cache@^5.1.1:
   dependencies:
     clone "2.x"
 
+node-fetch-retry@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/node-fetch-retry/-/node-fetch-retry-1.1.1.tgz#b3d77b737e0bc6c053476d9b9753eb246a17a177"
+  integrity sha512-9/HnBfDx/kI4amxaTLeHFDCLX7XZd745TVUPwkS5Uqsdw7usgQiZcQVatsm/8KNeP8xo6gM5aImQwGlEcExsSw==
+  dependencies:
+    node-fetch "^2.6.1"
+
 node-fetch@2.6.1, node-fetch@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"

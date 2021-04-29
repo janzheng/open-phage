@@ -43,7 +43,7 @@
 
   <Breadcrumbs links={[
     {href:'/', name:'Home'},
-    {href:'/lectures', name:'Contents'},
+    // {href:'/lectures', name:'Contents'},
     {href:`/lecture/${slug}`, name: lecture.title[0][0] || slug},
     ]} 
   />
@@ -162,6 +162,13 @@
 								</div>
 							{/if}
 
+
+							{#if classes.length == 1}
+								<div class="Discussion _padding _card _margin-top-2">
+									<CommentBox locationId={slug} />
+								</div>
+							{/if}
+
 							<div class="Lecture-classes">
 								<LectureSummary lecture={lecture} series={filteredClasses} authors={authors} classes='' hideSummary={true} />
 								<!-- {#each filteredClasses as item}
@@ -191,11 +198,6 @@
 
 					</div>
 
-					{#if classes.length == 1}
-						<div class="Discussion _padding _card _margin-top-2">
-							<CommentBox locationId={slug} />
-						</div>
-					{/if}
 				</div>
 
 			{/if}

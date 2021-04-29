@@ -9,7 +9,7 @@
       <div class="_grid-2 _grid-gap-large">
         <div>
           <div class=" _margin-bottom-2">
-            <p><a href="https://www.phagesforglobalhealth.org/" target="_blank"><img class="_padding-right" id="logo-p4gh" src="/pgh_logotype_3x.png" alt="Phages for Global Health Logo" /></a></p>
+            <p><a href="https://www.phagesforglobalhealth.org/" target="_blank"><img class="_padding-right" id="logo-p4gh" src="/pgh_logotype05.png" alt="Phages for Global Health Logo" /></a></p>
             <p><a href="https://phage.directory" target="_blank"><img id="logo-pd" src="/phagedirectory_lrg.png" alt="Phage Directory Logo" /></a></p>
             <p><a href="https://foundation.mozilla.org/" target="_blank"><img class="_margin-bottom" id="logo-moz" src="/mozilla.svg" alt="Mozilla Foundation Logo" /></a></p>
           </div>
@@ -80,7 +80,7 @@
   }
 
   img {
-    max-height: 48px;
+    max-width: 250px;
     // display: block;
   }
 

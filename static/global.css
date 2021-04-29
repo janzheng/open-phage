@@ -15708,7 +15708,9 @@ a:visited, ._link:visited {
 }
 a:hover, a:active, ._link:hover, ._link:active {
   color: #0722ab !important;
-  text-decoration-color: #0722ab !important;
+}
+a:hover h1, a:hover h2, a:hover h3, a:hover h4, a:hover h5, a:active h1, a:active h2, a:active h3, a:active h4, a:active h5, ._link:hover h1, ._link:hover h2, ._link:hover h3, ._link:hover h4, ._link:hover h5, ._link:active h1, ._link:active h2, ._link:active h3, ._link:active h4, ._link:active h5 {
+  color: #0722ab !important;
 }
 a.__copy, ._link.__copy {
   color: rgba(0, 0, 0, 0.87);
@@ -16724,4 +16726,14 @@ textarea:focus {
     left: 110%;
     width: 10%;
   }
+}
+
+.Home-body-copy {
+  padding: 9.5px;
+}
+.Home-body-copy p {
+  display: list-item;
+  list-style-type: none;
+  list-style-image: url("/pgh_bullet_tiny.png");
+  list-style-position: outside;
 }

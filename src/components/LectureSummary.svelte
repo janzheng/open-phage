@@ -15,9 +15,9 @@
 				<div>
 
 					{#if !hideSummary}
-						<a class="__underline-none" rel=preload href={lecture.fields['URL']}>
+						<!-- <a class="__underline-none" rel=preload href={lecture.fields['URL']}> -->
 							<h2 data-field="Name">{ lecture.title[0][0] }</h2>
-						</a>
+						<!-- </a> -->
 
 						{#if lecture.fields['Author']}
 							<p data-field="Author">{ lecture.fields['Author'] }</p>

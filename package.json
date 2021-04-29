@@ -44,6 +44,7 @@
     "formidable": "^1.2.2",
     "mailgun.js": "^2.0.1",
     "node-fetch": "^2.6.1",
+    "node-fetch-retry": "^1.1.1",
     "polka": "next",
     "sharp": "^0.26.1",
     "sirv": "^0.4.0"

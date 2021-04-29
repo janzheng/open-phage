@@ -40,8 +40,8 @@
 		{#if classObj}
 			<Breadcrumbs links={[
 				{href:'/', name:'Home'},
-				{href:'/lectures', name:'Contents'},
-				{href:`/lecture/${lecture.fields['Slug']}`, name: lecture.title[0][0]},
+				// {href:'/lectures', name:'Contents'},
+				// {href:`/lecture/${lecture.fields['Slug']}`, name: lecture.title[0][0]},
 				{href:`/class/${classObj.fields['Slug']}`, name: classObj.title[0][0] || slug},
 				]} 
 			/>
@@ -140,7 +140,7 @@
 										<!-- <a rel=prefetch class="NextClass-link __underline-none " href={`/class/${nextClass.fields['Slug']}`}> -->
 										<a rel=prefetch class="_button __width-full __cta _margin-bottom-none-i __underline-none _padding-left-i _padding-bottom-half-i" href={`/class/${nextClass.fields['Slug']}`}>
 											<!-- <div class="NextClass-card Lecture-link-card _padding _card"> -->
-												<div class="_margin-bottom-half">Next class</div>
+												<div class="_margin-bottom-half">Next lecture</div>
 												<p class="_margin-bottom-none-i" data-field="Name">{ nextClass.title[0][0] }</p>
 
 												<!-- {#if nextClass.fields['Description']}
@@ -153,6 +153,10 @@
 									</div>
 								{/if}
 
+								{#if classObj.fields['AdminTags'] && classObj.fields['AdminTags'].includes('Comments')}
+									<CommentBox classes="Discussion _padding _card _margin-top-2 _flex-1" locationId={slug} />
+								{/if}
+
 								<!-- <div class="Class-return-home _margin-bottom-2 _margin-top">
 									<a rel=prefetch href={`/lecture/${lecture.fields['Slug']}`} class="_button __cta _margin-bottom-none-i">
 										← Return to lecture series
@@ -163,10 +167,6 @@
 							<div class="Lecture-classes _divider-top">
 								<LectureSummary lecture={lecture} series={filteredClasses} authors={authors} />
 							</div>
-
-							{#if classObj.fields['AdminTags'] && classObj.fields['AdminTags'].includes('Comments')}
-								<CommentBox classes="Discussion _padding _card _margin-top-2 _flex-1" locationId={slug} />
-							{/if}
 
 						</div>
 
