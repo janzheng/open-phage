@@ -9,6 +9,8 @@
 {#if getSettingClient('comments', Content)}
 	<div class="CommentBox {classes}">
 
+    locationId: {locationId}
+    
 		<div class="Comments">
 			<h4 class="_margin-bottom">Comments {comments ? `(${comments.data.length})` : ''}</h4>
 
@@ -31,17 +33,12 @@
 								</div>
 								<div class="_font-small _right">{ getPrettyDate(item.ts) }</div>
 							</div>
-							<p class="_padding-top">{item.comment}</p>
+              <p class="_padding-top">{item.comment}</p>
+              <p class="_padding-top _font-small">{item.locId} | {item.ref['@ref'].id} | <span class="_font-small-i _pointer _color-red _padding-none-i" on:click={deleteComment(item.ref['@ref'].id)}>delete</span></p>
+              
 						</div>
 					{/await}
 				{/each}
-			{:else}
-				{#if User && $User['Profile']}
-					<div class="_card _padding">
-						Be the first to leave a comment below!
-					</div>
-				{:else}
-				{/if}
 			{/if}
 		</div>
 
@@ -77,15 +74,9 @@
 			</form>
 
 		{:else}
-			{#if comments && comments.data.length == 0}
-					<div class="_card __flat _padding">
-						Be the first to leave a comment! <a href="/login">Log in</a> or <a href="/signup">sign up</a> to leave a comment!
-					</div>
-			{:else}
-				<div class="_card __flat _padding">
-					<a href="/login">Log in</a> or <a href="/signup">sign up</a> to leave a comment!
-				</div>
-			{/if}
+			<!-- <div class="_card __flat _padding">
+				<a href="/login">Log in</a> to leave a comment
+			</div> -->
 		{/if}
 
 	</div>
@@ -180,8 +171,11 @@
 	} 
 
 	const postComment = async () => {
-		if(!locationId)
-			return
+		if(!locationId) {
+      locationId = 'magical test location'
+      console.warn('Leaving a comment that will not show up / test comment')
+    }
+		// 	return
 
 		const data = {
 			comment,
@@ -195,13 +189,16 @@
 
 		try {
 
-      const response = await fetchPost('/api/comments', data, fetch)
+      const response = await fetchPost('/api/comments', data, fetch, {
+        'X-Skip-SWR': true
+      })
 			// success
 			if(response.status == 200) {
 				const result = await response.json()
-				loadComments() // reload messages, since no db stream
+				await loadAllComments() // reload messages, since no db stream
 				comment = ''
 				message = 'Message added!'
+        // location.reload()
 			}
 
 			// error
@@ -220,38 +217,54 @@
 
 
 
+	const deleteComment = async (id) => {
+
+		const data = {
+			id,
+			locId: locationId || 'unknown'
+		}
+
+		try {
+
+      console.log('deleting ::: ', data)
+
+
+      let response = await fetch(`api/comments`, {
+        body: JSON.stringify(data),
+        method: 'DELETE',
+        headers: {
+          'X-Skip-SWR': true,
+          'Content-Type': 'application/json',
+        },
+      })
+
+			// success
+			if(response.status == 200) {
+				const result = await response.json()
+				await loadAllComments() // reload messages, since no db stream
+				comment = ''
+				message = 'Message deleted!'
+        // location.reload()
+			}
+
+			// error
+			if(response.status == 400) {
+				message = 'The comments server is currently offline'
+				// url = ''
+				// isLoading = false
+			}
+
+		} catch(err) {
+			console.error('signature post error:', err)
+			// error = err.message
+			// isLoading = false
+		}
+	}
+
 </script>
 
 
 <style type="text/scss">
-
-	.ProfileImage {
-		object-fit: cover;
-		border-radius: 100%;
-		width: 48px;
-		height: 48px;
-		vertical-align: middle;
-		margin-right: 16px;
-	}
-
-
-
-	.FaveThumb-profile {
-		// margin-top: 0.5rem;
-
-		a {
-			text-decoration: none;
-		}
-	}
-
-	.FaveThumb-profile-img {
-		object-fit: cover;
-		border-radius: 100%;
-		width: 48px;
-		height: 48px;
-		vertical-align: middle;
-		margin-right: 1rem;
-	}
 
 
 </style>

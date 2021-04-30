@@ -15706,10 +15706,10 @@ a, ._link {
 a:visited, ._link:visited {
   color: #4570a0;
 }
-a:hover, a:active, ._link:hover, ._link:active {
+a:hover, a:active, a:focus, ._link:hover, ._link:active, ._link:focus {
   color: #0722ab !important;
 }
-a:hover h1, a:hover h2, a:hover h3, a:hover h4, a:hover h5, a:active h1, a:active h2, a:active h3, a:active h4, a:active h5, ._link:hover h1, ._link:hover h2, ._link:hover h3, ._link:hover h4, ._link:hover h5, ._link:active h1, ._link:active h2, ._link:active h3, ._link:active h4, ._link:active h5 {
+a:hover h1, a:hover h2, a:hover h3, a:hover h4, a:hover h5, a:active h1, a:active h2, a:active h3, a:active h4, a:active h5, a:focus h1, a:focus h2, a:focus h3, a:focus h4, a:focus h5, ._link:hover h1, ._link:hover h2, ._link:hover h3, ._link:hover h4, ._link:hover h5, ._link:active h1, ._link:active h2, ._link:active h3, ._link:active h4, ._link:active h5, ._link:focus h1, ._link:focus h2, ._link:focus h3, ._link:focus h4, ._link:focus h5 {
   color: #0722ab !important;
 }
 a.__copy, ._link.__copy {

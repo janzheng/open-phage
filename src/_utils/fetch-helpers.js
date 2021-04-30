@@ -30,12 +30,12 @@
     - use 'formidable' to handle the files
 
 
-  Last updated: 8/11/2020
+  Last updated: 4/29/2021
 
 */
 
 
-export const fetchPost = async (url, data, fetch) => {
+export const fetchPost = async (url, data, fetch, headers) => {
   if (!fetch || !url || !data) // server-side won't have access to fetch object
     throw new Error('fetchPost needs access to the fetch object, data, and a url!')
 
@@ -43,7 +43,8 @@ export const fetchPost = async (url, data, fetch) => {
   const response = await fetch(
     url, {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...headers,
     },
     method: 'POST',
     body: JSON.stringify(data)

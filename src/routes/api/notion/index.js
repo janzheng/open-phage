@@ -51,7 +51,7 @@ export const getId = async (id) => {
 		// cacheSet(_cacheStr, json)
 	  return json
 	} catch(e) {
-		console.error('[getBase] error:', e)
+		console.error('[getId] error:', e)
 	}
 }
 

@@ -230,8 +230,8 @@ a, ._link {
   &:visited {
     color: usetheme(links);
   };
-
-  &:hover, &:active, {
+ 
+  &:hover, &:active, &:focus {
     color: usetheme(hover) !important; //$color-links;
     // text-decoration-color: usetheme(hover) !important; //$color-links;
 

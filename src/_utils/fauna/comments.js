@@ -4,7 +4,7 @@ import faunadb from 'faunadb'
 
 import { findUserById } from '../auth/auth-users'
 
-import { cacheGet, cacheSet, cacheClear } from "../cache"
+// import { cacheGet, cacheSet, cacheClear } from "../cache"
 import { getSetting } from "../settings"
 
 
@@ -261,6 +261,30 @@ export const getAllComments = async (size=100, lastItemId) => {
 
 }
 
+
+
+
+export const deleteComment = async (id) => {
+
+  if(!process.env.FAUNA_COMMENTS_MOD_KEY) {
+    console.error('[deleteComment] No access to delete Fauna')
+    return undefined
+  } 
+
+  try {
+    const client = new faunadb.Client({ secret: process.env.FAUNA_COMMENTS_MOD_KEY })
+    console.log('[deleteComment] deleting id:', id)
+
+    let del = await client.query(
+      q.Delete(q.Ref(q.Collection(process.env.FAUNA_COLLECTION), id))
+    )
+    console.log('[deleteComment] delete status:', del)
+
+    return del
+  } catch (error) {
+    console.error('[deleteComment] error', id, error)
+  }
+}
 
 
 // export async function post(req, res, next) {

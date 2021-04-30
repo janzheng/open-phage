@@ -57,31 +57,13 @@
 
 		<div class="_section-page _margin-center _margin-top-2 _divider-bottom">
 
-			<a href="{lecture.fields['URL']}" rel=preload class="__nolink" >
-				<h6 class="_padding-top-2 _padding-bottom ">{lecture.fields['Name']}</h6>
-			</a>
+			{#if lecture}
+				<a href="{lecture.fields['URL']}" rel=preload class="__nolink" >
+					<h6 class="_padding-top-2 _padding-bottom ">{lecture.fields['Name']}</h6>
+				</a>
+			{/if}
 			
 			<h2 class="_padding-top-half">{ classObj.title[0][0] }</h2>
-
-			{#if classObj && (classObj.fields['Video'] || classObj.fields['Cover Image'])}
-			<div class="Class-video">
-					<div class="list-block-container _flex-col"> 
-						<div class="list-block-container--body "> 
-							<div class="list-block-item-container list-card _card _padding">
-								{#if classObj.fields['Video'] && classObj.fields['Video'][0]}
-									<div class="">
-										<Video classes="Class-video" cover={classObj.fields['Video Cover']} video={classObj.fields['Video'][0]} filesize={classObj.fields['Video Size']} captions={classObj.fields['Video Captions']} slug={classObj.fields['Slug']} />
-									</div>
-								{:else}
-									{#if classObj.fields['Cover Image']}
-										<img alt="lecture cover img" class="list-block-cover--page" src={ classObj.fields['Cover Image'][0] }>
-									{/if}
-								{/if}
-							</div>
-						</div>
-					</div>
-				</div>
-			{/if}
 
 			<!-- <div class={` _padding-top-2  ${filteredClasses.length > 1 ? '_grid-3-1 _grid-gap-large' : ''}`}> -->
 			<div class={` _padding-top-2  `}>
@@ -93,45 +75,40 @@
 							<div class="list-block-container--body "> 
 
 								<div class="list-block-item-container list-card _card _padding">
-									<!-- {#if classObj.fields['Video'] && classObj.fields['Video'][0]}
-										<div class=" _margin-bottom-2">
-											<Video classes="Class-video" cover={classObj.fields['Video Cover']} video={classObj.fields['Video'][0]} filesize={classObj.fields['Video Size']} captions={classObj.fields['Video Captions']} slug={classObj.fields['Slug']} />
-										</div>
-									{:else}
-										{#if classObj.fields['Cover Image']}
-											<img alt="lecture cover img!!!" class="list-block-cover--page" src={ classObj.fields['Cover Image'][0] }>
-										{/if}
-									{/if} -->
 
-									<!-- <p data-field="Name">{ classObj.title[0][0] }</p> -->
+									{#if classObj && (classObj.fields['Video'] || classObj.fields['Cover Image'])}
+										<div class="Class-video">
+											{#if classObj.fields['Video'] && classObj.fields['Video'][0]}
+												<div class="">
+													<Video classes="Class-video" cover={classObj.fields['Video Cover']} video={classObj.fields['Video'][0]} filesize={classObj.fields['Video Size']} captions={classObj.fields['Video Captions']} slug={classObj.fields['Slug']} />
+												</div>
+											{:else}
+												{#if classObj.fields['Cover Image']}
+													<img alt="lecture cover img" class="list-block-cover--page" src={ classObj.fields['Cover Image'][0] }>
+												{/if}
+											{/if}
+										</div>
+									{/if}
 
 									{#if author}
-										<!-- <p data-field="Author">{ classObj.fields['Author'] }</p> -->
-										<TeamCard class="_margin-top _margin-bottom" profile={author} inline={true} />
+										<TeamCard classes="_margin-top _margin-bottom" profile={author} inline={true} />
 									{/if}
 
-									<!-- only use descriptions on lectures index -->
-									<!-- {#if classObj.fields['Description']}
-										<div class="_margin-top-2" data-field="Description">
-											{@html marked(classObj.fields['Description'] || '') }
+									{#if $User}
+										<div class="Class-user ">
+											<UserPanel {classObj} classes="_margin-top-2" />
 										</div>
 									{/if}
-									-->
+									
+
 									{#if classObj.content.markdown && classObj.content.markdown.join('').length > 0}
 										<div class="_margin-top-2">
 											{@html marked(mdLines)}
-											<!-- {@html marked(classObj.content.markdown.join('') || '')} -->
 										</div>
 									{/if}
 
 								</div>
 
-								{#if $User}
-									<div class="Class-user ">
-										<UserPanel {classObj}/>
-									</div>
-								{/if}
-								
 
 
 								<!-- next class -->

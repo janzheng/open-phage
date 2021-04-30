@@ -16,15 +16,6 @@
           {@html marked(content)}
         </div>
         <div class="">
-          <div class=" _grid-2-xs">
-            <div>
-              <p><a href="#top" on:click={(e)=>{e.preventDefault(); scrollToAnchor('top')}}>Scroll back to top</a></p>
-            </div>
-            <div>
-              <p><a href="/login">Login</a></p>
-              <p><a href="/signup">Sign Up </a></p>
-            </div>
-          </div>
           <div class="_grid-2-xs">
             <div>
               <p><a href="/" on:click={(e)=>{scrollToAnchor('top')}}>Home</a></p>
@@ -37,6 +28,9 @@
               <p><a href="https://github.com/janzheng/open-phage" on:click={(e)=>{scrollToAnchor('top')}}>Github</a></p>
             </div>
             <div>
+              <p><a href="#top" on:click={(e)=>{e.preventDefault(); scrollToAnchor('top')}}>Scroll back to top</a></p>
+              <p><a href="/login">Login</a></p>
+              <p><a href="/signup">Sign Up </a></p>
             </div>
           </div>
         </div>

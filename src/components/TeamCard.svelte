@@ -1,6 +1,5 @@
 
-
-<div class="TeamCard type-{type}">
+<div class="TeamCard type-{type} {classes}">
 
   {#if inline}
     <!-- used as embeds on lecture/class pages -->
@@ -107,7 +106,7 @@
   import Video from './Video.svelte'
   import { filterByStatus } from '@/_utils/app-helpers'
 
-  export let profile, inline=false, simple=false, teachings={}, type
+  export let profile, classes, inline=false, simple=false, teachings={}, type
 
   let teachingsKeys = []
   let teachingLabels = {
