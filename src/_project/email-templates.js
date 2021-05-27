@@ -3,7 +3,7 @@
 import marked from 'marked';
 import Cytosis from 'cytosis';
 
-import { mdReplace } from "./_helpers.js"
+import { mdReplace } from "./helpers.js"
 import { cacheSet, cacheGet } from './cache.js';
 
 

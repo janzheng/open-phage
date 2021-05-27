@@ -2,8 +2,8 @@
 import { prefetch, goto } from '@sapper/app';
 import { get } from 'svelte/store';
 
-import { cachet } from './sapper-helpers';
-import { fetchPost } from './fetch-helpers';
+import { cachet } from '../_utils/sapper-helpers';
+import { fetchPost } from '../_utils/fetch-helpers';
 import { User, Status } from '../stores/stores.js';
 
 

@@ -113,22 +113,25 @@ const buildBase = async (json) => {
 		collections.map(c => {
 			base[c.value] = c.table
 
-			c.table.map(d => {
+			if(c.table) {
+				c.table.map(d => {
 
-				// create a new content type category
-				if(!content[d.fields['Content Types']]) {
-					content[d.fields['Content Types']] = []
-				} 
+					// create a new content type category
+					if(!content[d.fields['Content Types']]) {
+						content[d.fields['Content Types']] = []
+					} 
 
-				if(!Array.isArray(d.fields['Content Types'])) {
-					content[d.fields['Content Types']].push(d)
-				} else if(d.fields['Content Types'].length>0) {
-					d.fields['Content Types'].map(type => {
-						content[type].push(d)
-					})
-				}
+					if(!Array.isArray(d.fields['Content Types'])) {
+						content[d.fields['Content Types']].push(d)
+					} else if(d.fields['Content Types'].length>0) {
+						d.fields['Content Types'].map(type => {
+							content[type].push(d)
+						})
+					}
+				
+				})
+			}
 			
-			})
 		})
 
 		return {

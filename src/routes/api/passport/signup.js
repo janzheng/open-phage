@@ -7,7 +7,7 @@ import passport from 'passport'
 import { _tr, _err, _msg } from '@/_utils/sentry'
 import { sanitizeUserForClient, hashPassword } from '../../../_utils/auth/auth-helpers'
 import { addUser, users, findUserByEmail } from '../../../_utils/auth/auth-users'
-import { getSetting } from "../../../_utils/settings"
+import { getSetting } from "../../../_project/settings"
 import { sendData } from '../../../_utils/sapper-helpers'
 import { addProfileForNewUser } from '../../../_utils/auth/auth-custom'
 
@@ -49,8 +49,9 @@ export async function post(req, res, next) {
 
 		  // do this explicitly to whitelist account info
 		  const _user = await addUser({
-		  	email, password,
-		    'Collections': ['Public'], // add Public collection to all new users
+				email, password,
+				'Authorizations': ['Allow::ShowComments', 'Allow::AddComments']
+		    // 'Collections': ['Public'], // add Public collection to all new users
 		  })
 
 		  return req.login(_user, async (err) => {

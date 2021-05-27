@@ -97,7 +97,7 @@
 	import { _gatrack } from '../_utils/gtag.js';
   import { handleOauth, handleSignup } from '../_utils/auth/sapper-auth-helpers';
   import { getUser } from '../_utils/auth/get-user';
-  import { sluggerate } from '../_utils/_helpers';
+  import { sluggerate } from '../_utils/helpers';
 
   import { onMount, getContext, setContext } from 'svelte';
   import marked from 'marked';

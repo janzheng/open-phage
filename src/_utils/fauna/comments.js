@@ -4,19 +4,20 @@ import faunadb from 'faunadb'
 
 import { findUserById } from '../auth/auth-users'
 
-import { cacheGet, cacheSet, cacheClear } from "../cache"
-import { getSetting } from "../settings"
+// import { cacheGet, cacheSet, cacheClear } from "../cache"
+import { getSetting } from "@/_project/settings"
 
 
 
 export const getComments = async (locId) => {
 
-  // console.log('getComments getSetting???', await getSetting('comments'))
   if(await getSetting('comments') == false)
     return []
 
   try {
 
+    console.log('getting comments for:', locId)
+    
     if(!process.env.FAUNA_COMMENTS_KEY) {
       console.error('[getComments] No access to Fauna')
       return undefined
@@ -56,9 +57,9 @@ export const getComments = async (locId) => {
     let _newComments = comments.data.map(async (val) => {
       // console.log('messages::::', val)
       let _user = await findUserById(val.data._phid)
-      // console.log('----cleaning----', val.data._phid, val.data.comment)
+      // console.log('----cleaning----', val.data._phid, val.data.comment, _user)
 
-      if(!_user['Authorizations'] || !_user['Authorizations'].includes('Allow::ShowComments'))
+      if(!_user || !_user['Authorizations'] || !_user['Authorizations'].includes('Allow::ShowComments'))
         return
 
       newComments.push({
@@ -259,6 +260,30 @@ export const getAllComments = async (size=100, lastItemId) => {
 
 }
 
+
+
+
+export const deleteComment = async (id) => {
+
+  if(!process.env.FAUNA_COMMENTS_MOD_KEY) {
+    console.error('[deleteComment] No access to delete Fauna')
+    return undefined
+  } 
+
+  try {
+    const client = new faunadb.Client({ secret: process.env.FAUNA_COMMENTS_MOD_KEY })
+    console.log('[deleteComment] deleting id:', id)
+
+    let del = await client.query(
+      q.Delete(q.Ref(q.Collection(process.env.FAUNA_COLLECTION), id))
+    )
+    console.log('[deleteComment] delete status:', del)
+
+    return del
+  } catch (error) {
+    console.error('[deleteComment] error', id, error)
+  }
+}
 
 
 // export async function post(req, res, next) {

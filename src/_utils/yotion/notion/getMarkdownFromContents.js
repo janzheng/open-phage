@@ -233,8 +233,11 @@ ${text.map(clip => clip[0]).join("&nbsp;&nbsp;>>")}
       // markdown.push(`<hr>`)
       markdown.push(`---`)
     } else if(["image"].includes(type)) {
+      let url = getAssetUrl(block.format.display_source, block.id)
+      // console.log('[image]',block, block.properties.source[0], url)
       // markdown.push(`<img src="https://www.notion.so/image/${encodeURIComponent(block.format.display_source)}">`)
-      markdown.push(`![Generated image](https://www.notion.so/image/${encodeURIComponent(block.format.display_source)})`)
+      // markdown.push(`![Generated image](https://www.notion.so/image/${encodeURIComponent(block.format.display_source)})`)
+      markdown.push(`![Generated image](${url})`)
     } else if(["equation"].includes(type)) {
       if(!block.properties) {
         // Equation block is empty

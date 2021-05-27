@@ -102,7 +102,7 @@
   import { goto, stores } from '@sapper/app';
   import { onMount, getContext } from 'svelte';
 	import { User } from '../stores/stores.js';
-	import { getSettingClient } from "../_utils/settings"
+	import { getSettingClient } from "../_project/settings"
 
   import { getProfile } from '../_utils/auth/get-profile';
   import { fetchPost } from '../_utils/fetch-helpers';
@@ -213,34 +213,6 @@
 
 
 <style type="text/scss">
-
-	.ProfileImage {
-		object-fit: cover;
-		border-radius: 100%;
-		width: 48px;
-		height: 48px;
-		vertical-align: middle;
-		margin-right: 16px;
-	}
-
-
-
-	.FaveThumb-profile {
-		// margin-top: 0.5rem;
-
-		a {
-			text-decoration: none;
-		}
-	}
-
-	.FaveThumb-profile-img {
-		object-fit: cover;
-		border-radius: 100%;
-		width: 48px;
-		height: 48px;
-		vertical-align: middle;
-		margin-right: 1rem;
-	}
 
 
 </style>

@@ -6,7 +6,7 @@
 
 
 import { mailto } from "../_utils/mailer.js"
-import { getTemplate } from "../_utils/_email-templates.js"
+import { getTemplate } from "../_utils/project/email-templates.js"
 
 
 // might be necessary if multiple data sources need same dict

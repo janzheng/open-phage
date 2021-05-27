@@ -84,8 +84,8 @@
 	import marked from 'marked'
 
   import { getProfile } from '../_utils/auth/get-profile';
-  import { timeDifferenceForDate } from '../_utils/_helpers';
-  import { isFavorite, handleAddFavorite, handleRemoveFavorite } from '../_utils/app-helpers';
+  import { timeDifferenceForDate } from '../_utils/helpers';
+  import { isFavorite, handleAddFavorite, handleRemoveFavorite } from '@/_project/app-helpers';
 
 	export let fave, baseId, showDescription=false, collection=false, profile, commentCount
 	let showBookmarked=false, isLoading = false
@@ -212,7 +212,7 @@
 		text-decoration: none;
 		color: #333;
 		&:hover, &:focus {
-			color: #0163e4;
+			color: #4570a0;
 		}
 	}
 

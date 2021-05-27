@@ -13,6 +13,36 @@
 
   {#if user}
 
+    <div class="_margin-bottom-2">
+      <form on:submit|preventDefault={async ()=>{
+        isLoading = true
+        await handleSaveProfile()
+        isLoading = false
+      }}>
+
+        {#if !isLoading}
+          <button class="_button __action _margin-bottom-none-i" type="submit">Save Changes</button>
+        {:else}
+          <button class="_button __action _margin-bottom-none-i" type="submit">Saving Changes...</button>
+        {/if}
+
+        {#if onChanged}
+          <span class="">You've made changes! Don't forget to save!</span>
+        {/if}
+        {#if onSaved}
+          <span class="">Changes saved!</span>
+        {/if}
+      </form>
+
+      {#if _res && _res.status == false}
+        <div class="_margin-top">
+          <p class="_message __error">{_res.message}</p>
+        </div>
+      {/if}
+      
+    </div>
+
+    
 	  <form id="profileForm">
 
 	    <!-- <label htmlFor="Title">Title
@@ -47,6 +77,8 @@
 	      Your slug is currently set as: { Slug }  
 	    </div> -->
 
+
+      
 	    <div class="_grid-2 _grid-gap-large _margin-bottom-2">
 	      <label class="_width-full" htmlFor="Files">Upload new profile image
 	        <input
@@ -188,7 +220,6 @@
         {/if}
       </form>
 
-
       {#if _res && _res.status == false}
         <div class="_margin-top">
           <p class="_message __error">{_res.message}</p>
@@ -210,18 +241,19 @@
   import { goto, stores } from '@sapper/app';
   import { setContext, getContext, onMount, tick } from 'svelte';
 
-  import { sluggerate } from '../_utils/_helpers';
+  import { sluggerate, zzz } from '../_utils/helpers';
   import { logger, logerror } from '../_utils/logger';
   import { getUser } from '../_utils/auth/get-user';
   import { fetchPost, fetchPostForm } from '../_utils/fetch-helpers';
   import { handleLogout } from '../_utils/auth/sapper-auth-helpers';
-  // import { handleSaveProfile } from '../_utils/app-helpers';
+  // import { handleSaveProfile } from '@/_project/app-helpers';
   import { socialParse } from '../_utils/social-parse.js'
   import ProfileRender from '../components/ProfileRender.svelte';
 
 
   import SocialBox from '../components/SocialBox.svelte'
 
+  export let isEditing
   let isLoading = false, error, token = '', user, files, avatarUrl
   let onChanged = false, onSaved = false, _res
 
@@ -368,6 +400,9 @@
         user['Profile'] = _res.data
         $User = user
         onSaved = true
+
+        isEditing = false // closes this popup
+        zzz(location.reload(),undefined,3000)
       }
 
     } catch (err) {

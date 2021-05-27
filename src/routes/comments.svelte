@@ -8,8 +8,11 @@
   <div class="_section-article _margin-center">
     <div class="_margin-top-2">
 
-      <CommentStream classes="Discussion _padding _card _margin-top-2 _flex-1" loadAll={true} />
-
+      {#if user && user.status !== false && user['Authorizations'] && user['Authorizations'].includes('Allow::Moderation')}
+        <CommentMod classes="Discussion _padding _card _margin-top-2 _flex-1" loadAll={true} />
+      {:else}
+        Please log in to view the comment stream
+      {/if}
     </div>
   </div>
 
@@ -27,25 +30,24 @@
   import { logger, logerror } from '../_utils/logger';
   import { getUser } from '../_utils/auth/get-user';
 
-	import CommentStream from '../components/CommentStream.svelte'
+	import CommentMod from '../components/CommentMod.svelte'
   import ProfileCourseBookmarks from '../components/ProfileCourseBookmarks.svelte';
 
   import { User } from '../stores/stores.js';
 
 
   // for Profile preview
-  let isEditing = false
+  let isEditing = false, user
   setContext('User', User)
 
-  // onMount(async () => {
-  // 	let user = await getUser()
+  onMount(async () => {
+  	user = await getUser()
 
+  	// if(!user || user.status == false)
+    //   handleLogout()
 
-  // 	if(!user || user.status == false)
-  //     handleLogout()
-
-  //   User.set(user)
-  // })
+    User.set(user)
+  })
 
 </script>
 

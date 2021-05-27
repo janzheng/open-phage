@@ -41,6 +41,28 @@
 	}
 
 
+  #hero-img {
+    // border-radius: 0.24rem;
+    // skew
+    position: relative;
+    -webkit-clip-path: polygon(0 4%, 95% 0, 99% 100%, 4% 93%);
+    clip-path: polygon(0 6%, 97% 0, 100% 100%, 0% 94%);
+
+		@include screen-xs {
+			-webkit-clip-path: polygon(3% 0%, 97% 0, 100% 100%, 0% 100%);
+			clip-path: polygon(3% 0%, 97% 0, 100% 100%, 0% 100%);
+			width: 82%;
+			max-height: 320px;
+			object-fit: cover;
+			object-position: top;
+		}
+  }
+  #hero-img-container {
+    text-align: center;
+    filter: drop-shadow(7px 10px 12px #aaaaaa);
+	}
+	
+
 .Form-body {
 	// awful override :)
 	padding: 0;
@@ -235,7 +257,7 @@ input.__quiet, button.__quiet, a.__quiet {
 	.list-block-cover--page {
 		max-width: 100%;
 		width: 100%;
-		max-height: 400px;
+		max-height: 520px;
 		object-fit: cover;
 		margin-bottom: 2rem;
 	}
@@ -282,9 +304,10 @@ input.__quiet, button.__quiet, a.__quiet {
 
 
 [data-field="Name"] {
-  font-size: 1.16rem;
-  line-height: 1.65rem;
-  margin-bottom: 0.45rem;
+  // font-size: 1.16rem;
+  // line-height: 1.65rem;
+	// margin-bottom: 0.45rem;
+	padding-top: 0;
 }
 
 [data-field="Author"] {
@@ -373,15 +396,21 @@ input.__cta, button.__cta, a.__cta {
  */
 
 
-	.Class-sidebar {
-    min-width: 270px;
-		line-height: 24px;
-
-    a { &, p {
-  		font-size: 17px;
-			line-height: 24px;
-    }}
+ .Class {
+	img {
+		max-width: 100%;
 	}
+ }
+ 
+.Class-sidebar {
+	min-width: 270px;
+	line-height: 24px;
+
+	a { &, p {
+		font-size: 17px;
+		line-height: 24px;
+	}}
+}
 
 
 
@@ -477,18 +506,28 @@ video {
 		width: 100%;
 	}
 
-.Breadcrumbs {
-	background-color: usetheme(brand-lightest);
-	a {
-		text-decoration: none !important;
-	}
-	span {
-		padding-left: 0.5rem;
-		padding-right: 0.5rem;
-    position: relative;
-    bottom: 1px;
-	}
-}
+	
+  .Breadcrumbs {
+    background-color: usetheme(brand-lightest);
+    a {
+      text-decoration: none !important;
+    }
+    span {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      position: relative;
+      bottom: 1px;
+    }
+
+    .__active {
+      font-weight: bold;
+    }
+
+    .bullet {
+      width: 1rem;
+      vertical-align: middle;
+    }
+  }
 
 
 
@@ -508,7 +547,18 @@ video {
       max-width: 150px;
       border-radius: 100%;
     }
-  }
+	}
+	
+	&.type-small {
+		display: inline-block; 
+		.profile-img {
+			max-width: 32px !important;
+		}
+		font-size: $size-small;
+		.TeamCard-descriptor-job {
+			display: none;
+		}
+	}
 }
 
 .TeamCard-link {
@@ -522,8 +572,13 @@ video {
 	}
 
 
+	img {
+		max-width: 100%;
+	}
 
-	text-decoration: none;
+	&, * {
+		text-decoration: none;
+	}
 
 	&, &:visited {
   	color: usetheme(brand-copy) !important;
@@ -537,3 +592,56 @@ video {
   }
 }
 
+
+
+._grid-blowout {
+	min-width: 0
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// comments
+
+
+	.ProfileImage {
+		object-fit: cover;
+		border-radius: 100%;
+		width: 48px;
+		height: 48px;
+		vertical-align: middle;
+		margin-right: 16px;
+	}
+
+
+
+	.FaveThumb-profile {
+		// margin-top: 0.5rem;
+
+		a {
+			text-decoration: none;
+		}
+	}
+
+	.FaveThumb-profile-img {
+		object-fit: cover;
+		border-radius: 100%;
+		width: 48px;
+		height: 48px;
+		vertical-align: middle;
+		margin-right: 1rem;
+	}

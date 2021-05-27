@@ -1,22 +1,22 @@
-                                
+                                         
           
-              
-          
+                       
+           
 @import '../../node_modules/coeur/styles/_head-reset.scss';   
   
-          
+           
 @import 'settings.scss';  
-@import 'design.scss';
-@import 'layout'; // typography, basic design & whitespace
-
- 
+@import 'design.scss'; 
+@import 'layout'; //   typography, basic design & whitespace  
+  
+  
 // @import '../../node_modules/coeur/styles/head-typography';
   
 @import 'profile'; 
-@import 'project';  
+@import 'project';     
   
          
-// modular      
+// modular         
 // @import 'components';   
 // @import 'sections';
 // @import 'templates'; 
@@ -26,7 +26,7 @@
 	// padding-bottom: 140px; // $size-9;
   position: relative;
   z-index: 10; 
-  overflow: hidden;
+  overflow: hidden; 
 }
   
    
@@ -152,7 +152,7 @@ textarea  {
   }
   .dec {
     animation: decrease 5s 0.5s infinite;
-  }
+  } 
   
   @keyframes increase {
    from { left: -5%; width: 5%; }
@@ -164,7 +164,7 @@ textarea  {
   }
 }
 
-
+ 
 
 
 
@@ -173,4 +173,19 @@ button, ._button {
   &._font-large {
     @extend ._font-large;
   }
+}
+ 
+ 
+
+
+.Home-body-copy {
+  padding: $size/2;
+  p {
+    display: list-item;
+    list-style-type: none;
+    list-style-image: url('/pgh_bullet_tiny.png');
+    list-style-position: outside;
+  }
+
+
 }

@@ -28,10 +28,10 @@
           </div>
 
           <div class="Profile-edit-toggle">
-            <button class="__button __action _margin-bottom-none-i" on:click={()=>{isEditing=!isEditing}}>Edit Your Profile</button>
+            <button class="__button __action _width-full _margin-bottom-none-i" on:click={()=>{isEditing=!isEditing}}>Edit Your Profile</button>
           </div>
           {#if isEditing}
-            <ProfileEdit class="" />
+            <ProfileEdit bind:isEditing={isEditing} class="" />
           {/if}
         </div>
 

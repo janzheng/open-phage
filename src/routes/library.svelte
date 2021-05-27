@@ -115,7 +115,7 @@
 	import Cytosis from 'cytosis';
   import marked from 'marked';
   import { onMount, getContext, setContext } from 'svelte';
-  import { filterByStatus } from '@/_utils/app-helpers'
+  import { filterByStatus } from '@/_project/app-helpers'
 
 
   import ProtocolCard from '../components/ProtocolCard.svelte'

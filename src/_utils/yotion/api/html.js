@@ -129,6 +129,7 @@ module.exports = async (req, res) => {
     } else if(["divider"].includes(type)) {
       html.push(`<hr>`)
     } else if(["image"].includes(type)) {
+      // console.log('[image]',block.format)
       html.push(`<img src="https://www.notion.so/image/${encodeURIComponent(block.format.display_source)}">`)
     } else if(["equation"].includes(type)) {
       if(!block.properties) {

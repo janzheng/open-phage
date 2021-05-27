@@ -11,15 +11,15 @@ export async function get(req, res, next) {
 	try {
 		let _sentry = _tr('[comments/all]', 'get all comments')
 
-		const _cacheStr = `all-comments`
-		const _cacheObj = cacheGet(_cacheStr, false)
-		if (_cacheObj) {
-			_sentry.finish()
-			return sendData(_cacheObj, res)
-		}
+		// const _cacheStr = `all-comments`
+		// const _cacheObj = cacheGet(_cacheStr, false)
+		// if (_cacheObj) {
+		// 	_sentry.finish()
+		// 	return sendData(_cacheObj, res)
+		// }
 
 		const comments = await getAllComments()
-		cacheSet(_cacheStr, comments, 500, false) // short cache to save fauna pings, long enough to be useful for server
+		// cacheSet(_cacheStr, comments, 500, false) // short cache to save fauna pings, long enough to be useful for server
 	
 		_sentry.finish()
 		sendData(comments, res)

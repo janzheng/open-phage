@@ -51,7 +51,7 @@ export const getId = async (id) => {
 		// cacheSet(_cacheStr, json)
 	  return json
 	} catch(e) {
-		console.error('[getBase] error:', e)
+		console.error('[getId] error:', e)
 	}
 }
 
@@ -116,7 +116,7 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 			})
 
 			let contentName = lectureObj.fields['Content ID']
-			let items = []
+			let items = [], authors = []
 
 
 			// then get the lecture contents "Content ID" from 
@@ -142,9 +142,12 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 				}
 			})
 
+			authors = getBase({collection: 'Personnel'})
+
 			return {
 				lecture: lectureObj,
 				classes: items,
+				authors,
 			}
 		}
 
@@ -193,6 +196,13 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 				}
 			})
 
+			collection = getBase({collection: 'Lab Videos'})
+			collection.map(item => {
+				if(item.fields['Content ID'] == contentName) {
+					items.push(item)
+				}
+			})
+
 			// return the first author result
 			// each class only has one author (for now)
 			if(classObj.fields['Author']) {
@@ -206,11 +216,15 @@ export const getBase = ({collection, content, getField, getLecture, getClass}) =
 				})
 			}
 
+			let authors = getBase({collection: 'Personnel'})
+
+			
 			return {
 				lecture,
 				class: classObj,
 				classes: items,
-				author
+				author,
+				authors
 			}
 		}
 

@@ -25,7 +25,7 @@
   <div class="_section-page _padding-top-2 _margin-center ">
     <div class="_section-article _margin-center _divider-top _divider-bottom">
 
-      <h1>Team Members</h1>
+      <h1 class="_divider-bottom">Instructor Introductions</h1>
 
     	{#each filterData as profile}
     		<TeamCard {profile} teachings={authorTeachings[profile.fields['Slug']]} />
@@ -45,7 +45,7 @@
   import { onMount, getContext, setContext } from 'svelte'
   import TeamCard from '../components/TeamCard.svelte'
   import { Status } from '../stores/stores.js'
-  import { filterByStatus } from '@/_utils/app-helpers'
+  import { filterByStatus } from '@/_project/app-helpers'
 
   // Content passed down from layout
   const Content$ = getContext('Content')

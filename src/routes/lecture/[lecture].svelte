@@ -25,9 +25,9 @@
     	let _cl = await this.fetch(`/api/notion?getClass=${_class.fields['Slug']}`).then(r => r.json())
     	lecture.classes[i]['classObj'] = _cl
     })
-    await Promise.all(_lectures)
+		await Promise.all(_lectures)
 
-		return { lecture: lecture.lecture, classes: lecture.classes, slug: params.lecture, firstClassObj};
+		return { authors: lecture.authors, lecture: lecture.lecture, classes: lecture.classes, slug: params.lecture, firstClassObj};
 	}
 </script>
 
@@ -43,7 +43,7 @@
 
   <Breadcrumbs links={[
     {href:'/', name:'Home'},
-    {href:'/lectures', name:'Lectures'},
+    // {href:'/lectures', name:'Contents'},
     {href:`/lecture/${slug}`, name: lecture.title[0][0] || slug},
     ]} 
   />
@@ -58,12 +58,12 @@
 			{#if lecture}
 
 				{#if classes.length > 1}
-					<h6 class="_padding-bottom-none-i __normal">Lecture Series</h6>
+					<!-- <h6 class="_padding-bottom-none-i __normal">Contents</h6> -->
 				{/if}
 
 				<h2 class="_padding-bottom-2">{ lecture.title[0][0] }</h2>
 				<div class="list-block-container"> 
-					<div class="list-block-item-container list-card __main _card _padding">
+					<div class="list-block-item-container list-card __main">
 
 
 						<!-- single-class lecture — just add the class in here -->
@@ -144,40 +144,34 @@
 							{#if lecture.fields['Cover Image']}
 								<img alt="lecture cover img!!!" class="list-block-cover--page" src={ lecture.fields['Cover Image'][0] }>
 							{/if}
-							<!-- <p data-field="Name">{ lecture.title[0][0] }</p> -->
-
-							<!--{#if lecture.fields['Author']}
-								<p data-field="Author">{ lecture.fields['Author'] }</p>
-								<div class="_margin-top _margin-bottom-2" >
-									<!~~ <TeamCard profile={lecture.classObj['author']} inline={true} /> ~~>
-								</div>
-							{/if}-->
-
 
 							{#if lecture.fields['Description']}
 								<p class="_margin-top-2 _margin-bottom-2" data-field="Description">
 								{@html marked(lecture.fields['Description'] || '') }</p>
 							{/if}
 
-							{#if lecture.content.markdown}
+							{#if lecture.content.markdown && lecture.content.markdown.join('')}
 								<div class="_divider-top _divider-bottom">
 									{@html marked(lecture.content.markdown.join('') || '')}
 								</div>
 							{/if}
 
 							{#if $User}
-								<!-- users can bookmark an entire lecture series -->
 								<div class="Class-user _margin-top-2 _margin-bottom-2">
 									<UserPanel classObj={lecture}/>
 								</div>
 							{/if}
 
+
+							{#if classes.length == 1}
+								<div class="Discussion _padding _card _margin-top-2">
+									<CommentBox locationId={slug} />
+								</div>
+							{/if}
+
 							<div class="Lecture-classes">
-
-								<h6 class="__normal">Lecture Series</h6>
-
-								{#each filteredClasses as item}
-									<!-- <div class="Lecture-link-card _card _padding _margin-bottom-2"> -->
+								<LectureSummary lecture={lecture} series={filteredClasses} authors={authors} classes='' hideSummary={true} />
+								<!-- {#each filteredClasses as item}
 									<a rel=prefetch class="Lecture-link" href={`/class/${item.fields['Slug']}`}>
 										<div class="Lecture-link-card _card _padding _margin-bottom">
 											{#if item.fields['Cover Image']}
@@ -185,7 +179,6 @@
 											{/if}
 											<strong class="Lecture-classes-title">{@html marked(item.title[0][0]) }</strong>
 											{#if item.fields['Author']}
-												<!-- <p data-field="Author">{ item.fields['Author'] }</p> -->
 												<div class="_margin-top _margin-bottom" >
 													<TeamCard profile={item.classObj['author']} simple={true} />
 												</div>
@@ -199,17 +192,12 @@
 											{/if}
 										</div>
 									</a>
-								{/each}
+								{/each} -->
 							</div>
 						{/if}
 
 					</div>
 
-					{#if classes.length == 1}
-						<div class="Discussion _padding _card _margin-top-2">
-							<CommentBox locationId={slug} />
-						</div>
-					{/if}
 				</div>
 
 			{/if}
@@ -224,7 +212,7 @@
   import marked from 'marked'
 	import entities from 'entities'
 
-  import { filterByStatus } from '@/_utils/app-helpers'
+  import { filterByStatus } from '@/_project/app-helpers'
 
 	import { User } from '../../stores/stores.js';
   import UserSliver from '../../components/UserSliver.svelte'
@@ -234,12 +222,15 @@
   import Breadcrumbs from '../../components/Breadcrumbs.svelte'
   import TeamCard from '../../components/TeamCard.svelte'
 
-	export let lecture, classes, slug, firstClassObj
+	import LectureSummary from '../../components/LectureSummary.svelte'
+	
+	export let lecture, classes, slug, firstClassObj, authors
 	let filteredClasses
 
 	// $: console.log('[lecture]', firstClassObj, lecture, classes)
 
 	$: {
+		// console.log('lecture:', lecture, classes, authors)
     filteredClasses = filterByStatus(classes)
 	}
 

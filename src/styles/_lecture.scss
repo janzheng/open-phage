@@ -68,14 +68,29 @@
 
 /*  Lecture Card  */
 
+.LectureCard {
+	img {
+		max-width: 100%;
+	}
+}
+
+	.LectureCard-series {
+		.LectureInline {
+			margin-bottom: $size-2;
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
 	.LectureCard-series-container {
 		h6 {
-			font-weight: normal !important;
+			font-weight: bold !important;
 		}
-		.LectureCard-series * {
-			font-size: 0.9rem;
-			line-height: 1.3rem;
-		}
+		// .LectureCard-series * {
+		// 	font-size: 0.9rem;
+		// 	line-height: 1.3rem;
+		// }
 		p {
 			margin-bottom: 0.75rem;
 		}

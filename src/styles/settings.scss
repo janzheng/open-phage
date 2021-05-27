@@ -44,10 +44,13 @@ $height-input: 48px; //inherit; // coeur sets a height limit on inputs, but we d
 
 $sizes: (
   size-diff: 0,
-  size: 17px,
-  lineheight: 30px,
+  size: 19px,
+  lineheight: 34px,
 
-  font-large: 19px,
+  font-large: 21px,
+
+  font-small: 17px,
+  line-height-small: 21px,
 
   size-mobile: 19px,
   size-mobile-input: 24px,
@@ -60,8 +63,8 @@ $sizes: (
   size-copy: 16px,
   size-copy-lh: 24px,
 
-  copy-large: 18px,
-  copy-large-lh: 28px,
+  copy-large: 21px,
+  copy-large-lh: 36px,
 
   opacity-expired: 0.5,
 
@@ -140,11 +143,11 @@ $colors: (
 $colors-brand: (
   brand: #71EFF5, // dark blue
   brand-copy: rgba(0,0,0,.87),
-  brand-active: #0163e4,
-  brand-lightest: lighten(#0163e4, 51%),
-  brand-lighter: lighten(#0163e4, 39%),
-  brand-light: lighten(#0163e4, 10%),
-  brand-dark: darken(#0163e4, 12%),
+  brand-active: #4570a0,
+  brand-lightest: lighten(#4570a0, 51%),
+  brand-lighter: lighten(#4570a0, 39%),
+  brand-light: lighten(#4570a0, 10%),
+  brand-dark: darken(#4570a0, 12%),
   brand-alt: #0722ab, // dark red doesn't look good: #ab0a0a,
   brand-focus: #00D7D9,
   background-light: #E7FBFF,
@@ -154,7 +157,9 @@ $colors-brand: (
   brand-footer: #f3f3f3,
   brand-red: #b90236,
   brand-soft: #c9e0ff,
-  brand-orange: #F53232
+  brand-orange: #F53232,
+  brand-titles: #4D96E9, // doesn't perform well as small text 
+  brand-gray: #4570A0, // darker  
 );
 
 @include addtheme($colors-brand);
@@ -278,7 +283,7 @@ $button-color-disabled-text: usetheme(gray-light, $colors_);
 // }
 
 
-$font-sans: "Public Sans", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Encode Sans", "Open Sans", "Oxygen-Sans", Helvetica, arial, sans-serif;;
+$font-sans: "Helvetica", "Inter", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Encode Sans", "Open Sans", "Oxygen-Sans", Helvetica, arial, sans-serif;;
 %font-mono,
 ._font-mono {
   font-family: Courier, Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', monospace;

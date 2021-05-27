@@ -40,10 +40,7 @@
 					<div class="_card _padding">
 						Be the first to leave a comment below!
 					</div>
-				{:else}
-					<div class="_card _padding">
-						Be the first to leave a comment! <a href="/login">Log in</a> or <a href="/signup">sign up</a> to leave a comment!
-					</div>
+				<!-- {:else} -->
 				{/if}
 			{/if}
 		</div>
@@ -80,9 +77,15 @@
 			</form>
 
 		{:else}
-			<div class="_card __flat _padding">
-				<a href="/login">Log in</a> to leave a comment
-			</div>
+			{#if comments && comments.data.length == 0}
+					<div class="_card __flat _padding">
+						Be the first to leave a comment! <a href="/login">Log in</a> or <a href="/signup">sign up</a> to leave a comment!
+					</div>
+			{:else}
+				<div class="_card __flat _padding">
+					<a href="/login">Log in</a> or <a href="/signup">sign up</a> to leave a comment!
+				</div>
+			{/if}
 		{/if}
 
 	</div>
@@ -110,7 +113,7 @@
   import { goto, stores } from '@sapper/app';
   import { onMount, getContext } from 'svelte';
 	import { User } from '../stores/stores.js';
-	import { getSettingClient } from "../_utils/settings"
+	import { getSettingClient } from "../_project/settings"
 
   import { getProfile } from '../_utils/auth/get-profile';
   import { fetchPost } from '../_utils/fetch-helpers';
