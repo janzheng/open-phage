@@ -203,7 +203,7 @@
 	export let lecture, classes, classObj, data, path, author, slug, authors
 	let filteredClasses, mdLines=''
 	
-	import { filterByStatus } from '@/_utils/app-helpers'
+	import { filterByStatus } from '@/_project/app-helpers'
 
 	marked.setOptions({
 		gfm: false,

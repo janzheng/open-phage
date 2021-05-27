@@ -60,7 +60,7 @@
 
   import marked from 'marked';
   import UserSliver from './UserSliver.svelte'
-  import { filterByStatus } from '@/_utils/app-helpers'
+  import { filterByStatus } from '@/_project/app-helpers'
 
 	export let lecture, showSeries, isHero
 	let filteredSeries

@@ -212,7 +212,7 @@
   import marked from 'marked'
 	import entities from 'entities'
 
-  import { filterByStatus } from '@/_utils/app-helpers'
+  import { filterByStatus } from '@/_project/app-helpers'
 
 	import { User } from '../../stores/stores.js';
   import UserSliver from '../../components/UserSliver.svelte'

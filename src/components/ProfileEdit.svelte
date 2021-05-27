@@ -241,12 +241,12 @@
   import { goto, stores } from '@sapper/app';
   import { setContext, getContext, onMount, tick } from 'svelte';
 
-  import { sluggerate, zzz } from '../_utils/_helpers';
+  import { sluggerate, zzz } from '../_utils/helpers';
   import { logger, logerror } from '../_utils/logger';
   import { getUser } from '../_utils/auth/get-user';
   import { fetchPost, fetchPostForm } from '../_utils/fetch-helpers';
   import { handleLogout } from '../_utils/auth/sapper-auth-helpers';
-  // import { handleSaveProfile } from '../_utils/app-helpers';
+  // import { handleSaveProfile } from '@/_project/app-helpers';
   import { socialParse } from '../_utils/social-parse.js'
   import ProfileRender from '../components/ProfileRender.svelte';
 

@@ -45,7 +45,7 @@
   import { onMount, getContext, setContext } from 'svelte'
   import TeamCard from '../components/TeamCard.svelte'
   import { Status } from '../stores/stores.js'
-  import { filterByStatus } from '@/_utils/app-helpers'
+  import { filterByStatus } from '@/_project/app-helpers'
 
   // Content passed down from layout
   const Content$ = getContext('Content')

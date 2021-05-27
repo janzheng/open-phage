@@ -37,7 +37,7 @@
   import { getContext, onMount } from 'svelte'
   // import Masonry from 'svelte-masonry/Masonry.svelte'
 
-  import { filterByStatus } from '../_utils/app-helpers'
+  import { filterByStatus } from '@/_project/app-helpers'
   import { cachet } from '../_utils/sapper-helpers';
   import FaveThumb from './FaveThumb.svelte'
   import { User } from '../stores/stores.js';

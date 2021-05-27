@@ -13,7 +13,7 @@
 
 <script>
 	import { User } from '../stores/stores.js';
-  import {isBookmark, handleAddLectureBookmark, handleRemoveLectureBookmark} from '../_utils/app-helpers'
+  import {isBookmark, handleAddLectureBookmark, handleRemoveLectureBookmark} from '@/_project/app-helpers'
 
   export let classObj, classes
   let isBkmk

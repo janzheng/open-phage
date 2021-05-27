@@ -9,7 +9,7 @@
 
 import { get } from 'svelte/store';
 import Cytosis from 'cytosis'
-import { getCytosis } from "./get-cytosis"
+import { getCytosis } from "../_utils/get-cytosis"
 
 let cytosis
 try {

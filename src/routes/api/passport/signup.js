@@ -7,7 +7,7 @@ import passport from 'passport'
 import { _tr, _err, _msg } from '@/_utils/sentry'
 import { sanitizeUserForClient, hashPassword } from '../../../_utils/auth/auth-helpers'
 import { addUser, users, findUserByEmail } from '../../../_utils/auth/auth-users'
-import { getSetting } from "../../../_utils/settings"
+import { getSetting } from "../../../_project/settings"
 import { sendData } from '../../../_utils/sapper-helpers'
 import { addProfileForNewUser } from '../../../_utils/auth/auth-custom'
 

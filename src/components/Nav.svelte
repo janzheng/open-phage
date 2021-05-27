@@ -68,7 +68,7 @@
 	import Cytosis from 'cytosis'
 	import marked from 'marked'
 
-	import { getSettingClient } from "../_utils/settings"
+	import { getSettingClient } from "../_project/settings"
 	import { handleLogout } from '../_utils/auth/sapper-auth-helpers';
 
 	export let segment

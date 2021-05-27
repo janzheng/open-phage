@@ -102,7 +102,7 @@
   import { goto, stores } from '@sapper/app';
   import { onMount, getContext } from 'svelte';
 	import { User } from '../stores/stores.js';
-	import { getSettingClient } from "../_utils/settings"
+	import { getSettingClient } from "../_project/settings"
 
   import { getProfile } from '../_utils/auth/get-profile';
   import { fetchPost } from '../_utils/fetch-helpers';

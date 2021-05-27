@@ -135,7 +135,7 @@
   // import { swr } from '@/swr.js';
   import { onMount, getContext, setContext } from 'svelte';
 
-  import { filterByStatus } from '@/_utils/app-helpers'
+  import { filterByStatus } from '@/_project/app-helpers'
   import LectureSummary from '../components/LectureSummary.svelte'
 
   import CapsidSignup from '../components/CapsidSignup.svelte'

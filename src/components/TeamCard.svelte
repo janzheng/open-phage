@@ -104,7 +104,7 @@
   import { onMount, getContext, setContext } from 'svelte';
 
   import Video from './Video.svelte'
-  import { filterByStatus } from '@/_utils/app-helpers'
+  import { filterByStatus } from '@/_project/app-helpers'
 
   export let profile, classes, inline=false, simple=false, teachings={}, type
 

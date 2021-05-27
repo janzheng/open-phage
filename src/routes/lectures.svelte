@@ -99,7 +99,7 @@
   import LinkCard from '../components/LinkCard.svelte'
   import Breadcrumbs from '../components/Breadcrumbs.svelte'
 
-  import { filterByStatus } from '@/_utils/app-helpers'
+  import { filterByStatus } from '@/_project/app-helpers'
   import LectureSummary from '../components/LectureSummary.svelte'
 
 

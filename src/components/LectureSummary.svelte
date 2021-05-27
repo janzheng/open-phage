@@ -54,7 +54,7 @@
   import marked from 'marked';
 	import UserSliver from './UserSliver.svelte'
 	import LectureInline from './LectureInline.svelte'
-  import { filterByStatus } from '@/_utils/app-helpers'
+  import { filterByStatus } from '@/_project/app-helpers'
 
 	export let lecture, isHero, authors, series, hideSummary
 	export let classes = '_card _padding _padding-top-2-i _padding-bottom-2-i'

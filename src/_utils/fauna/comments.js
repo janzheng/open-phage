@@ -5,13 +5,12 @@ import faunadb from 'faunadb'
 import { findUserById } from '../auth/auth-users'
 
 // import { cacheGet, cacheSet, cacheClear } from "../cache"
-import { getSetting } from "../settings"
+import { getSetting } from "@/_project/settings"
 
 
 
 export const getComments = async (locId) => {
 
-  // console.log('getComments getSetting???', await getSetting('comments'))
   if(await getSetting('comments') == false)
     return []
 
