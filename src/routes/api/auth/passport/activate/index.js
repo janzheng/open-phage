@@ -11,13 +11,13 @@
 // import redirect from '@polka/redirect'
 
 import { _tr, _err, _msg } from '@/_utils/sentry'
-import { sanitizeUserForClient, hashPassword, getToken, getShortToken } from '../../../../_utils/auth/auth-helpers'
-import { notify } from '../../../../_utils/mailer.js'
-import { addUser, findUserByToken, findUserByEmail } from '../../../../_utils/auth/auth-users'
-import { sendData } from '../../../../_utils/sapper-helpers'
-import { notifyActivate } from '../../../../_utils/auth/auth-templates'
+import { sanitizeUserForClient, hashPassword, getToken, getShortToken } from '@/_utils/auth/auth-helpers'
+import { notify } from '@/_utils/mailer.js'
+import { addUser, findUserByToken, findUserByEmail } from '@/_utils/auth/auth-users'
+import { sendData } from '@/_utils/sapper-helpers'
+import { notifyActivate } from '@/_utils/auth/auth-templates'
 import { getProfileById } from '../../profile/index'
-import { addProfileForNewUser } from '../../../../_utils/auth/auth-custom'
+import { addProfileForNewUser } from '@/_utils/auth/auth-custom'
 
 
 // this logs a user in and deletes the token

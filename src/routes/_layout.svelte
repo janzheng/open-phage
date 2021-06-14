@@ -19,7 +19,7 @@
 
 	import Nav from '../components/Nav.svelte';
 	import Footer from '../components/Footer.svelte';
-	import { head, site_url } from '../_utils/_head.js';
+	import { head, site_url } from '../_project/head.js';
 	import * as Stores from '../stores/stores.js';
 
 	export let gaOn, gaId, gaDebug

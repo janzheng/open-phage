@@ -3,10 +3,10 @@
 // magic login link
 
 import { _tr, _err, _msg } from '@/_utils/sentry'
-import { sanitizeUserForClient, hashPassword, getToken, getShortToken } from '../../../../_utils/auth/auth-helpers'
-import { findUserByToken, findUserByEmail } from '../../../../_utils/auth/auth-users'
-import { notifyMagic } from '../../../../_utils/auth/auth-templates'
-import { sendData } from '../../../../_utils/sapper-helpers'
+import { sanitizeUserForClient, hashPassword, getToken, getShortToken } from '@/_utils/auth/auth-helpers'
+import { findUserByToken, findUserByEmail } from '@/_utils/auth/auth-users'
+import { notifyMagic } from '@/_utils/auth/auth-templates'
+import { sendData } from '@/_utils/sapper-helpers'
 import { getProfileById } from '../../profile/index'
 
 

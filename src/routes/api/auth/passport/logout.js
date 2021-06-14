@@ -2,7 +2,7 @@
 // https://gist.github.com/nemtsov/6c2c24fa565a29404b487c61ce5bae4f
 
 import { _tr, _err, _msg } from '@/_utils/sentry'
-import { sendData } from '../../../_utils/sapper-helpers'
+import { sendData } from '@/_utils/sapper-helpers'
 
 export async function get(req, res, next) {
 	try {

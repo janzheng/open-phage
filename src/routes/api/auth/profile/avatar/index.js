@@ -14,9 +14,9 @@ import send from '@polka/send';
 import Cytosis from 'cytosis';
 import { config } from "dotenv";
 import { _tr, _err, _msg } from '@/_utils/sentry'
-import { cacheGet, cacheSet, cacheClear } from "../../../../_utils/cache"
-import { sendData } from "../../../../_utils/sapper-helpers" 
-import { saveSetup, save } from '../../../../_utils/save.js'
+import { cacheGet, cacheSet, cacheClear } from "@/_utils/cache"
+import { sendData } from "@/_utils/sapper-helpers" 
+import { saveSetup, save } from '@/_utils/save.js'
 
 
 import util from 'util'
