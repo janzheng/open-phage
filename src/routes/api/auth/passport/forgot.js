@@ -3,10 +3,10 @@
 // password reset / forgot password
 
 import { _tr, _err, _msg } from '@/_utils/sentry'
-import { hashPassword, getToken, getShortToken } from '../../../_utils/auth/auth-helpers'
-import { findUserByEmail } from '../../../_utils/auth/auth-users'
-import { notifyReset } from '../../../_utils/auth/auth-templates'
-import { sendData } from '../../../_utils/sapper-helpers'
+import { hashPassword, getToken, getShortToken } from '@/_utils/auth/auth-helpers'
+import { findUserByEmail } from '@/_utils/auth/auth-users'
+import { notifyReset } from '@/_utils/auth/auth-templates'
+import { sendData } from '@/_utils/sapper-helpers'
 
 
 export async function post(req, res, next) {

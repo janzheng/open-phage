@@ -1,10 +1,10 @@
 
 import { _tr, _err, _msg } from '@/_utils/sentry'
-import { hashPassword,  } from '../../../../_utils/auth/auth-helpers'
-import { findUserByToken, resetPasswordFromToken } from '../../../../_utils/auth/auth-users'
-import { notify } from '../../../../_utils/mailer.js'
-import { sendData } from '../../../../_utils/sapper-helpers'
-import { notifyResetConfirmation } from '../../../../_utils/auth/auth-templates'
+import { hashPassword,  } from '@/_utils/auth/auth-helpers'
+import { findUserByToken, resetPasswordFromToken } from '@/_utils/auth/auth-users'
+import { notify } from '@/_utils/mailer.js'
+import { sendData } from '@/_utils/sapper-helpers'
+import { notifyResetConfirmation } from '@/_utils/auth/auth-templates'
 
 
 

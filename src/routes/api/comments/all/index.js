@@ -1,7 +1,7 @@
 
 
 import { _tr, _err, _msg } from '@/_utils/sentry'
-import { getAllComments } from '../../../../_utils/fauna/comments'
+import { getAllComments } from '@/_utils/fauna/comments.js'
 import { sendData } from "../../../../_utils/sapper-helpers" 
 import { cacheGet, cacheSet, cacheClear } from "../../../../_utils/cache"
 

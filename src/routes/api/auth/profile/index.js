@@ -26,13 +26,13 @@ import * as sapper from '@sapper/server';
 
 import Cytosis from 'cytosis';
 import { config } from "dotenv";
-import { cacheGet, cacheSet, cacheClear } from "../../../_utils/cache"
+import { cacheGet, cacheSet, cacheClear } from "@/_utils/cache"
 // import { getContentFromTable } from "../../../_utils/notion"
-import { sendData } from "../../../_utils/sapper-helpers" 
-import { saveSetup, save } from '../../../_utils/save.js'
+import { sendData } from "@/_utils/sapper-helpers" 
+import { saveSetup, save } from '@/_utils/save.js'
 import { _tr, _err, _msg } from '@/_utils/sentry'
 
-import { findUserByEmail } from '../../../_utils/auth/auth-users'
+import { findUserByEmail } from '@/_utils/auth/auth-users'
 
 
 config(); // https://github.com/sveltejs/sapper/issues/122
